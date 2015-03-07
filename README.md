@@ -1,2 +1,2 @@
 # microcosmos
-Just another microcosmos simulation program
+Just another cosmos simulation program
