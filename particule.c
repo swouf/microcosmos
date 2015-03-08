@@ -7,13 +7,14 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "constantes.h"
 #include "error.h"
 #include "particule.h"
 
 Particule_t** string_parsing_particule(char* lignes[], int nbLignes)
 {
-	Particule_t** tabParticules = malloc(nbLignes*sizeof(Particule_t))
+	Particule_t** tabParticules = malloc(nbLignes*sizeof(Particule_t));
 	float rayon, posx, posy, vx, vy;
 	
 	for(int i=0;i<nbLignes;i++)
