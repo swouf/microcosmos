@@ -1,0 +1,14 @@
+#
+# Force Test public 2 : distance/seuil_d = 1.25, force = 5
+#
+
+0
+FIN_LISTE
+ 
+0
+FIN_LISTE
+
+2
+20 -10  20 0 0
+10  4  -28 0 0
+FIN_LISTE

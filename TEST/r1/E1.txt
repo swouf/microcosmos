@@ -1,0 +1,19 @@
+#
+# Error Test 1 : fichier correct, ne doit pas détecter d'erreur
+#
+ 
+1
+0.6 -1 4 2 -1.5
+FIN_LISTE
+ 
+ 
+1
+2 -2
+FIN_LISTE
+
+2
+0.7 0 1 -3 -1
+0.6 0 0 4 2
+FIN_LISTE
+
+

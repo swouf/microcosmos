@@ -1,0 +1,17 @@
+#
+# Error Test 3 : rayon première particule > RMAX
+#
+ 
+1
+2 -1 4 2 -1.5
+FIN_LISTE
+ 
+1
+2 -2
+FIN_LISTE
+
+1
+60 0 0 4 2
+FIN_LISTE
+
+

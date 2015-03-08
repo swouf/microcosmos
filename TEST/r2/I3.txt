@@ -1,0 +1,16 @@
+#
+# integration Test public 3 : 2 particules en attraction 
+#      réponse: force attraction       (  0. ,-12  )
+#				nouvelle vitesse       (  6  , -8  ) normalisée à 10  
+#               nouvelle position      (-49.4,  9.2)
+
+0
+FIN_LISTE
+ 
+0
+FIN_LISTE
+
+2
+1  -50  10    9 0
+50 -50 -73.2 -1 0
+FIN_LISTE
