@@ -1,3 +1,10 @@
+/*! \file sim.h
+ * \brief (HEADER) Module de gestion de la simulation
+ * \date
+ * \version 0.1
+ * \author Minh Truong & Jérémy Jayet
+ */
+
 #ifndef SIM_H
 #define SIM_H
 

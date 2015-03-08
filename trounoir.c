@@ -1,3 +1,10 @@
+/*! \file trounoir.c
+ * \brief Module de gestion des entités trous noirs
+ * \date
+ * \version 0.1
+ * \author Minh Truong & Jérémy Jayet
+ */
+
 #include <stdio.h>
 #include <math.h>
 #include "constantes.h"
