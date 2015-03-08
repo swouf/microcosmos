@@ -2,7 +2,7 @@
 
 CC = gcc
 CPPC = g++
-CFLAGS = -Wall -c
+CFLAGS = -Wall -std=c99 -c
 LIBS = -lm
 PROJECT = Microcosmos
 EXE = microcosmos.x

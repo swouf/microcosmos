@@ -5,6 +5,7 @@
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
+#include "error.h"
 
 static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int type_paragraphe);
@@ -12,7 +13,7 @@ static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
 void sim_lecture(char* nomFichier)
 {
 	TYPE type_paragraphe = GENERATEUR;
-	string ligne;
+	char* ligne[100];
 	FILE *fichier = NULL;
 	int nbLignes = 0;
 	
@@ -42,15 +43,15 @@ void sim_lecture(char* nomFichier)
 			}
 			else
 			{
-				lecture_paragraphe(fichier, nb_Lignes, type_paragraphe);
+				lecture_paragraphe(fichier, nbLignes, type_paragraphe);
 			}
 		}		
 	}	
 }
 void lecture_paragraphe(FILE* fichier, int nb_lignes, int type_paragraphe)
 {
-	string item[nb_lignes];
-	string ligne;
+	char** item[nb_lignes];
+	char* ligne[100];
 	
 	for(int i = 0; i < nb_lignes; i++)
 	{
