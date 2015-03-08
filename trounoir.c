@@ -14,5 +14,6 @@ Trounoir_t** string_parsing_trou_noir(char* lignes[], int nbLignes)
 	{
 		tabTrounoirs[i] = malloc(sizeof(Trounoir_t));
 		sscanf(lignes[i], "%f %f", &posx, &posy);
+	}	
 	return tabTrounoirs;
 }
