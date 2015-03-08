@@ -5,6 +5,7 @@
  * \author Minh Truong & Jérémy Jayet
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "constantes.h"

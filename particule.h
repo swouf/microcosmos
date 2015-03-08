@@ -8,4 +8,15 @@
 #ifndef PARTICULE_H
 #define PARTICULE_H
 
+typedef struct Particule
+{
+	float rgen;
+	float posx;
+	float posy;
+	float vpi_x;
+	float vpi_y;
+} Particule_t;
+
+Particule_t** string_parsing_particule(char**, int);
+
 #endif

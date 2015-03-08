@@ -5,4 +5,11 @@
  * \author Minh Truong & Jérémy Jayet
  */
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "particule.h"
+
+Particule_t** string_parsing_particule(char* lignes[], int nbLignes)
+{
+	return NULL;
+}

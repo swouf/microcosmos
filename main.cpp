@@ -7,6 +7,7 @@
  
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 extern "C"
 {
@@ -16,9 +17,19 @@ extern "C"
 
 int main(int argc, char **argv)
 {
-	if(argc != 2)
+	if(argc != 3)
 	{
-		error_msg("Nombre de paramètres invalides.\n");
+		char msg[100] = "Nombre de paramètres invalides.\n";
+		error_msg(msg);
+	}
+	else
+	{
+		if (std::string(argv[1]) == "Error")
+			sim_lecture(argv[2]);
+		else if(std::string(argv[1]) == "Force")
+			std::cout << "Do something." << std::endl;
+		else
+			std::cout << "Don't do something." << std::endl;
 	}
 	
 	

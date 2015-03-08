@@ -3,7 +3,8 @@
 CC = gcc
 CPPC = g++
 CFLAGS = -Wall -std=c99 -c
-LIBS = -lm
+CPPFLAGS = -Wall -c
+LIBS = -lm -lstdc++
 PROJECT = Microcosmos
 EXE = microcosmos.x
 
@@ -17,7 +18,7 @@ rendu1: main.o error.o sim.o generateur.o particule.o trounoir.o
 
 main.o: main.cpp 
 	@echo "\033[1;32mBuilding\033[21m main.cpp\033[0m"
-	$(CPPC) $(CFLAGS) $< -o $@
+	$(CPPC) $(CPPFLAGS) $< -o $@
 
 error.o: error.c error.h
 	@echo "\033[1;32mBuilding\033[21m error.c\033[0m"
@@ -41,6 +42,6 @@ trounoir.o: trounoir.c trounoir.h error.h
 	
 clean:
 	@echo "\033[33mCleaning...\033[0m"
-	-rm *.o 2> cleaning_error.out
-	-rm *.x 2> cleaning_error.out
+	-rm *.o
+	-rm *.x
 	-rm *.out

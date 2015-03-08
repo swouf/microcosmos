@@ -5,7 +5,8 @@
  * \author Minh Truong & Jérémy Jayet
  */
  
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include "generateur.h"
 
 Generateur_t** string_parsing_generateur(char* lignes[], int nbLignes)
@@ -22,4 +23,5 @@ Generateur_t** string_parsing_generateur(char* lignes[], int nbLignes)
 				&tabGenerateurs[i]->vpi_x,
 				&tabGenerateurs[i]->vpi_y);
 	}
+	return tabGenerateurs;
 }
