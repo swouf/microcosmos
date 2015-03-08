@@ -8,11 +8,11 @@
 #include "error.h"
 
 static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
-								int type_paragraphe);
+								int typeParagraphe);
 								
 void sim_lecture(char* nomFichier)
 {
-	TYPE type_paragraphe = GENERATEUR;
+	TYPE typeParagraphe = GENERATEUR;
 	char* ligne[100];
 	FILE *fichier = NULL;
 	int nbLignes = 0;
@@ -29,7 +29,7 @@ void sim_lecture(char* nomFichier)
 		{
 			if(sscanf(ligne, "%u", &nbLignes) != 1)
 			{
-				switch(type_paragraphe)
+				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						error_lect_nb_elements(ERR_GENERAT); 
@@ -43,17 +43,17 @@ void sim_lecture(char* nomFichier)
 			}
 			else
 			{
-				lecture_paragraphe(fichier, nbLignes, type_paragraphe);
+				lecture_paragraphe(fichier, nbLignes, typeParagraphe);
 			}
 		}		
 	}	
 }
-void lecture_paragraphe(FILE* fichier, int nb_lignes, int type_paragraphe)
+void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
-	char** item[nb_lignes];
+	char** item[nbLignes];
 	char* ligne[100];
 	
-	for(int i = 0; i < nb_lignes; i++)
+	for(int i = 0; i < nbLignes; i++)
 	{
 		fgets(ligne, 100, fichier);
 		if((ligne[0]=='#')||(ligne[0]=='\n')||(ligne[0]=='\r'))
@@ -63,7 +63,7 @@ void lecture_paragraphe(FILE* fichier, int nb_lignes, int type_paragraphe)
 			if(ligne != "FIN_LISTE")
 				item[i] = ligne;
 			else
-				switch(type_paragraphe)
+				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						error_lecture_elements(ERR_GENERAT, ERR_PAS_ASSEZ); 
@@ -79,10 +79,21 @@ void lecture_paragraphe(FILE* fichier, int nb_lignes, int type_paragraphe)
 	fgets(ligne, 100, fichier);
 	if(ligne == "FIN_LISTE")
 	{
+		switch(typeParagraphe)
+		{
+			case GENERATEUR:
+				string_parsing_generateur(item[], int nbLignes);
+				break;
+			case TROU_NOIR:
+				string_parsing_trou_noir(item[], int nbLignes);
+				break;
+			case PARTICULE:
+				string_parsing_particule(item[], int nbLignes);
+		}
 	}	
 	else
 	{	
-		switch(type_paragraphe)
+		switch(typeParagraphe)
 		{
 			case GENERATEUR:
 				error_lecture_elements(ERR_GENERAT, ERR_TROP); 
