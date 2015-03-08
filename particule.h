@@ -10,11 +10,11 @@
 
 typedef struct Particule
 {
-	float rgen;
+	float rayon;
 	float posx;
 	float posy;
-	float vpi_x;
-	float vpi_y;
+	float vx;
+	float vy;
 } Particule_t;
 
 Particule_t** string_parsing_particule(char**, int);
