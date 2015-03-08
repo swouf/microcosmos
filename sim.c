@@ -49,5 +49,50 @@ void sim_lecture(char* nomFichier)
 }
 void lecture_paragraphe(FILE* fichier, int nb_lignes, int type_paragraphe)
 {
+	string item[nb_lignes];
+	string ligne;
+	
+	for(int i = 0; i < nb_lignes; i++)
+	{
+		fgets(ligne, 100, fichier);
+		if((ligne[0]=='#')||(ligne[0]=='\n')||(ligne[0]=='\r'))
+			continue; // lignes à ignorer, on passe à la suivante
+		else
+		{
+			if(ligne != "FIN_LISTE")
+				item[i] = ligne;
+			else
+				switch(type_paragraphe)
+				{
+					case GENERATEUR:
+						error_lecture_elements(ERR_GENERAT, ERR_PAS_ASSEZ); 
+						break;
+					case TROU_NOIR:
+						error_lecture_elements(ERR_TROU_N, ERR_PAS_ASSEZ);
+						break;
+					case PARTICULE:
+						error_lecture_elements(ERR_PARTIC, ERR_PAS_ASSEZ);
+				}			
+		}		
+	}
+	fgets(ligne, 100, fichier);
+	if(ligne == "FIN_LISTE")
+	{
+	}	
+	else
+	{	
+		switch(type_paragraphe)
+		{
+			case GENERATEUR:
+				error_lecture_elements(ERR_GENERAT, ERR_TROP); 
+				break;
+			case TROU_NOIR:
+				error_lecture_elements(ERR_TROU_N, ERR_TROP);
+				break;
+			case PARTICULE:
+				error_lecture_elements(ERR_PARTIC, ERR_TROP);
+		}			
+	}
+		
 	
 }

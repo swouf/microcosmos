@@ -1,0 +1,12 @@
+#
+# Graphic Test public 1: vide, affichage d'un fond blanc centré en (0,0)
+#
+
+0
+FIN_LISTE
+ 
+0
+FIN_LISTE
+
+0
+FIN_LISTE

@@ -1,0 +1,18 @@
+#
+# Error Test 4 : vitesse vpi du second générateur > MAX_VITESSE
+#
+ 
+2
+3 0 1 9 0
+2 0 0 9 -9
+FIN_LISTE
+ 
+1
+2 -2
+FIN_LISTE
+
+1
+6 0 0 4 2
+FIN_LISTE
+
+

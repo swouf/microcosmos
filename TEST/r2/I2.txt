@@ -1,0 +1,17 @@
+#
+# integration Test public 2 : 2 particules avec répulsion mais
+#      continuant de se rapprocher du fait des vitesses initiales
+#      réponse: force répulsion        (-50.    ,  0)
+#				nouvelle vitesse       (  0.875 ,  0)	  
+#               nouvelle position      (-14.9125, 0)
+
+0
+FIN_LISTE
+ 
+0
+FIN_LISTE
+
+2
+20  -15  0  1 0
+20   15  0 -1 0
+FIN_LISTE
