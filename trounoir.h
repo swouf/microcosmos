@@ -13,5 +13,5 @@ typedef struct Trounoir
 	float posy;
 } Trounoir_t;
 
-Trounoir_t* string_parsing_trou_noir(char* lignes[], int nbLignes);
+Trounoir_t* string_parsing_trou_noir(char*, int);
 #endif
