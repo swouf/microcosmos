@@ -1,0 +1,17 @@
+#
+# integration Test public 1 : 2 particules superposées ; 
+#   la première est au milieu des 2 autres = force résultante nulle
+#      réponse: force répulsion max selon Y (  0.  ,-100. )
+#				nouvelle vitesse            (  2.  ,  -1. )	  
+#               nouvelle position           (  30.2,  29.9)
+
+0
+FIN_LISTE
+ 
+0
+FIN_LISTE
+
+2
+10  30  30  2 0
+20  30  30  3 3
+FIN_LISTE
