@@ -24,9 +24,9 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		if (std::string(argv[1]) == "Error")
+		if (strcmp(argv[1]), "Error"))
 			sim_lecture(argv[2]);
-		else if(std::string(argv[1]) == "Force")
+		else if(strcmp(argv[1], "Force"))
 			std::cout << "Do something." << std::endl;
 		else
 			std::cout << "Don't do something." << std::endl;
