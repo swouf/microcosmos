@@ -12,6 +12,19 @@
 #include "error.h"
 #include "particule.h"
 
+/**\var Variable GLOBALE contenant un pointeur sur le tableau des
+ * entités Particule_t */
+static Particule_t* tabParticules = NULL;
+
+void set_tab_particules(Particule_t* ptrTabPart)
+{
+	tabParticules = ptrTabPart;
+}
+Particule_t* get_tab_particules(void)
+{
+	return tabParticules;
+}
+
 Particule_t* string_parsing_particule(char* lignes[], int nbLignes)
 {
 	static Particule_t tabParticules[MAX_RENDU1];
@@ -43,5 +56,8 @@ Particule_t* string_parsing_particule(char* lignes[], int nbLignes)
 			tabParticules[i]->vy = vy;
 		}
 	}
+	
+	set_tab_particules(tabParticules);
+	
 	return tabParticules;
 }
