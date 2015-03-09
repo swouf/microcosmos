@@ -20,8 +20,16 @@ static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								
 void sim_lecture(char* nomFichier)
 {
+	#ifdef DEBUG
+	int o = 0;
+	printf("\033\[31m"); //message de debugging dans le prochain printf
+	printf("Entrée dans la fonction sim_lecture");
+	printf("\033\[0m\n");
+	#endif
+	
 	TYPE typeParagraphe = GENERATEUR;
-	char ligne[CHAR_MAX_LIGNE];
+	char ligne[CHAR_MAX_LIGNE+1];
+	char firstChar = '\n';
 	FILE *fichier = NULL;
 	int nbLignes = 0;
 	
@@ -31,8 +39,24 @@ void sim_lecture(char* nomFichier)
 	
 	while(fgets(ligne, CHAR_MAX_LIGNE, fichier))
 	{
-		if((ligne[0]=='#')||(ligne[0]=='\n')||(ligne[0]=='\r'))
+		#ifdef DEBUG
+		o++;
+		printf("\033\[31m"); //message de debugging dans le prochain printf
+		printf("Ligne %d actuellement en mémoire : %s", o, ligne);
+		printf("\033\[0m\n");
+		#endif
+		
+		firstChar = ligne[0];
+		
+		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+		{
+			#ifdef DEBUG
+			printf("\033\[31m"); //message de debugging dans le prochain printf
+			printf("La ligne %d est un commentaire", o);
+			printf("\033\[0m\n");
+			#endif
 			continue; // lignes à ignorer, on passe à la suivante
+		}
 		else
 		{
 			if(sscanf(ligne, "%u", &nbLignes) != 1)
@@ -53,24 +77,66 @@ void sim_lecture(char* nomFichier)
 			{
 				lecture_paragraphe(fichier, nbLignes, typeParagraphe);
 			}
-		}		
+		}
+		
+		typeParagraphe++;
 	}	
 }
 void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
-	char* item[nbLignes];
+	#ifdef DEBUG
+	int o = 0;
+	printf("\033\[31m"); //message de debugging dans le prochain printf
+	printf("Entrée dans la fonction lecture_paragraphe");
+	printf("\033\[0m\n");
+	#endif
+	
 	char ligne[CHAR_MAX_LIGNE];
+	char firstChar = '\n';
 	
 	for(int i = 0; i < nbLignes; i++)
 	{
 		fgets(ligne, CHAR_MAX_LIGNE, fichier);
-		if((ligne[0]=='#')||(ligne[0]=='\n')||(ligne[0]=='\r'))
+		
+		#ifdef DEBUG
+		o++;
+		printf("\033\[31m"); //message de debugging dans le prochain printf
+		printf("Ligne %d actuellement en mémoire : %s", o, ligne);
+		printf("\033\[0m\n");
+		#endif
+		
+		firstChar = ligne[0];
+		
+		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+		{
+			nbLignes--;
 			continue; // lignes à ignorer, on passe à la suivante
+		}
 		else
 		{
 			if(strcmp(ligne, "FIN_LISTE"))
-				item[i] = ligne;
+			{
+				#ifdef DEBUG
+				printf("\033\[31m"); //message de debugging dans le prochain printf
+				printf("Passage au parsing de la ligne par le type d'entités\
+						%d", typeParagraphe);
+				printf("\033\[0m\n");
+				#endif
+				switch(typeParagraphe)
+				{
+					case GENERATEUR:
+						string_parsing_generateur(ligne, nbLignes);
+						break;
+					case TROU_NOIR:
+						//string_parsing_trou_noir(item, nbLignes);
+						break;
+					case PARTICULE:
+						//string_parsing_particule(item, nbLignes);
+						break;
+				}
+			}	
 			else
+			{	
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
@@ -81,38 +147,11 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						break;
 					case PARTICULE:
 						error_lecture_elements(ERR_PARTIC, ERR_PAS_ASSEZ);
-				}			
+				}
+			}
 		}		
 	}
 	fgets(ligne, CHAR_MAX_LIGNE, fichier);
-	if(strcmp(ligne, "FIN_LISTE") == 0)
-	{
-		switch(typeParagraphe)
-		{
-			case GENERATEUR:
-				string_parsing_generateur(item, nbLignes);
-				break;
-			case TROU_NOIR:
-				string_parsing_trou_noir(item, nbLignes);
-				break;
-			case PARTICULE:
-				string_parsing_particule(item, nbLignes);
-		}
-	}	
-	else
-	{	
-		switch(typeParagraphe)
-		{
-			case GENERATEUR:
-				error_lecture_elements(ERR_GENERAT, ERR_TROP); 
-				break;
-			case TROU_NOIR:
-				error_lecture_elements(ERR_TROU_N, ERR_TROP);
-				break;
-			case PARTICULE:
-				error_lecture_elements(ERR_PARTIC, ERR_TROP);
-		}			
-	}
-		
-	
+	if(!strcmp(ligne, "FIN_LISTE"))
+		error_lecture_elements(ERR_GENERAT, ERR_TROP);
 }

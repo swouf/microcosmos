@@ -16,5 +16,5 @@ typedef struct Generateur
 	float vpi_y;
 } Generateur_t;
 
-Generateur_t* string_parsing_generateur(char* lignes[], int nbLignes);
+Generateur_t* string_parsing_generateur(char*, int);
 #endif

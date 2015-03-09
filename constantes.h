@@ -27,5 +27,6 @@
  * Constantes personnelles
  **********************************************************************/
 #define CHAR_MAX_LIGNE 100
+#define COMM_CHAR	   "#"
 
 #endif

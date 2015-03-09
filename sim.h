@@ -15,11 +15,6 @@ typedef enum type
 	PARTICULE 	= 3
 }	TYPE;
 
-typedef struct tabEntity
-{
-	
-}
-
 void sim_lecture(char*);
 
 #endif

@@ -31,9 +31,7 @@ Particule_t* string_parsing_particule(char* lignes[], int nbLignes)
 	float rayon, posx, posy, vx, vy;
 	
 	for(int i=0;i<nbLignes;i++)
-	{
-		tabParticules[i] = NULL;
-		
+	{	
 		sscanf(lignes[i],"%f %f %f %f %f",
 				&rayon,
 				&posx,
@@ -47,13 +45,11 @@ Particule_t* string_parsing_particule(char* lignes[], int nbLignes)
 			error_vitesse_partic(ERR_PARTIC, i+1);
 		else
 		{
-			tabParticules[i] = malloc(sizeof(Particule_t));
-			
-			tabParticules[i]->rayon = rayon;
-			tabParticules[i]->posx = posx;
-			tabParticules[i]->posy = posy;
-			tabParticules[i]->vx = vx;
-			tabParticules[i]->vy = vy;
+			tabParticules[i].rayon = rayon;
+			tabParticules[i].posx = posx;
+			tabParticules[i].posy = posy;
+			tabParticules[i].vx = vx;
+			tabParticules[i].vy = vy;
 		}
 	}
 	

@@ -14,7 +14,7 @@
 
 Trounoir_t* string_parsing_trou_noir(char* lignes[], int nbLignes)
 {
-	Trounoir_t tabTrousNoirs[MAX_RENDU1];
+	static Trounoir_t tabTrousNoirs[MAX_RENDU1];
 	
 	float posx, posy;
 	
