@@ -12,9 +12,9 @@
 #include "error.h"
 #include "particule.h"
 
-Particule_t** string_parsing_particule(char* lignes[], int nbLignes)
+Particule_t* string_parsing_particule(char* lignes[], int nbLignes)
 {
-	Particule_t** tabParticules = malloc(nbLignes*sizeof(Particule_t));
+	static Particule_t tabParticules[MAX_RENDU1];
 	float rayon, posx, posy, vx, vy;
 	
 	for(int i=0;i<nbLignes;i++)

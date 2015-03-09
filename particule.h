@@ -17,6 +17,6 @@ typedef struct Particule
 	float vy;
 } Particule_t;
 
-Particule_t** string_parsing_particule(char**, int);
+Particule_t* string_parsing_particule(char**, int);
 
 #endif

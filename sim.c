@@ -25,6 +25,10 @@ void sim_lecture(char* nomFichier)
 	FILE *fichier = NULL;
 	int nbLignes = 0;
 	
+	Generateur_t* tabGenerateurs = NULL; //!\var Pointeur pour récupérer les tableaux qui contiennent les structures
+	Trounoir_t*	  tabTrousNoirs = NULL;
+	Particule_t*  tabParticules = NULL;
+	
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
 		error_fichier_inexistant();
@@ -90,13 +94,13 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		switch(typeParagraphe)
 		{
 			case GENERATEUR:
-				string_parsing_generateur(item, nbLignes);
+				tabGenerateurs = string_parsing_generateur(item, nbLignes);
 				break;
 			case TROU_NOIR:
-				string_parsing_trou_noir(item, nbLignes);
+				tabTrousNoirs = string_parsing_trou_noir(item, nbLignes);
 				break;
 			case PARTICULE:
-				string_parsing_particule(item, nbLignes);
+				tabParticules = string_parsing_particule(item, nbLignes);
 		}
 	}	
 	else
