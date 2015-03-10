@@ -4,10 +4,11 @@
  * \version 0.1
  * \author Minh Truong & Jérémy Jayet
  */
- 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+<<<<<<< HEAD
 #include "error.h"
 #include "constantes.h"
 #include "generateur.h"
