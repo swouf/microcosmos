@@ -17,7 +17,7 @@
 
 static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);
-								
+int erreur = 0;																
 void sim_lecture(char* nomFichier)
 {
 	#ifdef DEBUG
@@ -34,7 +34,10 @@ void sim_lecture(char* nomFichier)
 	
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
+	{	
 		error_fichier_inexistant();
+		erreur = 1;
+	}	
 	
 	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //On mets la première ligne du fichier dans la variable ligne pour pouvoir la traiter ensuite
 	{
@@ -51,7 +54,7 @@ void sim_lecture(char* nomFichier)
 		printf("\033\[0m\n");
 		#endif
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
+		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')||(ligne[0] == ' ')) //On teste la valeur du premier caractère.
 		{
 			#ifdef DEBUG
 			printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -64,6 +67,7 @@ void sim_lecture(char* nomFichier)
 		{
 			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et convertion en int de la première valeur.
 			{
+				erreur = 1;
 				switch(typeParagraphe) //Dans le cas où sscanf ne marcherait pas.
 				{
 					case GENERATEUR:
@@ -94,7 +98,8 @@ void sim_lecture(char* nomFichier)
 			}
 		}
 	}
-	error_success();
+	if(erreur != 1)
+		error_success();
 }
 void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
@@ -150,6 +155,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			else //si le nombre d'informations lu ne correspond pas au premier caractère donné par la ligne 
 				// précédemment, on lance les fonctions d'erreur.
 			{	
+				erreur = 1;
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
@@ -172,5 +178,8 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	
 	fgets(ligne, CHAR_MAX_LIGNE, fichier); //ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
 	if(!strcmp(ligne, "FIN_LISTE"))
+	{	
 		error_lecture_elements(ERR_GENERAT, ERR_TROP);
+		erreur = 1;
+	}	
 }
