@@ -6,7 +6,7 @@ CFLAGS = -Wall -std=c99 -c -D DEBUG
 CPPFLAGS = -Wall -c -D DEBUG
 LIBS = -lm -lstdc++
 PROJECT = Microcosmos
-EXE = sim.x
+EXE = microcosmos.x
 
 OFILES = main.o error.o sim.o generateur.o particule.o trounoir.o
 
