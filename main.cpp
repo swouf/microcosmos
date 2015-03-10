@@ -17,6 +17,11 @@ extern "C"
 
 int main(int argc, char **argv)
 {
+	#ifdef DEBUG
+	std::cout << "\033\[1;31m ***MODE DEBUG ACTIVÉ***\
+				  \033\[0m" << std::endl;
+	#endif
+	
 	if(argc != 3)
 	{
 		char msg[100] = "Nombre de paramètres invalides.\n";
@@ -31,8 +36,6 @@ int main(int argc, char **argv)
 		else
 			std::cout << "Don't do something." << std::endl;
 	}
-	
-	
 	
 	return 0;
 }

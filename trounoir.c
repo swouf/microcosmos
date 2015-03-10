@@ -12,16 +12,25 @@
 #include "error.h"
 #include "trounoir.h"
 
-Trounoir_t** string_parsing_trou_noir(char* lignes[], int nbLignes)
+Trounoir_t* string_parsing_trou_noir(char* ligne, int nbLignes)
 {
-	Trounoir_t** tabTrounoirs = malloc(nbLignes*sizeof(Trounoir_t*));
+	#ifdef DEBUG
+	printf("\033\[34m"); //message de debugging dans le prochain printf
+	printf("Entrée dans la fonction string_parsing_trou_noir()\n");
+	printf("Ligne : %s", ligne);
+	printf("\033\[0m\n");
+	#endif
+	
+	static int i = 0;
+	static Trounoir_t tabTrousNoirs[MAX_RENDU1];
 	
 	float posx, posy;
+
+	sscanf(ligne, "%f %f", &posx, &posy);
 	
-	for(int i = 0; i < nbLignes; i++)
-	{
-		tabTrounoirs[i] = malloc(sizeof(Trounoir_t));
-		sscanf(lignes[i], "%f %f", &posx, &posy);
-	}	
-	return tabTrounoirs;
+	tabTrousNoirs[i].posx = posx;
+	tabTrousNoirs[i].posy = posy;
+	
+	i++;
+	return tabTrousNoirs;
 }

@@ -14,6 +14,7 @@ typedef enum type
 	TROU_NOIR 	= 2,
 	PARTICULE 	= 3
 }	TYPE;
+
 void sim_lecture(char*);
 
 #endif

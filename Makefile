@@ -2,8 +2,8 @@
 
 CC = gcc
 CPPC = g++
-CFLAGS = -Wall -std=c99 -c
-CPPFLAGS = -Wall -c
+CFLAGS = -Wall -std=c99 -c -D DEBUG
+CPPFLAGS = -Wall -c -D DEBUG
 LIBS = -lm -lstdc++
 PROJECT = Microcosmos
 EXE = microcosmos.x
