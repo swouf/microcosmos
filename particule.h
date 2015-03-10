@@ -17,7 +17,7 @@ typedef struct Particule
 	float vy;
 } Particule_t;
 
-Particule_t* string_parsing_particule(char**, int);
+Particule_t* string_parsing_particule(char*, int);
 
 void set_tab_particules(Particule_t*);
 Particule_t* get_tab_particules(void);

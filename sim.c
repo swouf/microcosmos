@@ -29,7 +29,6 @@ void sim_lecture(char* nomFichier)
 	
 	TYPE typeParagraphe = GENERATEUR;
 	char ligne[CHAR_MAX_LIGNE+1];
-	char firstChar = '\n';
 	FILE *fichier = NULL;
 	int nbLignes = 0;
 	
@@ -43,22 +42,16 @@ void sim_lecture(char* nomFichier)
 		o++;
 		printf("\033\[31m"); //message de debugging dans le prochain printf
 		printf("Ligne %d actuellement en mémoire : %s", o, ligne);
-		printf("\033\[0m\n");
-		#endif
 		
-		firstChar = ligne[0]; //Récupération du premier caractère de la ligne.
+		printf("firstChar : %X", ligne[0]);
 		
-		#ifdef DEBUG
-		printf("\033\[31m"); //message de debugging dans le prochain printf
-		printf("firstChar : %X", firstChar);
-		
-		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
 			printf("\nLe if fonctionne.");
 			
 		printf("\033\[0m\n");
 		#endif
 		
-		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r")) //On teste la valeur du premier caractère.
+		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
 		{
 			#ifdef DEBUG
 			printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -101,6 +94,7 @@ void sim_lecture(char* nomFichier)
 			}
 		}
 	}
+	error_success();
 }
 void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
@@ -112,7 +106,6 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	#endif
 	
 	char ligne[CHAR_MAX_LIGNE];
-	char firstChar = '\n';
 	
 	for(int i = 0; i < nbLignes; i++)
 	{
@@ -125,9 +118,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		printf("\033\[0m\n");
 		#endif
 		
-		firstChar = ligne[0];
-		
-		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
 		{
 			i--;
 			continue; // lignes à ignorer, on passe à la suivante
@@ -152,7 +143,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						string_parsing_trou_noir(ligne, nbLignes);
 						break;
 					case PARTICULE:
-						//string_parsing_particule(item, nbLignes);
+						string_parsing_particule(ligne, nbLignes);
 						break;
 				}
 			}	
