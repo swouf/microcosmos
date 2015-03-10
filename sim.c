@@ -51,7 +51,11 @@ void sim_lecture(char* nomFichier)
 		
 		#ifdef DEBUG
 		printf("\033\[31m"); //message de debugging dans le prochain printf
-		printf("firstChar : %X", firstChar);	
+		printf("firstChar : %X", firstChar);
+		
+		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+			printf("\nLe if fonctionne.");
+			
 		printf("\033\[0m\n");
 		#endif
 		
