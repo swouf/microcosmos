@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-<<<<<<< HEAD
 #include "error.h"
 #include "constantes.h"
 #include "generateur.h"

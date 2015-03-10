@@ -37,7 +37,7 @@ void sim_lecture(char* nomFichier)
 	if (fichier == NULL)
 		error_fichier_inexistant();
 	
-	while(fgets(ligne, CHAR_MAX_LIGNE, fichier))
+	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //On mets la première ligne du fichier dans la variable ligne pour pouvoir la traiter ensuite
 	{
 		#ifdef DEBUG
 		o++;
@@ -46,8 +46,7 @@ void sim_lecture(char* nomFichier)
 		printf("\033\[0m\n");
 		#endif
 		
-		firstChar = 0; // À enlever
-		firstChar = ligne[0];
+		firstChar = ligne[0]; //Récupération du premier caractère de la ligne.
 		
 		#ifdef DEBUG
 		printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -59,7 +58,7 @@ void sim_lecture(char* nomFichier)
 		printf("\033\[0m\n");
 		#endif
 		
-		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
+		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r")) //On teste la valeur du premier caractère.
 		{
 			#ifdef DEBUG
 			printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -68,11 +67,11 @@ void sim_lecture(char* nomFichier)
 			#endif
 			continue; // lignes à ignorer, on passe à la suivante
 		}
-		else
+		else //Si le premier caractère de la ligne se trouve être une information importante.
 		{
-			if(sscanf(ligne, "%u", &nbLignes) != 1)
+			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et convertion en int de la première valeur.
 			{
-				switch(typeParagraphe)
+				switch(typeParagraphe) //Dans le cas où sscanf ne marcherait pas.
 				{
 					case GENERATEUR:
 						error_lect_nb_elements(ERR_GENERAT); 
@@ -84,21 +83,22 @@ void sim_lecture(char* nomFichier)
 						error_lect_nb_elements(ERR_PARTIC);
 				}						
 			}
-			else
+			else //Si la lecture s'est passée sans problème, on traite l'information.
 			{
-				lecture_paragraphe(fichier, nbLignes, typeParagraphe);
+				lecture_paragraphe(fichier, nbLignes, typeParagraphe); //Après avoir TOUTE l'information du paragraphe, on change de
+																		//type de paragraphe.
+				switch(typeParagraphe)
+				{
+					case GENERATEUR:
+						typeParagraphe = TROU_NOIR;
+						break;
+					case TROU_NOIR:
+						typeParagraphe = PARTICULE;
+						break;
+					case PARTICULE:
+						continue; //Traitement de l'information contenue dans le fichier complète.
+				}
 			}
-		}
-		switch(typeParagraphe)
-		{
-			case GENERATEUR:
-				typeParagraphe = TROU_NOIR;
-				break;
-			case TROU_NOIR:
-				typeParagraphe = PARTICULE;
-				break;
-			case PARTICULE:
-				continue;
 		}
 	}
 }
@@ -129,12 +129,12 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		
 		if(!strcmp(&firstChar, "#")||!strcmp(&firstChar, "\n")||!strcmp(&firstChar, "\r"))
 		{
-			nbLignes--;
+			i--;
 			continue; // lignes à ignorer, on passe à la suivante
 		}
-		else
+		else //dans le cas où il n'y aurait pas de commentaires:
 		{
-			if(strcmp(ligne, "FIN_LISTE"))
+			if(strcmp(ligne, "FIN_LISTE")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
 			{
 				#ifdef DEBUG
 				printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -142,7 +142,8 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						%d", typeParagraphe);
 				printf("\033\[0m\n");
 				#endif
-				switch(typeParagraphe)
+				switch(typeParagraphe) //on active la fonction pour découper et trier l'information contenue dans chaque ligne selon le
+										//de paragraphe.
 				{
 					case GENERATEUR:
 						string_parsing_generateur(ligne, nbLignes);
@@ -155,7 +156,8 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						break;
 				}
 			}	
-			else
+			else //si le nombre d'informations lu ne correspond pas au premier caractère donné par la ligne 
+				// précédemment, on lance les fonctions d'erreur.
 			{	
 				switch(typeParagraphe)
 				{
@@ -177,7 +179,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	printf("\033\[0m\n");
 	#endif
 	
-	fgets(ligne, CHAR_MAX_LIGNE, fichier);
+	fgets(ligne, CHAR_MAX_LIGNE, fichier); //ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
 	if(!strcmp(ligne, "FIN_LISTE"))
 		error_lecture_elements(ERR_GENERAT, ERR_TROP);
 }
