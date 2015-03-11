@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "sim.h"
 #include "particule.h"
 #include "trounoir.h"
@@ -44,13 +45,13 @@ int sim_lecture(char* nomFichier)
 		
 		printf("firstChar : %X", ligne[0]);
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 			printf("\nLe if fonctionne.");
 			
 		printf("\033\[0m\n");
 		#endif
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')||(ligne[0] == ' ')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 		{
 			#ifdef DEBUG
 			printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -119,7 +120,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		printf("\033\[0m\n");
 		#endif
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 		{
 			i--;
 			continue; // lignes à ignorer, on passe à la suivante
@@ -138,13 +139,16 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 										//de paragraphe.
 				{
 					case GENERATEUR:
-						string_parsing_generateur(ligne, nbLignes);
+						if(string_parsing_generateur(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 					case TROU_NOIR:
-						string_parsing_trou_noir(ligne, nbLignes);
+						if(string_parsing_trou_noir(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 					case PARTICULE:
-						string_parsing_particule(ligne, nbLignes);
+						if(string_parsing_particule(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 				}
 			}	

@@ -1,13 +1,13 @@
 #
 # Error Test 5 : trop de trou noir (il manque FIN_LISTE)
 #
- 
+
 #generateur
 2
 3 0 1 9 0
 2 0 0 0 -9
 FIN_LISTE
- 
+
 #trou noir
 1
 2 -2

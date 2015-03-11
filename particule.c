@@ -48,9 +48,15 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 	v = sqrt(pow((double)vx, 2)+pow((double)vy, 2));
 	
 	if(rayon >= RMAX || rayon <= RMIN)
+	{
 		error_rayon_partic(ERR_PARTIC, i+1);
+		return NULL;
+	}
 	else if(v > MAX_VITESSE)
+	{
 		error_vitesse_partic(ERR_PARTIC, i+1);
+		return NULL;
+	}
 	else
 	{
 		tabParticules[i].rayon = rayon;
