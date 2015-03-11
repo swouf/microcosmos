@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 	{
 		if (std::string(argv[1]) == "Error")
 		{
-			if(sim_lecture(argv[2]), ERROR)
+			if(sim_lecture(argv[2], ERROR))
 				return 1;
 		}
 		else if(std::string(argv[1]) == "Force")
