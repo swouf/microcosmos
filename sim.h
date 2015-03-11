@@ -20,6 +20,6 @@ typedef enum keyword
 	ERROR, FORCE, INTEGRATION, GRAPHIC, SIMULATION
 } KEYWORD;
 
-int sim_lecture(char*, MODE);
+int sim_lecture(char*, KEYWORD);
 
 #endif
