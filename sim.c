@@ -142,13 +142,16 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 										//de paragraphe.
 				{
 					case GENERATEUR:
-						string_parsing_generateur(ligne, nbLignes);
+						if(string_parsing_generateur(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 					case TROU_NOIR:
-						string_parsing_trou_noir(ligne, nbLignes);
+						if(string_parsing_trou_noir(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 					case PARTICULE:
-						string_parsing_particule(ligne, nbLignes);
+						if(string_parsing_particule(ligne, nbLignes) == NULL)
+							return 1;
 						break;
 				}
 			}	

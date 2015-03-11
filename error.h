@@ -53,7 +53,7 @@ void error_fichier_inexistant(void);
 
 //---------------------------------------------------------------------
 // si la lecture d'une ligne du fichier échoue (on reçoit EOF) 
-// alors que la lecture des entités n'est pas terminée
+// alors que la lecture des entités n'est pas terminée l˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛
 void error_fichier_incomplet(void);
 
 //---------------------------------------------------------------------

@@ -33,9 +33,15 @@ Generateur_t* string_parsing_generateur(char* ligne, int nbParticules)
 			&vpi_y);
 			
 	if(rgen >= RMAX || rgen <= RMIN)
+	{
 		error_rayon_partic(ERR_GENERAT, i+1);
+		return NULL;
+	}
 	else if(sqrt(pow(vpi_x, 2)+pow(vpi_y, 2)) > MAX_VITESSE)
+	{
 		error_vitesse_partic(ERR_GENERAT, i+1);
+		return NULL;
+	}
 	else
 	{
 		tabGenerateurs[i].rgen = rgen;

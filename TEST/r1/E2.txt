@@ -1,11 +1,11 @@
 #
 # Error Test 2 : rayon particule du premier générateur < RMIN
 #
- 
+
 1
 0.4 -1 4 2 -1.5
 FIN_LISTE
- 
+
 1
 2 -2
 FIN_LISTE
@@ -13,5 +13,4 @@ FIN_LISTE
 1
 0.6 0 0 4 2
 FIN_LISTE
-
 
