@@ -15,6 +15,11 @@ typedef enum type
 	PARTICULE 	= 3
 }	TYPE;
 
-int sim_lecture(char*);
+typedef enum keyword
+{
+	ERROR, FORCE, INTEGRATION, GRAPHIC, SIMULATION
+} KEYWORD;
+
+int sim_lecture(char*, MODE);
 
 #endif

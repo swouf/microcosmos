@@ -18,7 +18,7 @@
 
 static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
-int sim_lecture(char* nomFichier)
+int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 {
 	#ifdef DEBUG
 	int o = 0;
