@@ -15,10 +15,9 @@
 #include "error.h"
 #include "constantes.h"
 
-static void lecture_paragraphe(FILE* fichier, int nb_lignes, \
-								int typeParagraphe);
-int erreur = 0;																
-void sim_lecture(char* nomFichier)
+static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
+								int typeParagraphe);																
+int sim_lecture(char* nomFichier)
 {
 	#ifdef DEBUG
 	int o = 0;
@@ -34,10 +33,7 @@ void sim_lecture(char* nomFichier)
 	
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
-	{	
 		error_fichier_inexistant();
-		erreur = 1;
-	}	
 	
 	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //On mets la première ligne du fichier dans la variable ligne pour pouvoir la traiter ensuite
 	{
@@ -67,17 +63,17 @@ void sim_lecture(char* nomFichier)
 		{
 			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et convertion en int de la première valeur.
 			{
-				erreur = 1;
 				switch(typeParagraphe) //Dans le cas où sscanf ne marcherait pas.
 				{
 					case GENERATEUR:
 						error_lect_nb_elements(ERR_GENERAT); 
-						break;
+						return 1;
 					case TROU_NOIR:
 						error_lect_nb_elements(ERR_TROU_N);
-						break;
+						return 1;
 					case PARTICULE:
 						error_lect_nb_elements(ERR_PARTIC);
+						return 1;
 				}						
 			}
 			else //Si la lecture s'est passée sans problème, on traite l'information.
@@ -98,10 +94,10 @@ void sim_lecture(char* nomFichier)
 			}
 		}
 	}
-	if(erreur != 1)
-		error_success();
+	error_success();
+	return 0;
 }
-void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
+int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
 	#ifdef DEBUG
 	int o = 0;
@@ -155,17 +151,17 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			else //si le nombre d'informations lu ne correspond pas au premier caractère donné par la ligne 
 				// précédemment, on lance les fonctions d'erreur.
 			{	
-				erreur = 1;
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						error_lecture_elements(ERR_GENERAT, ERR_PAS_ASSEZ); 
-						break;
+						return 1;
 					case TROU_NOIR:
 						error_lecture_elements(ERR_TROU_N, ERR_PAS_ASSEZ);
-						break;
+						return 1;
 					case PARTICULE:
 						error_lecture_elements(ERR_PARTIC, ERR_PAS_ASSEZ);
+						return 1;
 				}
 			}
 		}		
@@ -180,6 +176,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	if(!strcmp(ligne, "FIN_LISTE"))
 	{	
 		error_lecture_elements(ERR_GENERAT, ERR_TROP);
-		erreur = 1;
-	}	
+		return 1;
+	}
+	return 0;	
 }

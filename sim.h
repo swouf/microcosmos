@@ -15,6 +15,6 @@ typedef enum type
 	PARTICULE 	= 3
 }	TYPE;
 
-void sim_lecture(char*);
+int sim_lecture(char*);
 
 #endif
