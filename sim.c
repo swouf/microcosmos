@@ -95,7 +95,10 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 			}
 		}
 	}
-	error_success();
+	if(modeLancement == ERROR)
+		error_success();
+	else if(modeLancement == FORCE)
+		particule_force_rendu1();
 	return 0;
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
