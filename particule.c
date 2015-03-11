@@ -11,6 +11,7 @@
 #include "constantes.h"
 #include "error.h"
 #include "particule.h"
+#include "tolerance.h"
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
  * entités Particule_t */
@@ -74,4 +75,42 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 	set_tab_particules(tabParticules);
 	
 	return tabParticules;
+}
+void particule_force_rendu1(void)
+{
+	double seuil_d = 0;
+	
+	double rayon0 = tabParticules[0].rayon;
+	double rayon1 = tabParticules[1].rayon;
+	
+	double posx0 = tabParticules[0].posx;
+	double posy0 = tabParticules[0].posy;
+	double posx1 = tabParticules[1].posx;
+	double posy1 = tabParticules[1].posy;
+	
+	double minimum = rayon0;
+	
+	double distance = sqrt(pow((posx1-posx0), 2)+pow((posy1-posy0), 2));
+	
+	double force = 0;
+	
+	if(rayon0 > rayon1)
+		minimum = rayon1;
+	
+	seuil_d = rayon0 + rayon1 + minimum;
+	
+	if(distance <= seuil_d)
+	{
+		force = ((seuil_d-distance)/seuil_d)*MAX_REP;
+	//	if(distance < EPSILON_ZERO)						ATTENTION NE PAS OUBLIER
+			
+	}
+	else if	((seuil_d < distance) && (distance < 2*seuil_d))
+		force = ((distance-seuil_d)/seuil_d)*MAX_ATTR;
+	else if	((2*seuil_d < distance) && (distance <= 3*seuil_d))	
+		force = ((3*seuil_d-distance)/seuil_d)*MAX_ATTR;
+	else if(3*seuil_d < distance)
+		force = 0;
+			
+	printf("%8.3f\n", force);
 }

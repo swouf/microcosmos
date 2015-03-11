@@ -21,5 +21,6 @@ Particule_t* string_parsing_particule(char*, int);
 
 void set_tab_particules(Particule_t*);
 Particule_t* get_tab_particules(void);
+void particule_force_rendu1(void);
 
 #endif
