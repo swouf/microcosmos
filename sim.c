@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "sim.h"
 #include "particule.h"
 #include "trounoir.h"
@@ -48,13 +49,13 @@ void sim_lecture(char* nomFichier)
 		
 		printf("firstChar : %X", ligne[0]);
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 			printf("\nLe if fonctionne.");
 			
 		printf("\033\[0m\n");
 		#endif
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')||(ligne[0] == ' ')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 		{
 			#ifdef DEBUG
 			printf("\033\[31m"); //message de debugging dans le prochain printf
@@ -123,7 +124,7 @@ void lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		printf("\033\[0m\n");
 		#endif
 		
-		if((ligne[0] == '#')||(ligne[0] == '\n')||(ligne[0] == '\r')) //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])) //On teste la valeur du premier caractère.
 		{
 			i--;
 			continue; // lignes à ignorer, on passe à la suivante
