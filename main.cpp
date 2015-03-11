@@ -30,8 +30,10 @@ int main(int argc, char **argv)
 	else
 	{
 		if (std::string(argv[1]) == "Error")
+		{
 			if(sim_lecture(argv[2]))
 				return 1;
+		}
 		else if(std::string(argv[1]) == "Force")
 			std::cout << "Do something." << std::endl;
 		else
