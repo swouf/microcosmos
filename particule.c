@@ -105,17 +105,27 @@ void particule_force_rendu1(void)
 	
 	seuil_d = rayon0 + rayon1 + minimum;
 	
+	double x = distance/seuil_d;
+	
 	if(distance <= seuil_d)
 	{
 		force = ((seuil_d-distance)/seuil_d)*MAX_REP;
 	//	if(distance < EPSILON_ZERO)						ATTENTION NE PAS OUBLIER
 			
 	}
-	else if	((seuil_d < distance) && (distance < 2*seuil_d))
-		force = ((distance-seuil_d)/seuil_d)*MAX_ATTR;
-	else if	((2*seuil_d < distance) && (distance <= 3*seuil_d))	
-		force = ((3*seuil_d-distance)/seuil_d)*MAX_ATTR;
-	else if(3*seuil_d < distance)
+	else if	((x >= 0) && (x<=1)) //
+		force = -MAX_REP*x + MAX_REP;
+	else if	((x >= 1) && (x <= 2))	
+	{
+		x = x - 1;
+		force = MAX_ATTR*x; 
+	}	
+	else if((x >= 2) && (x <= 3))
+	{
+		x = x - 2;
+		force = -MAX_ATTR*x + MAX_ATTR;
+	}
+	else if (x>=3)
 		force = 0;
 			
 	printf("%8.3f\n", force);
