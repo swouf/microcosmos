@@ -186,6 +186,11 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			}
 		}		
 	}
+	
+	#ifdef DEBUG
+	int h = 0;
+	#endif
+	
 	while(1)
 	{
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
@@ -193,29 +198,22 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			error_fichier_incomplet();//ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
 			return 1;
 		}
-		
-		#ifdef DEBUG
-		printf("\033\[36m"); //message de debugging dans le prochain printf
-		printf("strcmp(ligne, FIN_LISTE\\n) : %X", strcmp(ligne, "FIN_LISTE\n"));
-		printf("\033\[0m\n");
-		#endif
-	
-		if(strcmp(ligne, "FIN_LISTE\n") != 0)
+		else if(strcmp(ligne, "FIN_LISTE\n") != 0)
 		{
-			if(isspace(ligne[0])||ligne[0] == '#')
-				break;
-
-			switch(typeParagraphe)
+			if(!(isspace(ligne[0])||ligne[0] == '#'))
 			{
-				case GENERATEUR:
-					error_lecture_elements(ERR_GENERAT, ERR_TROP);
-					return 1;
-				case TROU_NOIR:
-					error_lecture_elements(ERR_TROU_N, ERR_TROP);
-					return 1;
-				case PARTICULE:
-					error_lecture_elements(ERR_PARTIC, ERR_TROP);
-					return 1;
+				switch(typeParagraphe)
+				{
+					case GENERATEUR:
+						error_lecture_elements(ERR_GENERAT, ERR_TROP);
+						return 1;
+					case TROU_NOIR:
+						error_lecture_elements(ERR_TROU_N, ERR_TROP);
+						return 1;
+					case PARTICULE:
+						error_lecture_elements(ERR_PARTIC, ERR_TROP);
+						return 1;
+				}
 			}
 		}
 		else
