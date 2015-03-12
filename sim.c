@@ -106,7 +106,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
 	#ifdef DEBUG
 	int o = 0;
-	printf("\033\[31m"); //message de debugging dans le prochain printf
+	printf("\033\[36m"); //message de debugging dans le prochain printf
 	printf("Entrée dans la fonction lecture_paragraphe");
 	printf("\033\[0m\n");
 	#endif
@@ -119,7 +119,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		
 		#ifdef DEBUG
 		o++;
-		printf("\033\[31m"); //message de debugging dans le prochain printf
+		printf("\033\[36m"); //message de debugging dans le prochain printf
 		printf("Ligne %d actuellement en mémoire dans lecture_paragraphe : %s", o, ligne);
 		printf("\033\[0m\n");
 		#endif
@@ -134,7 +134,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			if(strcmp(ligne, "FIN_LISTE")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
 			{
 				#ifdef DEBUG
-				printf("\033\[31m"); //message de debugging dans le prochain printf
+				printf("\033\[36m"); //message de debugging dans le prochain printf
 				printf("Passage au parsing de la ligne par le type d'entités\
 						%d", typeParagraphe);
 				printf("\033\[0m\n");
@@ -175,16 +175,30 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		}		
 	}
 	#ifdef DEBUG
-	printf("\033\[31m"); //message de debugging dans le prochain printf
+	printf("\033\[36m"); //message de debugging dans le prochain printf
 	printf("Parsing du paragraphe réussi");
 	printf("\033\[0m\n");
 	#endif
 	
 	fgets(ligne, CHAR_MAX_LIGNE, fichier); //ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
+	
+	#ifdef DEBUG
+	printf("\033\[36m"); //message de debugging dans le prochain printf
+	printf("Est-ce un FIN_LISTE ? : %s", ligne);
+	printf("\033\[0m\n");
+	#endif
+	
 	if(!strcmp(ligne, "FIN_LISTE"))
 	{	
 		error_lecture_elements(ERR_GENERAT, ERR_TROP);
 		return 1;
 	}
+	
+	#ifdef DEBUG
+	printf("\033\[36m"); //message de debugging dans le prochain printf
+	printf("OUI !");
+	printf("\033\[0m\n");
+	#endif
+	
 	return 0;	
 }
