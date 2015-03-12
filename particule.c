@@ -94,7 +94,7 @@ void particule_force_rendu1(void)
 	double posx1 = tabParticules[1].posx;
 	double posy1 = tabParticules[1].posy;
 	
-	double minimum = rayon0;
+	double minimum;
 	
 	double distance = sqrt(pow((posx1-posx0), 2)+pow((posy1-posy0), 2));
 	
@@ -102,6 +102,8 @@ void particule_force_rendu1(void)
 	
 	if(rayon0 > rayon1)
 		minimum = rayon1;
+	else
+		minimum = rayon0;
 	
 	seuil_d = rayon0 + rayon1 + minimum;
 	
