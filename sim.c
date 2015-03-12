@@ -16,6 +16,8 @@
 #include "error.h"
 #include "constantes.h"
 
+#define NB_TYPES	3
+
 static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
 int sim_lecture(char* nomFichier, KEYWORD modeLancement)
@@ -31,6 +33,7 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 	char ligne[CHAR_MAX_LIGNE+1];
 	FILE *fichier = NULL;
 	int nbLignes = 0;
+	int nbAppelsLectureP = 0;
 	
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
@@ -44,9 +47,6 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 		printf("Ligne %d actuellement en mémoire : %s", o, ligne);
 		
 		printf("firstChar : %X", ligne[0]);
-		
-		if(isspace(ligne[0])||ligne[0] == '#') //On teste la valeur du premier caractère.
-			printf("\nLe if fonctionne.");
 			
 		printf("\033\[0m\n");
 		#endif
@@ -79,6 +79,7 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 			}
 			else //Si la lecture s'est passée sans problème, on traite l'information.
 			{
+				nbAppelsLectureP++;
 				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe))
 					return 1;//Après avoir TOUTE l'information du paragraphe, on change de
 																		//type de paragraphe.
@@ -96,6 +97,13 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 			}
 		}
 	}
+	
+	if(nbAppelsLectureP != NB_TYPES)
+	{
+		error_fichier_incomplet();
+		return 1;
+	}
+	
 	if(modeLancement == ERROR)
 		error_success();
 	else if(modeLancement == FORCE)
@@ -115,7 +123,11 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	
 	for(int i = 0; i < nbLignes; i++)
 	{
-		fgets(ligne, CHAR_MAX_LIGNE, fichier);
+		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
+		{
+			error_fichier_incomplet();
+			return 1;
+		}
 		
 		#ifdef DEBUG
 		o++;
@@ -131,7 +143,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		}
 		else //dans le cas où il n'y aurait pas de commentaires:
 		{
-			if(strcmp(ligne, "FIN_LISTE")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
+			if(strcmp(ligne, "FIN_LISTE\n")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
 			{
 				#ifdef DEBUG
 				printf("\033\[36m"); //message de debugging dans le prochain printf
@@ -174,31 +186,40 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			}
 		}		
 	}
-	#ifdef DEBUG
-	printf("\033\[36m"); //message de debugging dans le prochain printf
-	printf("Parsing du paragraphe réussi");
-	printf("\033\[0m\n");
-	#endif
+	while(1)
+	{
+		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
+		{
+			error_fichier_incomplet();//ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
+			return 1;
+		}
+		
+		#ifdef DEBUG
+		printf("\033\[36m"); //message de debugging dans le prochain printf
+		printf("strcmp(ligne, FIN_LISTE\\n) : %X", strcmp(ligne, "FIN_LISTE\n"));
+		printf("\033\[0m\n");
+		#endif
 	
-	fgets(ligne, CHAR_MAX_LIGNE, fichier); //ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
-	
-	#ifdef DEBUG
-	printf("\033\[36m"); //message de debugging dans le prochain printf
-	printf("Est-ce un FIN_LISTE ? : %s", ligne);
-	printf("\033\[0m\n");
-	#endif
-	
-	if(!strcmp(ligne, "FIN_LISTE"))
-	{	
-		error_lecture_elements(ERR_GENERAT, ERR_TROP);
-		return 1;
+		if(strcmp(ligne, "FIN_LISTE\n") != 0)
+		{
+			if(isspace(ligne[0])||ligne[0] == '#')
+				break;
+
+			switch(typeParagraphe)
+			{
+				case GENERATEUR:
+					error_lecture_elements(ERR_GENERAT, ERR_TROP);
+					return 1;
+				case TROU_NOIR:
+					error_lecture_elements(ERR_TROU_N, ERR_TROP);
+					return 1;
+				case PARTICULE:
+					error_lecture_elements(ERR_PARTIC, ERR_TROP);
+					return 1;
+			}
+		}
+		else
+			break;
 	}
-	
-	#ifdef DEBUG
-	printf("\033\[36m"); //message de debugging dans le prochain printf
-	printf("OUI !");
-	printf("\033\[0m\n");
-	#endif
-	
 	return 0;	
 }
