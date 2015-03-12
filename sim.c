@@ -79,7 +79,8 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 			}
 			else //Si la lecture s'est passée sans problème, on traite l'information.
 			{
-				lecture_paragraphe(fichier, nbLignes, typeParagraphe); //Après avoir TOUTE l'information du paragraphe, on change de
+				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe))
+					return 1;//Après avoir TOUTE l'information du paragraphe, on change de
 																		//type de paragraphe.
 				switch(typeParagraphe)
 				{
