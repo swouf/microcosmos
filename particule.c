@@ -80,6 +80,8 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 	
 	set_tab_particules(tabParticules);
 	
+	i++;
+	
 	return tabParticules;
 }
 void particule_force_rendu1(void)
@@ -106,6 +108,16 @@ void particule_force_rendu1(void)
 		minimum = rayon0;
 	
 	seuil_d = rayon0 + rayon1 + minimum;
+	
+	#ifdef DEBUG
+	printf("\033\[35m"); //message de debugging dans le prochain printf
+	printf("Rayon 0 : %f\nRayon1 : %f\n", rayon0, rayon1);
+	printf("Position 0 : (%f;%f)\n", posx0,posy0);
+	printf("Position 1 : (%f;%f)\n", posx1, posy1);
+	printf("Minimum : %f\n", minimum);
+	printf("Distance : %f\n", distance);
+	printf("\033\[0m\n");
+	#endif
 	
 	double x = distance/seuil_d;
 	
