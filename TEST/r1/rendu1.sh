@@ -1,12 +1,11 @@
 #!/bin/bash
 
 if [ $1 ]; then
-    SOURCE_FOLDER="../source"
-    RENDU_PATH="../source/rendu1.x"
+    SOURCE_FOLDER="../../"
+    RENDU_PATH="../../rendu1.x"
 
-    cp "Makefile" $SOURCE_FOLDER
-    make clean
-    make -C $SOURCE_FOLDER depend
+#    cp "Makefile" $SOURCE_FOLDER
+    make -C $SOURCE_FOLDER clean
     make -C $SOURCE_FOLDER
     cp $RENDU_PATH "."
 
