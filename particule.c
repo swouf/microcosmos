@@ -32,13 +32,7 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 	static Particule_t tabParticules[MAX_RENDU1];
 	float rayon, posx, posy, vx, vy;
 	float v = 0;
-	
-	#ifdef DEBUG
-	printf("\033\[34m"); //message de debugging dans le prochain printf
-	printf("v : %f < MAX_VITESSE : %d", v, MAX_VITESSE);
-	printf("\033\[0m\n");
-	#endif
-		
+
 	sscanf(ligne,"%f %f %f %f %f",
 			&rayon,
 			&posx,
@@ -65,17 +59,6 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 		tabParticules[i].posy = posy;
 		tabParticules[i].vx = vx;
 		tabParticules[i].vy = vy;
-		
-		#ifdef DEBUG
-		printf("\033\[34m"); //message de debugging dans le prochain printf
-		printf("rayon : %f\n", tabParticules[i].rayon);
-		printf("posx : %f\n", tabParticules[i].posx);
-		printf("posy : %f\n", tabParticules[i].posy);
-		printf("vx : %f\n", tabParticules[i].vx);
-		printf("vy : %f\n", tabParticules[i].vy);
-		printf("v : %f < MAX_VITESSE : %d", v, MAX_VITESSE);
-		printf("\033\[0m\n");
-		#endif
 	}
 	
 	set_tab_particules(tabParticules);
@@ -108,17 +91,7 @@ void particule_force_rendu1(void)
 		minimum = rayon0;
 	
 	seuil_d = rayon0 + rayon1 + minimum;
-	
-	#ifdef DEBUG
-	printf("\033\[35m"); //message de debugging dans le prochain printf
-	printf("Rayon 0 : %f\nRayon1 : %f\n", rayon0, rayon1);
-	printf("Position 0 : (%f;%f)\n", posx0,posy0);
-	printf("Position 1 : (%f;%f)\n", posx1, posy1);
-	printf("Minimum : %f\n", minimum);
-	printf("Distance : %f\n", distance);
-	printf("\033\[0m\n");
-	#endif
-	
+
 	double x = distance/seuil_d;
 	
 	if(distance <= seuil_d)

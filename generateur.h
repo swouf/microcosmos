@@ -16,5 +16,7 @@ typedef struct Generateur
 	float vpi_y;
 } Generateur_t;
 
+/** Découpe la ligne et enregistre les informations dans une structure 
+ * 	Generateur_t.**/
 Generateur_t* string_parsing_generateur(char*, int);
 #endif

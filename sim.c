@@ -22,13 +22,6 @@ static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
 int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 {
-	#ifdef DEBUG
-	int o = 0;
-	printf("\033\[31m"); //message de debugging dans le prochain printf
-	printf("Entrée dans la fonction sim_lecture");
-	printf("\033\[0m\n");
-	#endif
-	
 	TYPE typeParagraphe = GENERATEUR;
 	char ligne[CHAR_MAX_LIGNE+1];
 	FILE *fichier = NULL;
@@ -41,23 +34,8 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 	
 	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //On mets la première ligne du fichier dans la variable ligne pour pouvoir la traiter ensuite
 	{
-		#ifdef DEBUG
-		o++;
-		printf("\033\[31m"); //message de debugging dans le prochain printf
-		printf("Ligne %d actuellement en mémoire : %s", o, ligne);
-		
-		printf("firstChar : %X", ligne[0]);
-			
-		printf("\033\[0m\n");
-		#endif
-		
 		if(isspace(ligne[0])||ligne[0] == '#') //On teste la valeur du premier caractère.
 		{
-			#ifdef DEBUG
-			printf("\033\[31m"); //message de debugging dans le prochain printf
-			printf("La ligne %d est un commentaire", o);
-			printf("\033\[0m\n");
-			#endif
 			continue; // lignes à ignorer, on passe à la suivante
 		}
 		else //Si le premier caractère de la ligne se trouve être une information importante.
@@ -112,13 +90,6 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
-	#ifdef DEBUG
-	int o = 0;
-	printf("\033\[36m"); //message de debugging dans le prochain printf
-	printf("Entrée dans la fonction lecture_paragraphe");
-	printf("\033\[0m\n");
-	#endif
-	
 	char ligne[CHAR_MAX_LIGNE];
 	
 	for(int i = 0; i < nbLignes; i++)
@@ -127,15 +98,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		{
 			error_fichier_incomplet();
 			return 1;
-		}
-		
-		#ifdef DEBUG
-		o++;
-		printf("\033\[36m"); //message de debugging dans le prochain printf
-		printf("Ligne %d actuellement en mémoire dans lecture_paragraphe : %s", o, ligne);
-		printf("\033\[0m\n");
-		#endif
-		
+		}	
 		if(isspace(ligne[0])||ligne[0] == '#') //On teste la valeur du premier caractère.
 		{
 			i--;
@@ -145,12 +108,6 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		{
 			if(strcmp(ligne, "FIN_LISTE\n")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
 			{
-				#ifdef DEBUG
-				printf("\033\[36m"); //message de debugging dans le prochain printf
-				printf("Passage au parsing de la ligne par le type d'entités\
-						%d", typeParagraphe);
-				printf("\033\[0m\n");
-				#endif
 				switch(typeParagraphe) //on active la fonction pour découper et trier l'information contenue dans chaque ligne selon le
 										//de paragraphe.
 				{
@@ -186,11 +143,6 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			}
 		}		
 	}
-	
-	#ifdef DEBUG
-	int h = 0;
-	#endif
-	
 	while(1)
 	{
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
