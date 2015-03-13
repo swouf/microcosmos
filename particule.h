@@ -10,11 +10,11 @@
 
 typedef struct Particule
 {
-	float rayon;
-	float posx;
-	float posy;
-	float vx;
-	float vy;
+	float rayon; 	//Rayon de la particule.
+	float posx; 	//La position selon l'axe x de la particule.
+	float posy;		//La position selon l'axe y de la particule.
+	float vx;		//La vitesse selon l'axe x de la particule.
+	float vy;		//La vitesse selon l'axe x de la particule.
 } Particule_t;
 
 /** Découpe la ligne et enregistre les informations dans une structure 

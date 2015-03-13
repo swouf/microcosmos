@@ -9,8 +9,8 @@
 #define TROUNOIR_H
 typedef struct Trounoir
 {
-	float posx;
-	float posy;
+	float posx; //La position du trou noir selon l'axe x.
+	float posy; //La position du trou noir selon l'axe y.
 } Trounoir_t;
 /** Découpe la ligne et enregistre les informations dans une structure 
  * 	Trounoir_t.
