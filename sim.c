@@ -22,7 +22,8 @@ static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
 int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 {
-	TYPE typeParagraphe = GENERATEUR;
+	TYPE typeParagraphe = GENERATEUR; //pour changer la façon dont on 
+									//enregistre les informations après.
 	char ligne[CHAR_MAX_LIGNE+1];
 	FILE *fichier = NULL;
 	int nbLignes = 0;
@@ -32,17 +33,20 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 	if (fichier == NULL)
 		error_fichier_inexistant();
 	
-	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //On mets la première ligne du fichier dans la variable ligne pour pouvoir la traiter ensuite
+	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //récupération de la 
+												//chaîne de caractères
 	{
-		if(isspace(ligne[0])||ligne[0] == '#') //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])||ligne[0] == '#') //ignorer les commentaires
 		{
 			continue; // lignes à ignorer, on passe à la suivante
 		}
-		else //Si le premier caractère de la ligne se trouve être une information importante.
+		else 
 		{
-			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et convertion en int de la première valeur.
+			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et 
+							//convertion en int de la première valeur.
 			{
-				switch(typeParagraphe) //Dans le cas où sscanf ne marcherait pas.
+				switch(typeParagraphe) 	//Dans le cas où sscanf ne 
+										//marcherait pas.
 				{
 					case GENERATEUR:
 						error_lect_nb_elements(ERR_GENERAT); 
@@ -55,13 +59,14 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 						return 1;
 				}						
 			}
-			else //Si la lecture s'est passée sans problème, on traite l'information.
+			else
 			{
 				nbAppelsLectureP++;
-				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe))
-					return 1;//Après avoir TOUTE l'information du paragraphe, on change de
-																		//type de paragraphe.
-				switch(typeParagraphe)
+				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe)) 
+										//traitement de l'information.
+					return 1;
+				switch(typeParagraphe) //change la manière d'enregistrer 
+							//l'information car on change de paragraphe
 				{
 					case GENERATEUR:
 						typeParagraphe = TROU_NOIR;
@@ -70,13 +75,15 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 						typeParagraphe = PARTICULE;
 						break;
 					case PARTICULE:
-						continue; //Traitement de l'information contenue dans le fichier complète.
+						continue; //Traitement de l'information contenue 
+									//dans le fichier complète.
 				}
 			}
 		}
 	}
 	
-	if(nbAppelsLectureP != NB_TYPES)
+	if(nbAppelsLectureP != NB_TYPES) //vérifier la lecture des trois 
+														//paragraphes.
 	{
 		error_fichier_incomplet();
 		return 1;
@@ -99,23 +106,28 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			error_fichier_incomplet();
 			return 1;
 		}	
-		if(isspace(ligne[0])||ligne[0] == '#') //On teste la valeur du premier caractère.
+		if(isspace(ligne[0])||ligne[0] == '#') //évite les commentaires, 
+												//espaces, etc.
 		{
 			i--;
-			continue; // lignes à ignorer, on passe à la suivante
+			continue; 
 		}
-		else //dans le cas où il n'y aurait pas de commentaires:
+		else
 		{
-			if(strcmp(ligne, "FIN_LISTE\n")) //si ligne = FIN LISTE ne rentre pas dans le bloc du if.
+			if(strcmp(ligne, "FIN_LISTE\n"))//si ligne = FIN LISTE ne 
+											//rentre pas dans le bloc 
+											//du if.
 			{
-				switch(typeParagraphe) //on active la fonction pour découper et trier l'information contenue dans chaque ligne selon le
-										//de paragraphe.
+				switch(typeParagraphe) 	//on active la fonction pour 
+										//découper et trier l'information
+										//contenue dans chaque ligne 
+										//selon le type de paragraphe.
 				{
 					case GENERATEUR:
 						if(string_parsing_generateur(ligne, nbLignes) == NULL)
 							return 1;
 						break;
-					case TROU_NOIR:
+					case TROU_NOIR: 
 						if(string_parsing_trou_noir(ligne, nbLignes) == NULL)
 							return 1;
 						break;
@@ -125,8 +137,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						break;
 				}
 			}	
-			else //si le nombre d'informations lu ne correspond pas au premier caractère donné par la ligne 
-				// précédemment, on lance les fonctions d'erreur.
+			else
 			{	
 				switch(typeParagraphe)
 				{
@@ -147,7 +158,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	{
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
 		{
-			error_fichier_incomplet();//ATTENTION SI AU LIEU DE FIN LISTE ON TROUVE UN COMMENTAIRE??????
+			error_fichier_incomplet();
 			return 1;
 		}
 		else if(strcmp(ligne, "FIN_LISTE\n") != 0)
