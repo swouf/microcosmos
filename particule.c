@@ -94,14 +94,8 @@ void particule_force_rendu1(void)
 
 	double x = distance/seuil_d;
 	
-	if(distance <= seuil_d)
-	{
-		force = ((seuil_d-distance)/seuil_d)*MAX_REP;
-	//	if(distance < EPSILON_ZERO)			ATTENTION NE PAS OUBLIER
-			
-	}
-	else if	((x >= 0) && (x<=1)) //
-		force = -MAX_REP*x + MAX_REP;
+	if((x >= 0) && (x<=1)) 
+		force = MAX_REP*x - MAX_REP;
 	else if	((x >= 1) && (x <= 2))	
 	{
 		x = x - 1;
