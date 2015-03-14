@@ -156,13 +156,19 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	}
 	while(1)
 	{
+		printf("Ligne : %s\n", ligne);
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
 		{
 			error_fichier_incomplet();
 			return 1;
 		}
-		else if(strcmp(ligne, "FIN_LISTE\n") != 0)
+		else if(strncmp(ligne, "FIN_LISTE", 9) == 0)
 		{
+			break;
+		}
+		else
+		{
+			printf("Ligne (après fgets()) : %s\n", ligne);
 			if(!(isspace(ligne[0])||ligne[0] == '#'))
 			{
 				switch(typeParagraphe)
@@ -179,8 +185,6 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 				}
 			}
 		}
-		else
-			break;
 	}
 	return 0;	
 }
