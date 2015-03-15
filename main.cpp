@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 				return 1;
 		}
 		else
-			std::cout << "Don't do something." << std::endl;
+			return 1;
 	}
 	
 	return 0;
