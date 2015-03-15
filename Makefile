@@ -1,4 +1,12 @@
-# Makefile pour Microcosmos
+########################################################################
+# Makefile pour le rendu 1 du projet Microcosmos
+# date : 15.03.2015
+# version : 1
+# Auteur : Minh Truong & Jérémy Jayet
+########################################################################
+
+PROJECT = Microcosmos
+EXE = rendu1.x
 
 CC = gcc
 CFLAGS = -Wall -std=c99 -c -D DEBUG
@@ -8,16 +16,13 @@ CPPC = g++
 CPPFLAGS = -Wall -c -D DEBUG
 CPPFILES = main.cpp
 
-LIBS = -lm -lstdc++
-PROJECT = Microcosmos
-EXE = rendu1.x
-
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+LIBS = -lm -lstdc++
 
 all: rendu1
 
 rendu1: $(OFILES)
-	@echo "\033[32mLinking...\033[0m"
+	@echo "\033[1;32mLinking...\033[0m"
 	$(CC) $(OFILES) -o $(EXE) $(LIBS)
 
 %.o: %.cpp 
@@ -34,15 +39,21 @@ clean:
 
 depend:
 	@echo "\033[33mGenerating dependencies...\033[0m"
-	@cat Makefile > Makefile.tmp
+	@
+	@sed '/^### DEPENDENCIES ###/q' Makefile > Makefile.tmp
+	@
 	@echo "#-- C rules --#" >> Makefile.tmp
 	@sed '/^#-- C rules --#/q' Makefile.tmp > Makefile.tmp2
 	@mv Makefile.tmp2 Makefile.tmp
 	$(CC) -MM $(CFLAGS) $(CFILES) >> Makefile.tmp
+	@
 	@echo "#-- C++ rules --#" >> Makefile.tmp
 	@sed '/^#-- C++ rules --#/q' Makefile.tmp > Makefile.tmp2
 	@mv Makefile.tmp2 Makefile.tmp
 	$(CPPC) -MM $(CPPFLAGS) $(CPPFILES) >> Makefile.tmp
+	@
 	@mv Makefile.tmp Makefile
 
 ### DEPENDENCIES ###
+
+

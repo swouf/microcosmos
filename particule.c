@@ -1,7 +1,8 @@
-/*! \file particule.c
+/*!
+ * \file particule.c
  * \brief Module de gestion des entités particules
- * \date
- * \version 0.1
+ * \date 15.03.2015
+ * \version 1
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -10,12 +11,21 @@
 #include <math.h>
 #include "constantes.h"
 #include "error.h"
-#include "particule.h"
 #include "tolerance.h"
+#include "particule.h"
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
  * entités Particule_t */
 static Particule_t* tabParticules = NULL;
+
+struct Particule
+{
+	float rayon; 	//Rayon de la particule.
+	float posx; 	//La position selon l'axe x de la particule.
+	float posy;		//La position selon l'axe y de la particule.
+	float vx;		//La vitesse selon l'axe x de la particule.
+	float vy;		//La vitesse selon l'axe x de la particule.
+};
 
 void set_tab_particules(Particule_t* ptrTabPart)
 {
@@ -26,7 +36,7 @@ Particule_t* get_tab_particules(void)
 	return tabParticules;
 }
 
-Particule_t* string_parsing_particule(char* ligne, int nbLignes)
+Particule_t* string_parsing_particule(char* ligne)
 {
 	static int i = 0;
 	static Particule_t tabParticules[MAX_RENDU1];

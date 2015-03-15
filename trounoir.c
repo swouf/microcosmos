@@ -1,7 +1,8 @@
-/*! \file trounoir.c
+/*!
+ * \file trounoir.c
  * \brief Module de gestion des entités trous noirs
- * \date
- * \version 0.1
+ * \date 15.03.2015
+ * \version 1
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -12,7 +13,13 @@
 #include "error.h"
 #include "trounoir.h"
 
-Trounoir_t* string_parsing_trou_noir(char* ligne, int nbLignes)
+struct Trounoir
+{
+	float posx; //La position du trou noir selon l'axe x.
+	float posy; //La position du trou noir selon l'axe y.
+};
+
+Trounoir_t* string_parsing_trou_noir(char* ligne)
 {
 	static int i = 0;
 	static Trounoir_t tabTrousNoirs[MAX_RENDU1];

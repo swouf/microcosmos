@@ -1,8 +1,9 @@
-/* Nom: constantes.h 
- * Description: constantes utilisées par le programme
- * Date: 03.02.2014
- * version : 1.0
- * Auteur: PROG II
+/*!
+ * \file constantes.h
+ * \brief (HEADER) Contient des constantes utilisées par le programme
+ * \date 15.03.2015
+ * \version 1
+ * \author Minh Truong & Jérémy Jayet
  */
 
 #ifndef CONSTANTES_H
@@ -27,6 +28,5 @@
  * Constantes personnelles
  **********************************************************************/
 #define CHAR_MAX_LIGNE 	100
-#define G 				6.67259e-11
 
 #endif

@@ -1,7 +1,8 @@
-/*! \file generateur.c
+/*!
+ * \file generateur.c
  * \brief Module de gestion des entités générateurs
- * \date
- * \version 0.1
+ * \date 15.03.2015
+ * \version 1
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -12,7 +13,16 @@
 #include "constantes.h"
 #include "generateur.h"
 
-Generateur_t* string_parsing_generateur(char* ligne, int nbParticules)
+struct Generateur
+{
+	float rgen; 	//Rayon du générateur.
+	float posx; 	//La position selon l'axe x du générateur.
+	float posy; 	//La position selon l'axe y du générateur.
+	float vpi_x;	//La vitesse initiale selon l'axe x d'une particule.
+	float vpi_y;	//La vitesse initiale selon l'axe y d'une particule.
+};
+
+Generateur_t* string_parsing_generateur(char* ligne)
 {
 	static int i = 0;
 	static Generateur_t tabGenerateurs[MAX_RENDU1];

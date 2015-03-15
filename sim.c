@@ -1,7 +1,8 @@
-/*! \file sim.c
+/*!
+ * \file sim.c
  * \brief Module de gestion de la simulation
- * \date
- * \version 0.1
+ * \date 15.03.2015
+ * \version 1
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -9,12 +10,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "sim.h"
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
 #include "error.h"
 #include "constantes.h"
+#include "sim.h"
 
 #define NB_TYPES	3
 
@@ -22,12 +23,13 @@ static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
 int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 {
-	TYPE typeParagraphe = GENERATEUR; //pour changer la façon dont on 
-									//enregistre les informations après.
-	char ligne[CHAR_MAX_LIGNE+1];
-	FILE *fichier = NULL;
-	int nbLignes = 0;
-	int nbAppelsLectureP = 0;
+	char	ligne[CHAR_MAX_LIGNE+1];
+	FILE	*fichier		= NULL;
+	int		nbLignes		= 0;
+	int		nbAppelsLectureP= 0;
+	TYPE	typeParagraphe	= GENERATEUR; //pour changer la façon dont
+										  //on enregistre les
+										  //informations après.
 	
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
@@ -36,7 +38,7 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //récupération de la 
 												//chaîne de caractères
 	{
-		if(isspace(ligne[0])||ligne[0] == '#') //ignorer les commentaires
+		if(isspace(ligne[0])||ligne[0] == '#') //ignore les commentaires
 		{
 			continue; // lignes à ignorer, on passe à la suivante
 		}
@@ -62,7 +64,8 @@ int sim_lecture(char* nomFichier, KEYWORD modeLancement)
 			else
 			{
 				nbAppelsLectureP++;
-				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe)) 
+				if(lecture_paragraphe(fichier, nbLignes,
+									  typeParagraphe)) 
 										//traitement de l'information.
 					return 1;
 				switch(typeParagraphe) //change la manière d'enregistrer 
@@ -124,15 +127,15 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 										//selon le type de paragraphe.
 				{
 					case GENERATEUR:
-						if(string_parsing_generateur(ligne, nbLignes) == NULL)
+						if(string_parsing_generateur(ligne) == NULL)
 							return 1;
 						break;
 					case TROU_NOIR: 
-						if(string_parsing_trou_noir(ligne, nbLignes) == NULL)
+						if(string_parsing_trou_noir(ligne) == NULL)
 							return 1;
 						break;
 					case PARTICULE:
-						if(string_parsing_particule(ligne, nbLignes) == NULL)
+						if(string_parsing_particule(ligne) == NULL)
 							return 1;
 						break;
 				}
@@ -142,13 +145,16 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
-						error_lecture_elements(ERR_GENERAT, ERR_PAS_ASSEZ); 
+						error_lecture_elements(ERR_GENERAT,
+											   ERR_PAS_ASSEZ); 
 						return 1;
 					case TROU_NOIR:
-						error_lecture_elements(ERR_TROU_N, ERR_PAS_ASSEZ);
+						error_lecture_elements(ERR_TROU_N,
+											   ERR_PAS_ASSEZ);
 						return 1;
 					case PARTICULE:
-						error_lecture_elements(ERR_PARTIC, ERR_PAS_ASSEZ);
+						error_lecture_elements(ERR_PARTIC,
+											   ERR_PAS_ASSEZ);
 						return 1;
 				}
 			}
