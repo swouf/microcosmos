@@ -9,11 +9,11 @@ PROJECT = Microcosmos
 EXE = rendu1.x
 
 CC = gcc
-CFLAGS = -Wall -std=c99 -c -D DEBUG
+CFLAGS = -Wall -std=c99 -c
 CFILES = sim.c generateur.c particule.c trounoir.c error.c
 
 CPPC = g++
-CPPFLAGS = -Wall -c -D DEBUG
+CPPFLAGS = -Wall -c
 CPPFILES = main.cpp
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
