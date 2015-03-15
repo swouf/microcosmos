@@ -46,12 +46,3 @@ depend:
 	@mv Makefile.tmp Makefile
 
 ### DEPENDENCIES ###
-#-- C rules --#
-sim.o: sim.c sim.h particule.h trounoir.h generateur.h error.h \
- constantes.h tolerance.h
-generateur.o: generateur.c error.h constantes.h tolerance.h generateur.h
-particule.o: particule.c constantes.h tolerance.h error.h particule.h
-trounoir.o: trounoir.c constantes.h tolerance.h error.h trounoir.h
-error.o: error.c error.h
-#-- C++ rules --#
-main.o: main.cpp sim.h error.h
