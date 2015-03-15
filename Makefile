@@ -10,11 +10,11 @@ EXE = rendu1.x
 
 CC = gcc
 CFLAGS = -Wall -std=c99 -c
-CFILES = sim.c generateur.c particule.c trounoir.c error.c
+CFILES = $(wildcard *.c)
 
 CPPC = g++
 CPPFLAGS = -Wall -c
-CPPFILES = main.cpp
+CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
 LIBS = -lm -lstdc++
@@ -55,5 +55,3 @@ depend:
 	@mv Makefile.tmp Makefile
 
 ### DEPENDENCIES ###
-
-
