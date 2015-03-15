@@ -62,6 +62,8 @@ Particule_t* string_parsing_particule(char* ligne, int nbLignes)
 	}
 	i++;
 	
+	set_tab_particules(tabParticules);
+	
 	return tabParticules;
 }
 void particule_force_rendu1(void)
@@ -91,7 +93,7 @@ void particule_force_rendu1(void)
 
 	double x = distance/seuil_d;
 	
-	if((x >= 0) && (x<=1)) 
+	if((x >= 0) && (x<=1))
 		force = -MAX_REP*x + MAX_REP;
 	else if	((x > 1) && (x <= 2))	
 	{
@@ -104,6 +106,8 @@ void particule_force_rendu1(void)
 		force = -MAX_ATTR*x + MAX_ATTR;
 	}
 	else if (x > 3)
+		force = 0;
+	else
 		force = 0;
 			
 	printf("%8.3f\n", force);
