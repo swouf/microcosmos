@@ -21,22 +21,7 @@ typedef struct Particule Particule_t;
  */
 Particule_t* string_parsing_particule(char*);
 
-/*!
- * \fn void set_tab_particules(Particule_t* ptrTabPart)
- * \brief Fonction pour définir le pointeur destiné à stocker l'adresse
- * du tableau de Particule_t
- * \param ptrTabPart : Pointeur sur un tableau de Particule_t
- */
-void set_tab_particules(Particule_t*);
-
-/*!
- * \fn Particule_t* get_tab_particules(void)
- * \brief Fonction pour récupérer le pointeur stockant l'adresse
- * du tableau de Particule_t
- * \return Pointeur sur un tableau de Particule_t. Retourne NULL en cas
- * d'erreur.
- */
-Particule_t* get_tab_particules(void); 
+int get_nb_particules(void);
 
 /*!
  * \fn void particule_force_rendu1(void)

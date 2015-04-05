@@ -16,30 +16,37 @@
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
  * entités Particule_t */
-static Particule_t* tabParticules = NULL;
+static Particule_t* ptrParticules = NULL;
+
+/**\var Variable GLOBALE contenant le nombre de structures
+ *      Particule_t */
+static int nbParticules = 0;
 
 struct Particule
 {
-	float rayon; 	//Rayon de la particule.
-	float posx; 	//La position selon l'axe x de la particule.
-	float posy;		//La position selon l'axe y de la particule.
-	float vx;		//La vitesse selon l'axe x de la particule.
-	float vy;		//La vitesse selon l'axe x de la particule.
+    float        rayon; //Rayon de la particule.
+	float        posx; 	//La position selon l'axe x de la particule.
+	float        posy;	//La position selon l'axe y de la particule.
+	float        vx;	//La vitesse selon l'axe x de la particule.
+	float        vy;	//La vitesse selon l'axe x de la particule.
+    Particule_t* next;
 };
 
-void set_tab_particules(Particule_t* ptrTabPart)
+int get_nb_particules(void)
 {
-	tabParticules = ptrTabPart;
+    return nbParticules;
 }
-Particule_t* get_tab_particules(void)
+static void set_ptr_particules(Particule_t* ptrPart)
 {
-	return tabParticules;
+	ptrParticules = ptrPart;
 }
 
 Particule_t* string_parsing_particule(char* ligne)
 {
 	static int i = 0;
-	static Particule_t tabParticules[MAX_RENDU1];
+	
+    static Particule_t* ptrParticulesTMP = NULL;
+    
 	float rayon, posx, posy, vx, vy;
 	float v = 0;
 
@@ -64,29 +71,42 @@ Particule_t* string_parsing_particule(char* ligne)
 	}
 	else
 	{
-		tabParticules[i].rayon = rayon;
-		tabParticules[i].posx = posx;
-		tabParticules[i].posy = posy;
-		tabParticules[i].vx = vx;
-		tabParticules[i].vy = vy;
+        Particule_t* tmpPtr = malloc(sizeof(Particule_t));
+        if(tmpPtr)
+        {
+            tmpPtr->rayon = rayon;
+            tmpPtr->posx = posx;
+            tmpPtr->posy = posy;
+            tmpPtr->vx = vx;
+            tmpPtr->vy = vy;
+            tmpPtr->next = ptrParticulesTMP;
+            
+            ptrParticulesTMP = tmpPtr;
+        }
+        else
+            error_msg("Échec de l'allocation de mémoire.");
 	}
 	i++;
+    nbParticules = i;
+    
+	set_ptr_particules(ptrParticulesTMP);
 	
-	set_tab_particules(tabParticules);
-	
-	return tabParticules;
+	return ptrParticulesTMP;
 }
 void particule_force_rendu1(void)
 {
+    Particule_t* part1 = ptrParticules;
+    Particule_t* part2 = ptrParticules->next;
+    
 	double seuil_d = 0;
 	
-	double rayon0 = tabParticules[0].rayon;
-	double rayon1 = tabParticules[1].rayon;
+	double rayon0 = part1->rayon;
+	double rayon1 = part2->rayon;
 	
-	double posx0 = tabParticules[0].posx;
-	double posy0 = tabParticules[0].posy;
-	double posx1 = tabParticules[1].posx;
-	double posy1 = tabParticules[1].posy;
+	double posx0 = part1->posx;
+	double posy0 = part1->posy;
+	double posx1 = part2->posx;
+	double posy1 = part2->posy;
 	
 	double minimum;
 	
