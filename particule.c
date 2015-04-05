@@ -54,12 +54,12 @@ Particule_t* string_parsing_particule(char* ligne)
 	
 	if(rayon >= RMAX || rayon <= RMIN)
 	{
-		error_rayon_partic(ERR_PARTIC, i+1);
+		error_rayon_partic(ERR_PARTIC, i);
 		return NULL;
 	}
 	else if(v > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_PARTIC, i+1);
+		error_vitesse_partic(ERR_PARTIC, i);
 		return NULL;
 	}
 	else
