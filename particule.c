@@ -31,6 +31,7 @@ void set_tab_particules(Particule_t* ptrTabPart)
 {
 	tabParticules = ptrTabPart;
 }
+
 Particule_t* get_tab_particules(void)
 {
 	return tabParticules;
