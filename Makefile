@@ -6,7 +6,7 @@
 ########################################################################
 
 PROJECT = Microcosmos
-EXE = rendu1.x
+EXE = rendu2.x
 
 CC = gcc
 CFLAGS = -Wall -std=c99 -c
@@ -17,11 +17,9 @@ CPPFLAGS = -Wall -c
 CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
-LIBS = -lm -lstdc++
+LIBS = -lm -lstdc++ -lglut -lglui
 
-all: rendu1
-
-rendu1: $(OFILES)
+all: $(OFILES)
 	@echo "\033[1;32mLinking...\033[0m"
 	$(CC) $(OFILES) -o $(EXE) $(LIBS)
 
