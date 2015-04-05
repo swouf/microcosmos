@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <complex.h>
 #include "constantes.h"
 #include "error.h"
-#include "tolerance.h"
 #include "particule.h"
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
@@ -59,7 +59,7 @@ Particule_t* string_parsing_particule(char* ligne)
 			
 	v = sqrt(pow((double)vx, 2)+pow((double)vy, 2));
 	
-	if(rayon >= RMAX || rayon <= RMIN)
+	if(rayon > RMAX || rayon < RMIN)
 	{
 		error_rayon_partic(ERR_PARTIC, i);
 		return NULL;
@@ -84,29 +84,32 @@ Particule_t* string_parsing_particule(char* ligne)
             ptrParticulesTMP = tmpPtr;
         }
         else
+        {
             error_msg("Échec de l'allocation de mémoire.");
+            return NULL;
+        }
 	}
 	i++;
     nbParticules = i;
     
-	set_ptr_particules(ptrParticulesTMP);
+	ptrParticules = ptrParticulesTMP;
 	
 	return ptrParticulesTMP;
 }
 void particule_force_rendu1(void)
 {
-    Particule_t* part1 = ptrParticules;
-    Particule_t* part2 = ptrParticules->next;
+    Particule_t* part0 = ptrParticules;
+    Particule_t* part1 = ptrParticules->next;
     
 	double seuil_d = 0;
 	
-	double rayon0 = part1->rayon;
-	double rayon1 = part2->rayon;
+	double rayon0 = part0->rayon;
+	double rayon1 = part1->rayon;
 	
-	double posx0 = part1->posx;
-	double posy0 = part1->posy;
-	double posx1 = part2->posx;
-	double posy1 = part2->posy;
+	double posx0 = part0->posx;
+	double posy0 = part0->posy;
+	double posx1 = part1->posx;
+	double posy1 = part1->posy;
 	
 	double minimum;
 	
@@ -141,4 +144,96 @@ void particule_force_rendu1(void)
 		force = 0;
 			
 	printf("%8.3f\n", force);
+}
+void particule_integration_rendu2(void)
+{
+    Particule_t* part0 = ptrParticules;
+    
+    for(;part0->next != NULL;part0 = part0->next){}
+    
+    printf("--- part0 ---\n"
+           "rayon : %f\n"
+           "posx  : %f\n"
+           "posy  : %f\n"
+           "vx    : %f\n"
+           "vy    : %f\n"
+           "next  : %X\n",
+            part0->rayon,
+            part0->posx,
+            part0->posy,
+            part0->vx,
+            part0->vy,
+            part0->next);
+    
+    double         seuil_d       = 0;
+	double         rayon0        = part0->rayon;
+    double         rayon1        = 0;
+	double         minimum       = 0;
+    double         x             = 0;
+    double complex force         = 0 + 0*I;
+    double complex pos0          = part0->posx + part0->posy * I;
+    double complex pos1          = 0;
+	double complex distance      = 0 + 0*I;
+    double complex unitVDistance = 0 + 0*I;
+    
+    for(Particule_t* part1 = ptrParticules;part1 != part0;
+        part1 = part1->next)
+    {
+        printf("--- part1 ---\n"
+           "rayon : %f\n"
+           "posx  : %f\n"
+           "posy  : %f\n"
+           "vx    : %f\n"
+           "vy    : %f\n"
+           "next  : %X\n",
+            part1->rayon,
+            part1->posx,
+            part1->posy,
+            part1->vx,
+            part1->vy,
+            part1->next);
+
+        rayon1 = part1->rayon;
+        pos1  = part1->posx + part1->posy * I;
+        
+        distance = pos1 - pos0;
+        unitVDistance = distance/cabs(distance);
+        
+        if(rayon0 > rayon1)
+            minimum = rayon1;
+        else
+            minimum = rayon0;
+        
+        seuil_d = rayon0 + rayon1 + minimum;
+        
+        x = cabs(distance)/seuil_d;
+        
+        if(x < EPSILON_ZERO)
+        {
+            srand(part1);
+            double complex randVect = rand()-(RAND_MAX/2)
+                                    + (rand()-(RAND_MAX/2))*I;
+            randVect = randVect/cabs(randVect);
+            force += MAX_REP*randVect;
+        }
+        else if((x > EPSILON_ZERO) && (x<=1))
+            force += unitVDistance*(-MAX_REP*x + MAX_REP);
+        else if	((x > 1) && (x <= 2))	
+        {
+            x = x - 1;
+            force += unitVDistance*(MAX_ATTR*x); 
+        }	
+        else if((x > 2) && (x <= 3))
+        {
+            x = x - 2;
+            force += unitVDistance*(-MAX_ATTR*x + MAX_ATTR);
+        }
+        else if (x > 3)
+            force += 0 + 0*I;
+        else
+            force += 0 + 0*I;
+    }
+    
+    printf("%8.3f %8.3f\n", creal(force), cimag(force));
+    
 }
