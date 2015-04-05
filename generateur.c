@@ -37,12 +37,12 @@ Generateur_t* string_parsing_generateur(char* ligne)
 			
 	if(rgen >= RMAX || rgen <= RMIN)
 	{
-		error_rayon_partic(ERR_GENERAT, i+1);
+		error_rayon_partic(ERR_GENERAT, i);
 		return NULL;
 	}
 	else if(sqrt(pow(vpi_x, 2)+pow(vpi_y, 2)) > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_GENERAT, i+1);
+		error_vitesse_partic(ERR_GENERAT, i);
 		return NULL;
 	}
 	else
