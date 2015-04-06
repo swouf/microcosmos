@@ -21,7 +21,7 @@
 
 static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
-int sim_lecture(char* nomFichier, KEYWORD modeLancement)
+int sim_lecture(const char* nomFichier, KEYWORD modeLancement)
 {
 	char	ligne[CHAR_MAX_LIGNE+1];
 	FILE	*fichier		= NULL;
@@ -191,4 +191,9 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 		}
 	}
 	return 0;	
+}
+void sim_ecriture(const char* nomFichier)
+{
+	FILE *fichier = NULL;
+	fichier = fopen(nomFichier, "wt");
 }

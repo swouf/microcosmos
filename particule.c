@@ -36,6 +36,7 @@ int get_nb_particules(void)
 {
     return nbParticules;
 }
+
 static void set_ptr_particules(Particule_t* ptrPart)
 {
 	ptrParticules = ptrPart;
