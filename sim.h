@@ -33,6 +33,7 @@ typedef enum keyword
  * modeLancement : mode dans lequel le programme a été lancé
  * \return Retourne 0 si tout s'est bien passé, 1 en cas d'erreur.
  */
-int sim_lecture(char*, KEYWORD); 
+int sim_lecture(const char*, KEYWORD);
+void sim_ecriture(const char*); 
 
 #endif
