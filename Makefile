@@ -17,7 +17,7 @@ CPPFLAGS = -Wall -c
 CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
-LIBS = -lm -lstdc++ -lglut -lglui
+LIBS = -lGLU -lGL -lXmu -lXext -lX11 -lXi -lm -lstdc++ -lglut -lglui
 
 all: $(OFILES)
 	@echo "\033[1;32mLinking...\033[0m"
@@ -53,3 +53,12 @@ depend:
 	@mv Makefile.tmp Makefile
 
 ### DEPENDENCIES ###
+#-- C rules --#
+error.o: error.c error.h
+generateur.o: generateur.c error.h constantes.h tolerance.h generateur.h
+particule.o: particule.c constantes.h tolerance.h error.h particule.h
+sim.o: sim.c particule.h trounoir.h generateur.h error.h constantes.h \
+ tolerance.h sim.h
+trounoir.o: trounoir.c constantes.h tolerance.h error.h trounoir.h
+#-- C++ rules --#
+main.o: main.cpp sim.h error.h
