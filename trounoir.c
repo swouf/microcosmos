@@ -48,3 +48,13 @@ Trounoir_t* string_parsing_trou_noir(char* ligne)
     
 	return actuelTrouNoir;
 }
+void clean_trou_noir(void)
+{
+    Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
+    Trounoir_t* suivTrouNoir   = ptrTrousNoirs->next;
+    
+    for(;actuelTrouNoir != NULL;actuelTrouNoir=suivTrouNoir)
+    {
+        free(actuelTrouNoir);
+    }
+}
