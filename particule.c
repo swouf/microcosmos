@@ -24,12 +24,11 @@ static int nbParticules = 0;
 
 struct Particule
 {
-    float        rayon; //Rayon de la particule.
-	float        posx; 	//La position selon l'axe x de la particule.
-	float        posy;	//La position selon l'axe y de la particule.
-	float        vx;	//La vitesse selon l'axe x de la particule.
-	float        vy;	//La vitesse selon l'axe x de la particule.
-    Particule_t* next;
+    double         rayon; //Rayon de la particule.
+	double complex pos; //La position de la particule sous forme complexe.
+	double complex v; //La vitesse de la particule sous forme complexe.
+    double         m; // Masse de la particule.
+    Particule_t*   next;
 };
 
 int get_nb_particules(void)
@@ -75,10 +74,9 @@ Particule_t* string_parsing_particule(char* ligne)
         if(tmpPtr)
         {
             tmpPtr->rayon = rayon;
-            tmpPtr->posx = posx;
-            tmpPtr->posy = posy;
-            tmpPtr->vx = vx;
-            tmpPtr->vy = vy;
+            tmpPtr->pos = posx + posy*I;
+            tmpPtr->v = vx + vy*I;
+            tmpPtr->m = KMASSE*rayon*rayon;
             tmpPtr->next = ptrParticulesTMP;
             
             ptrParticulesTMP = tmpPtr;
@@ -98,6 +96,12 @@ Particule_t* string_parsing_particule(char* ligne)
 }
 void particule_force_rendu1(void)
 {
+/**********************************************************************/
+/************************** STUB **************************************/
+    printf("Exécution de la fonction : particule_force_rendu1()");
+/**********************************************************************/
+
+/*
     Particule_t* part0 = ptrParticules;
     Particule_t* part1 = ptrParticules->next;
     
@@ -144,6 +148,7 @@ void particule_force_rendu1(void)
 		force = 0;
 			
 	printf("%8.3f\n", force);
+    */
 }
 void particule_integration_rendu2(void)
 {
@@ -151,50 +156,26 @@ void particule_integration_rendu2(void)
     
     for(;part0->next != NULL;part0 = part0->next){}
     
-    printf("--- part0 ---\n"
-           "rayon : %f\n"
-           "posx  : %f\n"
-           "posy  : %f\n"
-           "vx    : %f\n"
-           "vy    : %f\n"
-           "next  : %X\n",
-            part0->rayon,
-            part0->posx,
-            part0->posy,
-            part0->vx,
-            part0->vy,
-            part0->next);
-    
     double         seuil_d       = 0;
 	double         rayon0        = part0->rayon;
     double         rayon1        = 0;
 	double         minimum       = 0;
     double         x             = 0;
-    double complex force         = 0 + 0*I;
-    double complex pos0          = part0->posx + part0->posy * I;
+    double         m0            = part0->m;
+    double complex force         = 0;
+    double complex pos0          = part0->pos;
     double complex pos1          = 0;
-	double complex distance      = 0 + 0*I;
-    double complex unitVDistance = 0 + 0*I;
+    double complex v0            = part0->v;
+    double complex v_k           = 0;
+    double complex pos_k         = 0;
+	double complex distance      = 0;
+    double complex unitVDistance = 0;
     
     for(Particule_t* part1 = ptrParticules;part1 != part0;
         part1 = part1->next)
     {
-        printf("--- part1 ---\n"
-           "rayon : %f\n"
-           "posx  : %f\n"
-           "posy  : %f\n"
-           "vx    : %f\n"
-           "vy    : %f\n"
-           "next  : %X\n",
-            part1->rayon,
-            part1->posx,
-            part1->posy,
-            part1->vx,
-            part1->vy,
-            part1->next);
-
-        rayon1 = part1->rayon;
-        pos1  = part1->posx + part1->posy * I;
+        rayon1  = part1->rayon;
+        pos1    = part1->pos;
         
         distance = pos1 - pos0;
         unitVDistance = distance/cabs(distance);
@@ -210,11 +191,13 @@ void particule_integration_rendu2(void)
         
         if(x < EPSILON_ZERO)
         {
-            srand(part1);
+            /*
+            srand((long int)part1);
             double complex randVect = rand()-(RAND_MAX/2)
                                     + (rand()-(RAND_MAX/2))*I;
             randVect = randVect/cabs(randVect);
-            force += MAX_REP*randVect;
+            */
+            force += MAX_REP*I;
         }
         else if((x > EPSILON_ZERO) && (x<=1))
             force += unitVDistance*(-MAX_REP*x + MAX_REP);
@@ -236,4 +219,12 @@ void particule_integration_rendu2(void)
     
     printf("%8.3f %8.3f\n", creal(force), cimag(force));
     
+    v_k     = (force/m0)*DELTA_T+v0;
+    if(cabs(v_k) > MAX_VITESSE)
+        v_k = (v_k/cabs(v_k))*MAX_VITESSE;
+
+    pos_k   = v_k*DELTA_T+pos0;
+    
+    printf("%7.3f %7.3f %9.4f %9.4f\n", creal(v_k), cimag(v_k),
+                                        creal(pos_k), cimag(pos_k));
 }
