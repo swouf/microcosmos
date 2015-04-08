@@ -112,16 +112,16 @@ void display_particules(void)
     Particule_t* particule = ptrParticules;
     while(particule != NULL)
     {
-        printf("draw_particule(%lf, %lf, %lf, %lf)",
+        printf("draw_particule(%lf, %lf, %lf, %lf)\n",
                 creal(particule->pos),
                 cimag(particule->pos),
                 particule->rayon,
                 cabs(particule->v));
         
-        /*draw_particule(creal(particule->pos),
+        draw_particule(creal(particule->pos),
                        cimag(particule->pos),
                        particule->rayon,
-                       cabs(particule->v));*/
+                       cabs(particule->v));
         particule = particule->next;
     }
 }

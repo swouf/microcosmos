@@ -70,12 +70,12 @@ void display_trous_noirs(void)
     Trounoir_t* trouNoir = ptrTrousNoirs;
     while(trouNoir != NULL)
     {
-        printf("draw_trou_noir(%lf, %lf",
+        printf("draw_trou_noir(%lf, %lf)\n",
                 creal(trouNoir->pos),
                 cimag(trouNoir->pos));
         
-        /*draw_trou_noir(creal(trouNoir->pos),
-                       cimag(trouNoir->pos));*/
+        draw_trou_noir(creal(trouNoir->pos),
+                       cimag(trouNoir->pos));
         trouNoir = trouNoir->next;
     }
 }

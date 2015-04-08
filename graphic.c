@@ -32,7 +32,9 @@ void fenetre_sim (int argc, char **argv)
 	/*Initialisation Open GL*/
 	glClearColor(1, 1, 1, 0);
 	glutDisplayFunc(affichage);
-	glutReshapeFunc(reshape);	
+	glutReshapeFunc(reshape);
+    
+    glutPostRedisplay();
 }
 void draw_particule (double posx, double posy, double r, double v)
 { 
@@ -47,7 +49,7 @@ void draw_particule (double posx, double posy, double r, double v)
 	float couleur[3] = {rouge, vert, bleu};
 	
 	//Dessin du cercle
-	glBegin (GL_LINE_LOOP);	
+	glBegin (GL_LINE_LOOP);
 	glColor3fv(couleur);   
 	for (i=0; i < SIDES; i++)
     {
@@ -79,7 +81,7 @@ void draw_generateur(double posx, double posy, double r, double vx, double vy)
 	glEnd();
 	//printf("Exécution de draw_generateur avec comme paramètre: %lf, %lf, %lf, %lf\n", posx, posy, vx, vy);
 }
-void draw_trounoir(double posx, double posy)
+void draw_trou_noir(double posx, double posy)
 {
 	int i;
 	const int SIDES = 50;
@@ -106,13 +108,13 @@ void draw_trounoir(double posx, double posy)
 }
 void affichage(void)
 {
-	GLfloat gauche = 1, droite = 1, bas = -1, haut = 1;
+	GLfloat gauche = 100, droite = 100, bas = -100, haut = 100;
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	if(aspect_ratio <= 1)
-		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
+		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -100, 100);
 	else
-		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -1, 1);
+		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -100, 100);
 	(*display_model)();
 	glutSwapBuffers();
 }
@@ -122,7 +124,7 @@ void reshape(int w, int h)
 	aspect_ratio = (GLfloat) w / (GLfloat) h;
 	glutPostRedisplay();
 }
-void set_display_model_func(void (*display_model_func))
+void set_display_model_func(void (*display_model_func)(void))
 {
 	display_model = display_model_func;
 }

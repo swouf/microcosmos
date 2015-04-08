@@ -103,7 +103,9 @@ int main(int argc, char **argv)
         error_msg("Nombre de paramètres invalides.");
     }
     
+    printf("Paramètrage de sim_display()\n");
     set_display_model_func(sim_display);
+    printf("Paramètrage de sim_display() TERMINÉ\n");
     
 	load_gui(argc, argv);
     
