@@ -30,11 +30,8 @@ void fenetre_sim (int argc, char **argv)
 	glutCreateWindow("Microcosmos");
 	
 	/*Initialisation Open GL*/
-	glClearColor(1, 1, 1, 0);
 	glutDisplayFunc(affichage);
 	glutReshapeFunc(reshape);
-    
-    glutPostRedisplay();
 }
 void draw_particule (double posx, double posy, double r, double v)
 { 
@@ -108,8 +105,10 @@ void draw_trou_noir(double posx, double posy)
 }
 void affichage(void)
 {
-	GLfloat gauche = 100, droite = 100, bas = -100, haut = 100;
-	glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(1, 1, 1, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+	GLfloat gauche = -100, droite = 100, bas = -100, haut = 100;
 	glLoadIdentity();
 	if(aspect_ratio <= 1)
 		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -100, 100);

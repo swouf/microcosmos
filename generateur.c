@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
+#include "graphic.h"
 #include "error.h"
 #include "constantes.h"
 #include "generateur.h"
