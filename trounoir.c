@@ -58,7 +58,7 @@ void clean_trou_noir(void)
     while(actuelTrouNoir != NULL)
     {
         free(actuelTrouNoir);
-        nbTrouNoirs--;
+        nbTrousNoirs--;
         
         actuelTrouNoir = suivTrouNoir;
         suivTrouNoir   = suivTrouNoir->next;
