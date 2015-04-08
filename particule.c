@@ -92,6 +92,17 @@ Particule_t* string_parsing_particule(char* ligne)
 	
 	return ptrParticulesTMP;
 }
+void clean_particule(void)
+{
+    Particule_t* actuelParticule = ptrParticules;
+    Particule_t* suivParticule   = ptrParticules->next;
+    
+    for(;actuelParticule != NULL;actuelParticule=suivParticule)
+    {
+        free(actuelParticule);
+        nbParticules--;
+    }
+}
 void particule_force_rendu1(void)
 {
 /**********************************************************************/

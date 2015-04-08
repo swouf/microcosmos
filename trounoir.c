@@ -58,5 +58,6 @@ void clean_trou_noir(void)
     for(;actuelTrouNoir != NULL;actuelTrouNoir=suivTrouNoir)
     {
         free(actuelTrouNoir);
+        nbTrousNoirs--;
     }
 }

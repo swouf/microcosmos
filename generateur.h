@@ -20,4 +20,6 @@ typedef struct Generateur Generateur_t;
  * Retourne NULL en cas d'erreur.
  */
 Generateur_t* string_parsing_generateur(char*);
+
+void clean_generateur(void);
 #endif

@@ -15,7 +15,7 @@
 #include "generateur.h"
 
 static Generateur_t* ptrGenerateurs = NULL;
-static int           nbGenerateur   = 0;
+static int           nbGenerateurs   = 0;
 
 struct Generateur
 {
@@ -46,12 +46,12 @@ Generateur_t* string_parsing_generateur(char* ligne)
 			
 	if(rgen > RMAX || rgen < RMIN)
 	{
-		error_rayon_partic(ERR_GENERAT, nbGenerateur);
+		error_rayon_partic(ERR_GENERAT, nbGenerateurs);
 		return NULL;
 	}
 	else if(sqrt(pow(vpi_x, 2)+pow(vpi_y, 2)) > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_GENERAT, nbGenerateur);
+		error_vitesse_partic(ERR_GENERAT, nbGenerateurs);
 		return NULL;
 	}
 	else
@@ -64,7 +64,18 @@ Generateur_t* string_parsing_generateur(char* ligne)
 	
     precGenerateur = actuelGenerateur;
     ptrGenerateurs = actuelGenerateur;
-    nbGenerateur++;
+    nbGenerateurs++;
     
 	return actuelGenerateur;
+}
+void clean_generateur(void)
+{
+    Generateur_t* actuelGenerateur = ptrGenerateurs;
+    Generateur_t* suivGenerateur   = ptrGenerateurs->next;
+    
+    for(;actuelGenerateur != NULL;actuelGenerateur=suivGenerateur)
+    {
+        free(actuelGenerateur);
+        nbGenerateurs--;
+    }
 }
