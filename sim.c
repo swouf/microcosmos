@@ -199,3 +199,9 @@ void sim_ecriture(const char* nomFichier)
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
 }
+void sim_clean(void)
+{
+    clean_generateur();
+    clean_particule();
+    clean_trou_noir();
+}

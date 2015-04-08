@@ -73,9 +73,13 @@ void clean_generateur(void)
     Generateur_t* actuelGenerateur = ptrGenerateurs;
     Generateur_t* suivGenerateur   = ptrGenerateurs->next;
     
-    for(;actuelGenerateur != NULL;actuelGenerateur=suivGenerateur)
+    while(actuelGenerateur != NULL)
     {
         free(actuelGenerateur);
         nbGenerateurs--;
+        
+        actuelGenerateur = suivGenerateur;
+        suivGenerateur   = suivGenerateur->next;
+        ptrGenerateurs   = actuelGenerateur;
     }
 }

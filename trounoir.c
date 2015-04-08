@@ -55,9 +55,13 @@ void clean_trou_noir(void)
     Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
     Trounoir_t* suivTrouNoir   = ptrTrousNoirs->next;
     
-    for(;actuelTrouNoir != NULL;actuelTrouNoir=suivTrouNoir)
+    while(actuelTrouNoir != NULL)
     {
         free(actuelTrouNoir);
-        nbTrousNoirs--;
+        nbTrouNoirs--;
+        
+        actuelTrouNoir = suivTrouNoir;
+        suivTrouNoir   = suivTrouNoir->next;
+        ptrTrousNoirs   = actuelTrouNoir;
     }
 }

@@ -97,10 +97,14 @@ void clean_particule(void)
     Particule_t* actuelParticule = ptrParticules;
     Particule_t* suivParticule   = ptrParticules->next;
     
-    for(;actuelParticule != NULL;actuelParticule=suivParticule)
+    while(actuelParticule != NULL)
     {
         free(actuelParticule);
         nbParticules--;
+        
+        actuelParticule = suivParticule;
+        suivParticule   = suivParticule->next;
+        ptrParticules   = actuelParticule;
     }
 }
 void particule_force_rendu1(void)
