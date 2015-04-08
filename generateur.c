@@ -9,26 +9,35 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <complex.h>
 #include "error.h"
 #include "constantes.h"
 #include "generateur.h"
 
+static Generateur_t* ptrGenerateurs = NULL;
+static int           nbGenerateurs   = 0;
+
 struct Generateur
 {
-	float rgen; 	//Rayon du générateur.
-	float posx; 	//La position selon l'axe x du générateur.
-	float posy; 	//La position selon l'axe y du générateur.
-	float vpi_x;	//La vitesse initiale selon l'axe x d'une particule.
-	float vpi_y;	//La vitesse initiale selon l'axe y d'une particule.
+	double         rgen; //Rayon du générateur.
+	double complex pos;  //La position selon l'axe x du générateur.
+	double complex vpi;	 //La vitesse initiale selon l'axe x d'une particule.
+    Generateur_t*  next;
 };
 
 Generateur_t* string_parsing_generateur(char* ligne)
 {
-	static int i = 0;
-	static Generateur_t tabGenerateurs[MAX_RENDU1];
-	float rgen, posx, posy, vpi_x, vpi_y;
+    static Generateur_t* precGenerateur = NULL;
+	double rgen, posx, posy, vpi_x, vpi_y;
 	
-	sscanf(ligne, "%f %f %f %f %f",
+    Generateur_t* actuelGenerateur = malloc(sizeof(Generateur_t));
+    if(actuelGenerateur == NULL)
+    {
+        error_msg("Échec de l'allocation de mémoire.");
+        return NULL;
+    }
+    
+	sscanf(ligne, "%lf %lf %lf %lf %lf",
 			&rgen,
 			&posx,
 			&posy,
@@ -37,23 +46,40 @@ Generateur_t* string_parsing_generateur(char* ligne)
 			
 	if(rgen > RMAX || rgen < RMIN)
 	{
-		error_rayon_partic(ERR_GENERAT, i);
+		error_rayon_partic(ERR_GENERAT, nbGenerateurs);
 		return NULL;
 	}
 	else if(sqrt(pow(vpi_x, 2)+pow(vpi_y, 2)) > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_GENERAT, i);
+		error_vitesse_partic(ERR_GENERAT, nbGenerateurs);
 		return NULL;
 	}
 	else
 	{
-		tabGenerateurs[i].rgen = rgen;
-		tabGenerateurs[i].posx = posx;
-		tabGenerateurs[i].posy = posy;
-		tabGenerateurs[i].vpi_x = vpi_x;
-		tabGenerateurs[i].vpi_y = vpi_y;
+		actuelGenerateur->rgen  = rgen;
+		actuelGenerateur->pos   = posx + posy*I;
+		actuelGenerateur->vpi   = vpi_x + vpi_y*I;
+        actuelGenerateur->next  = precGenerateur;
 	}
 	
-	i++;
-	return tabGenerateurs;
+    precGenerateur = actuelGenerateur;
+    ptrGenerateurs = actuelGenerateur;
+    nbGenerateurs++;
+    
+	return actuelGenerateur;
+}
+void clean_generateur(void)
+{
+    Generateur_t* actuelGenerateur = ptrGenerateurs;
+    Generateur_t* suivGenerateur   = ptrGenerateurs->next;
+    
+    while(actuelGenerateur != NULL)
+    {
+        free(actuelGenerateur);
+        nbGenerateurs--;
+        
+        actuelGenerateur = suivGenerateur;
+        suivGenerateur   = suivGenerateur->next;
+        ptrGenerateurs   = actuelGenerateur;
+    }
 }
