@@ -21,7 +21,7 @@
 
 static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
 								int typeParagraphe);																
-int sim_lecture(const char* nomFichier, KEYWORD modeLancement)
+int sim_lecture(const char* nomFichier)
 {
 	char	ligne[CHAR_MAX_LIGNE+1];
 	FILE	*fichier		= NULL;
@@ -91,13 +91,6 @@ int sim_lecture(const char* nomFichier, KEYWORD modeLancement)
 		error_fichier_incomplet();
 		return 1;
 	}
-	
-	if(modeLancement == ERROR)
-		error_success();
-	else if(modeLancement == FORCE)
-		particule_force_rendu1();
-    else if(modeLancement == INTEGRATION)
-        particule_integration_rendu2();
 	return 0;
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
@@ -198,10 +191,32 @@ void sim_ecriture(const char* nomFichier)
 {
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
+	printf("Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
+	
+	FILE *log = NULL;
+	log = fopen("microcosmos.log", "wt");
+	fprintf(log, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
+	fclose(log);
+	
+	fclose(fichier);
 }
 void sim_clean(void)
 {
-    clean_generateur();
-    clean_particule();
-    clean_trou_noir();
+    clean_generateurs();
+    clean_particules();
+    clean_trous_noirs();
+}
+void sim_display(void)
+{
+    display_generateurs();
+    display_particules();
+    display_trous_noirs();
+}
+void force(void)
+{
+    particule_force_rendu1();
+}
+void integration(void)
+{
+    particule_integration_rendu2();
 }

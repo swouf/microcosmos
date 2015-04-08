@@ -68,7 +68,7 @@ Generateur_t* string_parsing_generateur(char* ligne)
     
 	return actuelGenerateur;
 }
-void clean_generateur(void)
+void clean_generateurs(void)
 {
     Generateur_t* actuelGenerateur = ptrGenerateurs;
     Generateur_t* suivGenerateur   = ptrGenerateurs->next;
@@ -81,5 +81,25 @@ void clean_generateur(void)
         actuelGenerateur = suivGenerateur;
         suivGenerateur   = suivGenerateur->next;
         ptrGenerateurs   = actuelGenerateur;
+    }
+}
+void display_generateurs(void)
+{
+    Generateur_t* generateur = ptrGenerateurs;
+    while(generateur != NULL)
+    {
+        printf("draw_generateur(%lf, %lf, %lf, %lf, %lf)\n",
+                creal(generateur->pos),
+                cimag(generateur->pos),
+                generateur->rgen,
+                creal(generateur->vpi),
+                cimag(generateur->vpi));
+        
+        draw_generateur(creal(generateur->pos),
+                        cimag(generateur->pos),
+                        generateur->rgen,
+                        creal(generateur->vpi),
+                        cimag(generateur->vpi));
+        generateur = generateur->next;
     }
 }
