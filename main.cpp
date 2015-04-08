@@ -98,10 +98,12 @@ int main(int argc, char **argv)
     {
         sim_lecture(argv[1]);
     }
-    else if(argc <3)
+    else if(argc > 3)
     {
         error_msg("Nombre de paramètres invalides.");
     }
+    
+    set_display_model_func(sim_display);
     
 	load_gui(argc, argv);
     
