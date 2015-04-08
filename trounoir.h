@@ -22,5 +22,8 @@ typedef struct Trounoir Trounoir_t;
  */
 Trounoir_t* string_parsing_trou_noir(char*);
 
-void clean_trou_noir(void);
+void clean_trous_noirs(void);
+
+void display_trous_noirs(void);
+
 #endif

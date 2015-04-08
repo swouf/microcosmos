@@ -92,7 +92,7 @@ Particule_t* string_parsing_particule(char* ligne)
 	
 	return ptrParticulesTMP;
 }
-void clean_particule(void)
+void clean_particules(void)
 {
     Particule_t* actuelParticule = ptrParticules;
     Particule_t* suivParticule   = ptrParticules->next;
@@ -105,6 +105,24 @@ void clean_particule(void)
         actuelParticule = suivParticule;
         suivParticule   = suivParticule->next;
         ptrParticules   = actuelParticule;
+    }
+}
+void display_particules(void)
+{
+    Particule_t* particule = ptrParticules;
+    while(particule != NULL)
+    {
+        printf("draw_particule(%lf, %lf, %lf, %lf)",
+                creal(particule->pos),
+                cimag(particule->pos),
+                particule->rayon,
+                cabs(particule->v));
+        
+        /*draw_particule(creal(particule->pos),
+                       cimag(particule->pos),
+                       particule->rayon,
+                       cabs(particule->v));*/
+        particule = particule->next;
     }
 }
 void particule_force_rendu1(void)

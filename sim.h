@@ -16,11 +16,6 @@ typedef enum type
 	PARTICULE 	= 3
 }	TYPE;
 
-typedef enum keyword
-{
-	ERROR, FORCE, INTEGRATION, GRAPHIC, SIMULATION
-} KEYWORD;
-
 /*!
  * \fn int sim_lecture(char* nomFichier, KEYWORD modeLancement)
  * \brief Lit le fichier texte passé en argument
@@ -33,7 +28,9 @@ typedef enum keyword
  * modeLancement : mode dans lequel le programme a été lancé
  * \return Retourne 0 si tout s'est bien passé, 1 en cas d'erreur.
  */
-int sim_lecture(const char*, KEYWORD);
-void sim_ecriture(const char*); 
+int sim_lecture(const char*);
+void sim_ecriture(const char*);
+void force(void);
+void integration(void);
 
 #endif

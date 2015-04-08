@@ -39,7 +39,7 @@ void control_cb(int control)
 	{
 		case (LOADBUTTON_ID):
 			printf("%s\n", edittextload->get_text());
-			sim_lecture(edittextload->get_text(), GRAPHIC);
+			sim_lecture(edittextload->get_text());
 			break;
 		case (SAVEBUTTON_ID):
 			printf("Lancement de la fonction sim_ecriture.\n");
@@ -54,34 +54,55 @@ void load_gui(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-	load_gui(argc, argv);
-		
-	if(argc != 3)
-	{
-		char msg[100] = "Nombre de paramètres invalides.\n";
-		error_msg(msg);
-	}
-	else
+	if(argc == 3)
 	{
 		if (std::string(argv[1]) == "Error")
 		{
-			if(sim_lecture(argv[2], ERROR))
+			if(sim_lecture(argv[2]))
 				return 1;
+            else
+            {
+                error_success();
+                return 0;
+            }
 		}
 		else if(std::string(argv[1]) == "Force")
 		{
-			if(sim_lecture(argv[2], FORCE))
+			if(sim_lecture(argv[2]))
 				return 1;
+            else
+            {
+                force();
+                return 0;
+            }
 		}
         else if(std::string(argv[1]) == "Integration")
         {
-            if(sim_lecture(argv[2], INTEGRATION))
+            if(sim_lecture(argv[2]))
                 return 1;
+            else
+            {
+                integration();
+                return 0;
+            }
         }
 		else
+        {
+            error_msg("Paramètres invalides.");
+        }
 			return 1;
 	}
-	
+    else if(argc == 2)
+    {
+        sim_lecture(argv[1]);
+    }
+    else if(argc <3)
+    {
+        error_msg("Nombre de paramètres invalides.");
+    }
+    
+	load_gui(argc, argv);
+    
 	return 0;
 }
 

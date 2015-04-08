@@ -50,7 +50,7 @@ Trounoir_t* string_parsing_trou_noir(char* ligne)
     
 	return actuelTrouNoir;
 }
-void clean_trou_noir(void)
+void clean_trous_noirs(void)
 {
     Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
     Trounoir_t* suivTrouNoir   = ptrTrousNoirs->next;
@@ -63,5 +63,19 @@ void clean_trou_noir(void)
         actuelTrouNoir = suivTrouNoir;
         suivTrouNoir   = suivTrouNoir->next;
         ptrTrousNoirs   = actuelTrouNoir;
+    }
+}
+void display_trous_noirs(void)
+{
+    Trounoir_t* trouNoir = ptrTrousNoirs;
+    while(trouNoir != NULL)
+    {
+        printf("draw_trou_noir(%lf, %lf",
+                creal(trouNoir->pos),
+                cimag(trouNoir->pos));
+        
+        /*draw_trou_noir(creal(trouNoir->pos),
+                       cimag(trouNoir->pos));*/
+        trouNoir = trouNoir->next;
     }
 }

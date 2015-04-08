@@ -21,5 +21,7 @@ typedef struct Generateur Generateur_t;
  */
 Generateur_t* string_parsing_generateur(char*);
 
-void clean_generateur(void);
+void display_generateurs(void);
+
+void clean_generateurs(void);
 #endif
