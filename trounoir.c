@@ -17,6 +17,7 @@
 /**\var Variable GLOBALE contenant un pointeur sur la pile des
  * entités Trounoir_t */
 static Trounoir_t* ptrTrousNoirs = NULL;
+static int         nbTrousNoirs  = 0;
 
 struct Trounoir
 {
@@ -28,9 +29,9 @@ Trounoir_t* string_parsing_trou_noir(char* ligne)
 {
 	static Trounoir_t* precTrouNoir = NULL;
 	
-	float posx, posy;
+	double posx, posy;
 
-	sscanf(ligne, "%f %f", &posx, &posy);
+	sscanf(ligne, "%lf %lf", &posx, &posy);
     
     Trounoir_t* actuelTrouNoir = malloc(sizeof(Trounoir_t));
     if(actuelTrouNoir == NULL)
@@ -42,9 +43,10 @@ Trounoir_t* string_parsing_trou_noir(char* ligne)
 	
 	actuelTrouNoir->pos  = posx + posy*I;
 	actuelTrouNoir->next = precTrouNoir;
-    precTrouNoir         = actuelTrouNoir;
-	
+    
+    precTrouNoir  = actuelTrouNoir;
     ptrTrousNoirs = actuelTrouNoir;
+    nbTrousNoirs++;
     
 	return actuelTrouNoir;
 }

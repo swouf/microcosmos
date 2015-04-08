@@ -43,30 +43,28 @@ static void set_ptr_particules(Particule_t* ptrPart)
 
 Particule_t* string_parsing_particule(char* ligne)
 {
-	static int i = 0;
-	
     static Particule_t* ptrParticulesTMP = NULL;
     
-	float rayon, posx, posy, vx, vy;
-	float v = 0;
+	double rayon, posx, posy, vx, vy;
+	double v = 0;
 
-	sscanf(ligne,"%f %f %f %f %f",
+	sscanf(ligne,"%lf %lf %lf %lf %lf",
 			&rayon,
 			&posx,
 			&posy,
 			&vx,
 			&vy);
 			
-	v = sqrt(pow((double)vx, 2)+pow((double)vy, 2));
+	v = sqrt(pow(vx, 2)+pow(vy, 2));
 	
 	if(rayon > RMAX || rayon < RMIN)
 	{
-		error_rayon_partic(ERR_PARTIC, i);
+		error_rayon_partic(ERR_PARTIC, nbParticules);
 		return NULL;
 	}
 	else if(v > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_PARTIC, i);
+		error_vitesse_partic(ERR_PARTIC, nbParticules);
 		return NULL;
 	}
 	else
@@ -88,8 +86,7 @@ Particule_t* string_parsing_particule(char* ligne)
             return NULL;
         }
 	}
-	i++;
-    nbParticules = i;
+    nbParticules++;
     
 	ptrParticules = ptrParticulesTMP;
 	
