@@ -28,8 +28,10 @@ typedef enum type
  * modeLancement : mode dans lequel le programme a été lancé
  * \return Retourne 0 si tout s'est bien passé, 1 en cas d'erreur.
  */
-int sim_lecture(const char*);
+int  sim_lecture(const char*);
 void sim_ecriture(const char*);
+void sim_clean(void);
+void sim_display(void);
 void force(void);
 void integration(void);
 
