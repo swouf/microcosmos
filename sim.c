@@ -96,6 +96,8 @@ int sim_lecture(const char* nomFichier, KEYWORD modeLancement)
 		error_success();
 	else if(modeLancement == FORCE)
 		particule_force_rendu1();
+    else if(modeLancement == INTEGRATION)
+        particule_integration_rendu2();
 	return 0;
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
@@ -196,4 +198,10 @@ void sim_ecriture(const char* nomFichier)
 {
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
+}
+void sim_clean(void)
+{
+    clean_generateur();
+    clean_particule();
+    clean_trou_noir();
 }

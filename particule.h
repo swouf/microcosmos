@@ -21,7 +21,11 @@ typedef struct Particule Particule_t;
  */
 Particule_t* string_parsing_particule(char*);
 
+void clean_particule(void);
+
 int get_nb_particules(void);
+
+void particule_integration_rendu2(void);
 
 /*!
  * \fn void particule_force_rendu1(void)

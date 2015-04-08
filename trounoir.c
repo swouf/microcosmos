@@ -9,28 +9,59 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <complex.h>
 #include "constantes.h"
 #include "error.h"
 #include "trounoir.h"
 
+/**\var Variable GLOBALE contenant un pointeur sur la pile des
+ * entités Trounoir_t */
+static Trounoir_t* ptrTrousNoirs = NULL;
+static int         nbTrousNoirs  = 0;
+
 struct Trounoir
 {
-	float posx; //La position du trou noir selon l'axe x.
-	float posy; //La position du trou noir selon l'axe y.
+	double complex pos; // Position du trou noir sous forme complexe.
+    Trounoir_t*    next;
 };
 
 Trounoir_t* string_parsing_trou_noir(char* ligne)
 {
-	static int i = 0;
-	static Trounoir_t tabTrousNoirs[MAX_RENDU1];
+	static Trounoir_t* precTrouNoir = NULL;
 	
-	float posx, posy;
+	double posx, posy;
 
-	sscanf(ligne, "%f %f", &posx, &posy);
+	sscanf(ligne, "%lf %lf", &posx, &posy);
+    
+    Trounoir_t* actuelTrouNoir = malloc(sizeof(Trounoir_t));
+    if(actuelTrouNoir == NULL)
+    {
+        error_msg("Échec de l'allocation de mémoire.");
+        return NULL;
+    }
+    
 	
-	tabTrousNoirs[i].posx = posx;
-	tabTrousNoirs[i].posy = posy;
-	
-	i++;
-	return tabTrousNoirs;
+	actuelTrouNoir->pos  = posx + posy*I;
+	actuelTrouNoir->next = precTrouNoir;
+    
+    precTrouNoir  = actuelTrouNoir;
+    ptrTrousNoirs = actuelTrouNoir;
+    nbTrousNoirs++;
+    
+	return actuelTrouNoir;
+}
+void clean_trou_noir(void)
+{
+    Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
+    Trounoir_t* suivTrouNoir   = ptrTrousNoirs->next;
+    
+    while(actuelTrouNoir != NULL)
+    {
+        free(actuelTrouNoir);
+        nbTrousNoirs--;
+        
+        actuelTrouNoir = suivTrouNoir;
+        suivTrouNoir   = suivTrouNoir->next;
+        ptrTrousNoirs   = actuelTrouNoir;
+    }
 }

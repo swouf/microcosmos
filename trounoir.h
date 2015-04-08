@@ -21,4 +21,6 @@ typedef struct Trounoir Trounoir_t;
  * Retourne NULL en cas d'erreur.
  */
 Trounoir_t* string_parsing_trou_noir(char*);
+
+void clean_trou_noir(void);
 #endif

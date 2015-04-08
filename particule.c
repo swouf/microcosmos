@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <complex.h>
 #include "constantes.h"
 #include "error.h"
-#include "tolerance.h"
 #include "particule.h"
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
@@ -24,12 +24,11 @@ static int nbParticules = 0;
 
 struct Particule
 {
-    float        rayon; //Rayon de la particule.
-	float        posx; 	//La position selon l'axe x de la particule.
-	float        posy;	//La position selon l'axe y de la particule.
-	float        vx;	//La vitesse selon l'axe x de la particule.
-	float        vy;	//La vitesse selon l'axe x de la particule.
-    Particule_t* next;
+    double         rayon; //Rayon de la particule.
+	double complex pos; //La position de la particule sous forme complexe.
+	double complex v; //La vitesse de la particule sous forme complexe.
+    double         m; // Masse de la particule.
+    Particule_t*   next;
 };
 
 int get_nb_particules(void)
@@ -44,30 +43,28 @@ static void set_ptr_particules(Particule_t* ptrPart)
 
 Particule_t* string_parsing_particule(char* ligne)
 {
-	static int i = 0;
-	
     static Particule_t* ptrParticulesTMP = NULL;
     
-	float rayon, posx, posy, vx, vy;
-	float v = 0;
+	double rayon, posx, posy, vx, vy;
+	double v = 0;
 
-	sscanf(ligne,"%f %f %f %f %f",
+	sscanf(ligne,"%lf %lf %lf %lf %lf",
 			&rayon,
 			&posx,
 			&posy,
 			&vx,
 			&vy);
 			
-	v = sqrt(pow((double)vx, 2)+pow((double)vy, 2));
+	v = sqrt(pow(vx, 2)+pow(vy, 2));
 	
-	if(rayon >= RMAX || rayon <= RMIN)
+	if(rayon > RMAX || rayon < RMIN)
 	{
-		error_rayon_partic(ERR_PARTIC, i);
+		error_rayon_partic(ERR_PARTIC, nbParticules);
 		return NULL;
 	}
 	else if(v > MAX_VITESSE)
 	{
-		error_vitesse_partic(ERR_PARTIC, i);
+		error_vitesse_partic(ERR_PARTIC, nbParticules);
 		return NULL;
 	}
 	else
@@ -76,38 +73,60 @@ Particule_t* string_parsing_particule(char* ligne)
         if(tmpPtr)
         {
             tmpPtr->rayon = rayon;
-            tmpPtr->posx = posx;
-            tmpPtr->posy = posy;
-            tmpPtr->vx = vx;
-            tmpPtr->vy = vy;
+            tmpPtr->pos = posx + posy*I;
+            tmpPtr->v = vx + vy*I;
+            tmpPtr->m = KMASSE*rayon*rayon;
             tmpPtr->next = ptrParticulesTMP;
             
             ptrParticulesTMP = tmpPtr;
         }
         else
+        {
             error_msg("Échec de l'allocation de mémoire.");
+            return NULL;
+        }
 	}
-	i++;
-    nbParticules = i;
+    nbParticules++;
     
-	set_ptr_particules(ptrParticulesTMP);
+	ptrParticules = ptrParticulesTMP;
 	
 	return ptrParticulesTMP;
 }
+void clean_particule(void)
+{
+    Particule_t* actuelParticule = ptrParticules;
+    Particule_t* suivParticule   = ptrParticules->next;
+    
+    while(actuelParticule != NULL)
+    {
+        free(actuelParticule);
+        nbParticules--;
+        
+        actuelParticule = suivParticule;
+        suivParticule   = suivParticule->next;
+        ptrParticules   = actuelParticule;
+    }
+}
 void particule_force_rendu1(void)
 {
-    Particule_t* part1 = ptrParticules;
-    Particule_t* part2 = ptrParticules->next;
+/**********************************************************************/
+/************************** STUB **************************************/
+    printf("Exécution de la fonction : particule_force_rendu1()");
+/**********************************************************************/
+
+/*
+    Particule_t* part0 = ptrParticules;
+    Particule_t* part1 = ptrParticules->next;
     
 	double seuil_d = 0;
 	
-	double rayon0 = part1->rayon;
-	double rayon1 = part2->rayon;
+	double rayon0 = part0->rayon;
+	double rayon1 = part1->rayon;
 	
-	double posx0 = part1->posx;
-	double posy0 = part1->posy;
-	double posx1 = part2->posx;
-	double posy1 = part2->posy;
+	double posx0 = part0->posx;
+	double posy0 = part0->posy;
+	double posx1 = part1->posx;
+	double posy1 = part1->posy;
 	
 	double minimum;
 	
@@ -142,4 +161,83 @@ void particule_force_rendu1(void)
 		force = 0;
 			
 	printf("%8.3f\n", force);
+    */
+}
+void particule_integration_rendu2(void)
+{
+    Particule_t* part0 = ptrParticules;
+    
+    for(;part0->next != NULL;part0 = part0->next){}
+    
+    double         seuil_d       = 0;
+	double         rayon0        = part0->rayon;
+    double         rayon1        = 0;
+	double         minimum       = 0;
+    double         x             = 0;
+    double         m0            = part0->m;
+    double complex force         = 0;
+    double complex pos0          = part0->pos;
+    double complex pos1          = 0;
+    double complex v0            = part0->v;
+    double complex v_k           = 0;
+    double complex pos_k         = 0;
+	double complex distance      = 0;
+    double complex unitVDistance = 0;
+    
+    for(Particule_t* part1 = ptrParticules;part1 != part0;
+        part1 = part1->next)
+    {
+        rayon1  = part1->rayon;
+        pos1    = part1->pos;
+        
+        distance = pos1 - pos0;
+        unitVDistance = distance/cabs(distance);
+        
+        if(rayon0 > rayon1)
+            minimum = rayon1;
+        else
+            minimum = rayon0;
+        
+        seuil_d = rayon0 + rayon1 + minimum;
+        
+        x = cabs(distance)/seuil_d;
+        
+        if(x < EPSILON_ZERO)
+        {
+            /*
+            srand((long int)part1);
+            double complex randVect = rand()-(RAND_MAX/2)
+                                    + (rand()-(RAND_MAX/2))*I;
+            randVect = randVect/cabs(randVect);
+            */
+            force += MAX_REP*I;
+        }
+        else if((x > EPSILON_ZERO) && (x<=1))
+            force += unitVDistance*(-MAX_REP*x + MAX_REP);
+        else if	((x > 1) && (x <= 2))	
+        {
+            x = x - 1;
+            force += unitVDistance*(MAX_ATTR*x); 
+        }	
+        else if((x > 2) && (x <= 3))
+        {
+            x = x - 2;
+            force += unitVDistance*(-MAX_ATTR*x + MAX_ATTR);
+        }
+        else if (x > 3)
+            force += 0 + 0*I;
+        else
+            force += 0 + 0*I;
+    }
+    
+    printf("%8.3f %8.3f\n", creal(force), cimag(force));
+    
+    v_k     = (force/m0)*DELTA_T+v0;
+    if(cabs(v_k) > MAX_VITESSE)
+        v_k = (v_k/cabs(v_k))*MAX_VITESSE;
+
+    pos_k   = v_k*DELTA_T+pos0;
+    
+    printf("%7.3f %7.3f %9.4f %9.4f\n", creal(v_k), cimag(v_k),
+                                        creal(pos_k), cimag(pos_k));
 }
