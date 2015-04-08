@@ -110,17 +110,23 @@ void load_gui (int argc, char **argv)
 	
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
+	
 	glui->add_button_to_panel(simulation_panel,"Start");
+	
 	glui->add_button_to_panel(simulation_panel,"Step");
 	
+	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
-	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ");
+	
+	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTPART_ID, control_cb);
+	
 	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ");
+	
 	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou Noir: ");
 	
 	//button
 	glui->add_button((char*) "Quit", 0, (GLUI_Update_CB)exit);
 	
 	/*Entrée dans la boucle principale de glut*/
-	glutMainLoop();
+	glutMainLoop();	
 }
