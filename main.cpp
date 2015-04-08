@@ -43,6 +43,7 @@ void control_cb(int control)
 			//sim_clean();
 			printf("%s\n", edittextload->get_text());
 			sim_lecture(edittextload->get_text());
+            affichage();
 			break;
 		case (SAVEBUTTON_ID):
 			sim_ecriture(edittextsave->get_text());

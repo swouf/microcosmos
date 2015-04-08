@@ -16,7 +16,6 @@ static const double PI = 3.14159265358979323846;
 static void (*display_model)(void);
 static GLfloat aspect_ratio;
 
-static void affichage(void);
 static void reshape(int w, int h);
 
 void fenetre_sim (int argc, char **argv)
@@ -32,6 +31,8 @@ void fenetre_sim (int argc, char **argv)
 	/*Initialisation Open GL*/
 	glutDisplayFunc(affichage);
 	glutReshapeFunc(reshape);
+    
+    affichage();
 }
 void draw_particule (double posx, double posy, double r, double v)
 { 
