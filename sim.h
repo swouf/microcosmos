@@ -35,5 +35,6 @@ typedef enum keyword
  */
 int sim_lecture(const char*, KEYWORD);
 void sim_ecriture(const char*); 
+void sim_clean(void);
 
 #endif
