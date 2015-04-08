@@ -35,7 +35,7 @@ Generateur_t* string_parsing_generateur(char* ligne)
 			&vpi_x,
 			&vpi_y);
 			
-	if(rgen >= RMAX || rgen <= RMIN)
+	if(rgen > RMAX || rgen < RMIN)
 	{
 		error_rayon_partic(ERR_GENERAT, i);
 		return NULL;

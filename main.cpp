@@ -73,6 +73,11 @@ int main(int argc, char **argv)
 			if(sim_lecture(argv[2], FORCE))
 				return 1;
 		}
+        else if(std::string(argv[1]) == "Integration")
+        {
+            if(sim_lecture(argv[2], INTEGRATION))
+                return 1;
+        }
 		else
 			return 1;
 	}
