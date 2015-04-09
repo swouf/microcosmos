@@ -11,10 +11,16 @@
 #include "graphic.h"
 #include "constantes.h"
 
+#define WIDTH_DEF   250
+#define HEIGHT_DEF  250
+
 static const double PI = 3.14159265358979323846;
 
-static void (*display_model)(void);
-static GLfloat aspect_ratio;
+static void    (*display_model)(void);
+static GLfloat aspect_ratio = (GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
+static int     width        = WIDTH_DEF;
+static int     height       = HEIGHT_DEF;
+static int     sim_window   = 0;
 
 static void reshape(int w, int h);
 
@@ -22,11 +28,10 @@ void fenetre_sim (int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE); //double buffer
-	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(250, 250);
-	aspect_ratio = (GLfloat)250/ (GLfloat)250;
+	glutInitWindowPosition(300, 300);
+	glutInitWindowSize(WIDTH_DEF, HEIGHT_DEF);
 	
-	glutCreateWindow("Microcosmos");
+	sim_window = glutCreateWindow("Microcosmos");
 	
 	/*Initialisation Open GL*/
 	glutDisplayFunc(affichage);
@@ -106,6 +111,9 @@ void draw_trou_noir(double posx, double posy)
 }
 void affichage(void)
 {
+    glutSetWindow(sim_window);
+    
+    glViewport(0, 0, width, height);
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -120,7 +128,9 @@ void affichage(void)
 }
 void reshape(int w, int h)
 {
-	glViewport(0, 0, w, h);
+	//glViewport(0, 0, w, h);
+    width   = w;
+    height  = h;
 	aspect_ratio = (GLfloat) w / (GLfloat) h;
 	glutPostRedisplay();
 }

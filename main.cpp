@@ -40,7 +40,7 @@ void control_cb(int control)
 	switch(control)
 	{
 		case (LOADBUTTON_ID):
-			//sim_clean();
+			sim_clean();
 			printf("%s\n", edittextload->get_text());
 			sim_lecture(edittextload->get_text());
             affichage();

@@ -44,8 +44,6 @@ static void set_ptr_particules(Particule_t* ptrPart)
 
 Particule_t* string_parsing_particule(char* ligne)
 {
-    static Particule_t* ptrParticulesTMP = NULL;
-    
 	double rayon, posx, posy, vx, vy;
 	double v = 0;
 
@@ -77,9 +75,9 @@ Particule_t* string_parsing_particule(char* ligne)
             tmpPtr->pos = posx + posy*I;
             tmpPtr->v = vx + vy*I;
             tmpPtr->m = KMASSE*rayon*rayon;
-            tmpPtr->next = ptrParticulesTMP;
+            tmpPtr->next = ptrParticules;
             
-            ptrParticulesTMP = tmpPtr;
+            ptrParticules = tmpPtr;
         }
         else
         {
@@ -89,23 +87,33 @@ Particule_t* string_parsing_particule(char* ligne)
 	}
     nbParticules++;
     
-	ptrParticules = ptrParticulesTMP;
-	
-	return ptrParticulesTMP;
+	return ptrParticules;
 }
 void clean_particules(void)
 {
-    Particule_t* actuelParticule = ptrParticules;
-    Particule_t* suivParticule   = ptrParticules->next;
+    printf("Lancement de clean_particules().\n");
     
-    while(actuelParticule != NULL)
+    Particule_t* actuelParticule = ptrParticules;
+    Particule_t* suivParticule   = NULL;
+    printf("actuelParticule : %X\n", actuelParticule);
+    
+    if(actuelParticule)
+        suivParticule   = ptrParticules->next;
+    printf("suivParticule : %X\n", suivParticule);
+    
+    while(actuelParticule)
     {
         free(actuelParticule);
         nbParticules--;
         
         actuelParticule = suivParticule;
-        suivParticule   = suivParticule->next;
+        
+        if(suivParticule)
+            suivParticule   = suivParticule->next;
+        
         ptrParticules   = actuelParticule;
+        
+        printf("actuelParticule : %X\nsuivParticule : %X\n", actuelParticule, suivParticule);
     }
 }
 void display_particules(void)

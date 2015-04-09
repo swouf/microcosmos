@@ -202,9 +202,10 @@ void sim_ecriture(const char* nomFichier)
 }
 void sim_clean(void)
 {
-    clean_generateurs();
+    printf("Lancement de sim_clean().\n");
+    //clean_generateurs();
     clean_particules();
-    clean_trous_noirs();
+    //clean_trous_noirs();
 }
 void sim_display(void)
 {
