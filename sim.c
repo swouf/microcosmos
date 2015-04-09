@@ -196,13 +196,13 @@ void sim_ecriture(const char* nomFichier)
 	FILE *log = NULL;
 	log = fopen("microcosmos.log", "wt");
 	fprintf(log, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
+    fprintf(fichier, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
 	fclose(log);
 	
 	fclose(fichier);
 }
 void sim_clean(void)
 {
-    printf("Lancement de sim_clean().\n");
     //clean_generateurs();
     clean_particules();
     //clean_trous_noirs();

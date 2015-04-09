@@ -11,8 +11,8 @@
 #include "graphic.h"
 #include "constantes.h"
 
-#define WIDTH_DEF   250
-#define HEIGHT_DEF  250
+#define WIDTH_DEF   600
+#define HEIGHT_DEF  300
 
 static const double PI = 3.14159265358979323846;
 
@@ -91,10 +91,10 @@ void draw_trou_noir(double posx, double posy)
 	
 	glBegin (GL_POLYGON);
 	//dessin du losange
-	glVertex2f (posx + COTE/2, 0);
-    glVertex2f (posx - COTE/2, 0);
-    glVertex2f (0, posy + COTE/2);
-    glVertex2f (0, posy - COTE/2);
+	glVertex2f (posx + COTE/2, posy);
+    glVertex2f (posx, posy + COTE/2);
+    glVertex2f (posx - COTE/2, posy);
+    glVertex2f (posx, posy - COTE/2);
     
 	glEnd();
 	

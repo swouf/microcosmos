@@ -91,15 +91,11 @@ Particule_t* string_parsing_particule(char* ligne)
 }
 void clean_particules(void)
 {
-    printf("Lancement de clean_particules().\n");
-    
     Particule_t* actuelParticule = ptrParticules;
     Particule_t* suivParticule   = NULL;
-    printf("actuelParticule : %X\n", actuelParticule);
     
     if(actuelParticule)
         suivParticule   = ptrParticules->next;
-    printf("suivParticule : %X\n", suivParticule);
     
     while(actuelParticule)
     {
@@ -112,8 +108,6 @@ void clean_particules(void)
             suivParticule   = suivParticule->next;
         
         ptrParticules   = actuelParticule;
-        
-        printf("actuelParticule : %X\nsuivParticule : %X\n", actuelParticule, suivParticule);
     }
 }
 void display_particules(void)
@@ -121,12 +115,6 @@ void display_particules(void)
     Particule_t* particule = ptrParticules;
     while(particule != NULL)
     {
-        printf("draw_particule(%lf, %lf, %lf, %lf)\n",
-                creal(particule->pos),
-                cimag(particule->pos),
-                particule->rayon,
-                cabs(particule->v));
-        
         draw_particule(creal(particule->pos),
                        cimag(particule->pos),
                        particule->rayon,

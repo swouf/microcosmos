@@ -54,7 +54,10 @@ Trounoir_t* string_parsing_trou_noir(char* ligne)
 void clean_trous_noirs(void)
 {
     Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
-    Trounoir_t* suivTrouNoir   = ptrTrousNoirs->next;
+    Trounoir_t* suivTrouNoir   = NULL;
+    
+    if(actuelTrouNoir)
+        suivTrouNoir = actuelTrouNoir->next;
     
     while(actuelTrouNoir != NULL)
     {
@@ -71,10 +74,6 @@ void display_trous_noirs(void)
     Trounoir_t* trouNoir = ptrTrousNoirs;
     while(trouNoir != NULL)
     {
-        printf("draw_trou_noir(%lf, %lf)\n",
-                creal(trouNoir->pos),
-                cimag(trouNoir->pos));
-        
         draw_trou_noir(creal(trouNoir->pos),
                        cimag(trouNoir->pos));
         trouNoir = trouNoir->next;

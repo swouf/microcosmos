@@ -1,0 +1,13 @@
+# Fichier de test custom
+
+2
+23 12 0 2 3
+2  32 3  5 0
+FIN_LISTE
+
+0
+FIN_LISTE
+
+1
+12 50 22 2 2
+FIN_LISTE
