@@ -79,7 +79,7 @@ void display_trous_noirs(void)
         trouNoir = trouNoir->next;
     }
 }
-Particule_t* get_trou_noir_by_id(int id)
+Trounoir_t* get_trou_noir_by_id(int id)
 {
     Trounoir_t* ptrTMP = ptrTrousNoirs;
 	for(int i=0;i<=id;i++)
@@ -95,4 +95,8 @@ double get_trou_noir_posx(Trounoir_t* trouNoir)
 double get_trou_noir_posy(Trounoir_t* trouNoir)
 {
     return cimag(trouNoir->pos);
+}
+int get_nb_trous_noirs(void)
+{
+	return nbTrousNoirs;
 }
