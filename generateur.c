@@ -105,7 +105,7 @@ void display_generateurs(void)
 Generateur_t* get_gen_by_id(int id)
 {
 	Generateur_t* ptrTMP = ptrGenerateurs;
-	for(int i=0;i<=id;i++)
+	for(int i=0;i<id;i++)
 	{
 		ptrTMP = ptrTMP->next;
 	}

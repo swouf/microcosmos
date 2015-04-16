@@ -82,7 +82,7 @@ void display_trous_noirs(void)
 Trounoir_t* get_trou_noir_by_id(int id)
 {
     Trounoir_t* ptrTMP = ptrTrousNoirs;
-	for(int i=0;i<=id;i++)
+	for(int i=0;i<id;i++)
 	{
 		ptrTMP = ptrTMP->next;
 	}
