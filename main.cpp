@@ -5,7 +5,7 @@
  * \version 1
  * \author Minh Truong & Jérémy Jayet
  */
- 
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -42,13 +42,14 @@ void control_cb(int control)
 		case (LOADBUTTON_ID):
 			sim_clean();
 			printf("%s\n", edittextload->get_text());
-			sim_lecture(edittextload->get_text());
+            if(sim_lecture(edittextload->get_text()))
+                break;
             affichage();
 			break;
 		case (SAVEBUTTON_ID):
 			sim_ecriture(edittextsave->get_text());
 			break;
-	}				
+	}
 }
 //rapport largeur/hauteur de la fenêtre utilisée pour le dessin
 //static GLfloat aspect_ratio; //avec namespace non nommé en C++
@@ -103,52 +104,52 @@ int main(int argc, char **argv)
     {
         error_msg("Nombre de paramètres invalides.");
     }
-    
+
     printf("Paramètrage de sim_display()\n");
     set_display_model_func(sim_display);
     printf("Paramètrage de sim_display() TERMINÉ\n");
-    
+
 	load_gui(argc, argv);
-    
+
 	return 0;
 }
 
 void load_gui (int argc, char **argv)
 {
-	fenetre_sim (argc, argv); 
+	fenetre_sim (argc, argv);
 	/*widgets GLUI*/
 	//Pannel File
 	GLUI *glui = GLUI_Master.create_glui("GLUI");
-	
+
 	GLUI_Panel *file_panel = glui->add_panel("File");
-	
+
 	edittextload = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTLOAD_ID, control_cb);
-	
+
 	glui->add_button_to_panel(file_panel,"Load", LOADBUTTON_ID, control_cb);
-	
+
 	edittextsave = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTSAVE_ID, control_cb);
-	
+
 	glui->add_button_to_panel(file_panel, "Save", SAVEBUTTON_ID, control_cb);
-	
+
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
-	
+
 	glui->add_button_to_panel(simulation_panel,"Start");
-	
+
 	glui->add_button_to_panel(simulation_panel,"Step");
-	
+
 	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
-	
+
 	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTPART_ID, control_cb);
-	
+
 	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ");
-	
+
 	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou Noir: ");
-	
+
 	//button
-	glui->add_button((char*) "Quit", 0, (GLUI_Update_CB)exit);
-	
+	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
+
 	/*Entrée dans la boucle principale de glut*/
-	glutMainLoop();	
+	glutMainLoop();
 }

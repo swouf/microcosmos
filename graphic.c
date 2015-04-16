@@ -123,6 +123,7 @@ void affichage(void)
 		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -100, 100);
 	else
 		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -100, 100);
+
 	(*display_model)();
 	glutSwapBuffers();
 }

@@ -28,6 +28,6 @@
  * Constantes personnelles
  **********************************************************************/
 #define CHAR_MAX_LIGNE 	100
-#define COTE 			50
+#define COTE 			5
 
 #endif

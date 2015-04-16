@@ -36,4 +36,11 @@ void particule_integration_rendu2(void);
  */
 void particule_force_rendu1(void);
 
+Particule_t* get_part_by_id(int);
+double get_part_rayon(Particule_t*);
+double get_part_posx(Particule_t*);
+double get_part_posy(Particule_t*);
+double get_part_vx(Particule_t*);
+double get_part_vy(Particule_t*);
+
 #endif
