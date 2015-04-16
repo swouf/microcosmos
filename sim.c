@@ -192,17 +192,6 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 }
 int sim_ecriture(const char* nomFichier)
 {
-	printf("Début de la fonction sim_ecriture()\n");
-	FILE *log = NULL;
-	log = fopen("microcosmos.log", "w");
-	if(log == NULL)
-	{
-		error_msg("FUCK THAT SHIT !!!");
-		return 1;
-	}
-	fprintf(log, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
-	fprintf(log, "Mes ********* !");
-
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
 	if(fichier == NULL)
@@ -213,13 +202,10 @@ int sim_ecriture(const char* nomFichier)
 
 /*********************** Récupération des générateurs *************************/
 
-	printf("Début de l'enregistrement des générateurs\n");
 	Generateur_t* genTMP= NULL;
 	int nbGenerateurs = get_nb_generateurs();
 
 	fprintf(fichier, "%d\n", nbGenerateurs);
-
-	fflush(fichier);
 
 	for(int i=0;i<nbGenerateurs;i++)
 	{
@@ -235,7 +221,6 @@ int sim_ecriture(const char* nomFichier)
 
 /*********************** Récupération des trous noirs *************************/
 
-	printf("Début de l'enregistrement des trous noirs.\n");
 	Trounoir_t* trouNoirTMP= NULL;
 	int nbTrousNoirs = get_nb_trous_noirs();
 
@@ -252,7 +237,6 @@ int sim_ecriture(const char* nomFichier)
 
 /*********************** Récupération des particules **************************/
 
-	printf("Début de l'enregistrement des particules.\n");
 	Particule_t* partTMP= NULL;
 	int nbParticules = get_nb_particules();
 
@@ -271,7 +255,6 @@ int sim_ecriture(const char* nomFichier)
 	fprintf(fichier, "FIN_LISTE\n");
 
 	fclose(fichier);
-	fclose(log);
 	return 0;
 }
 void sim_clean(void)
