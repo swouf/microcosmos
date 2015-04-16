@@ -95,10 +95,10 @@ void display_generateurs(void)
     Generateur_t* generateur = ptrGenerateurs;
     while(generateur != NULL)
     {
-        /*draw_generateur(creal(generateur->pos),
+        draw_generateur(creal(generateur->pos),
                         cimag(generateur->pos),
                         creal(generateur->vpi),
-                        cimag(generateur->vpi));*/
+                        cimag(generateur->vpi));
         generateur = generateur->next;
     }
 }
