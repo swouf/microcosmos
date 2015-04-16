@@ -97,7 +97,6 @@ void display_generateurs(void)
     {
         draw_generateur(creal(generateur->pos),
                         cimag(generateur->pos),
-                        generateur->rgen,
                         creal(generateur->vpi),
                         cimag(generateur->vpi));
         generateur = generateur->next;

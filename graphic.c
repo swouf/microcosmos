@@ -52,8 +52,10 @@ void draw_particule (double posx, double posy, double r, double v)
 	float couleur[3] = {rouge, vert, bleu};
 	
 	//Dessin du cercle
+	glLineWidth(LINE_WIDTH);
 	glBegin (GL_LINE_LOOP);
-	glColor3fv(couleur);   
+	glColor3fv(couleur);  
+ 
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
@@ -61,35 +63,63 @@ void draw_particule (double posx, double posy, double r, double v)
     }
 	glEnd ();
 }
-void draw_generateur(double posx, double posy, double r, double vx, double vy)
+void draw_generateur(double posx, double posy, double vx, double vy)
 {
 	int i;
 	const int SIDES = 50;
-	
+	float couleur[3] = {0, 0, 1}; //Générateur de couleur bleu.
+	float angle = PI+atan2(vy,vx);
+	glLineWidth(LINE_WIDTH);
 	glBegin (GL_POLYGON);
-	
+	glColor3fv(couleur);
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
-		glVertex2f(posx + r*cos(alpha), posy + r*sin(alpha));
+		glVertex2f(posx + COTE*0.5*cos(alpha), posy + COTE*0.5*sin(alpha));
     }  
       
 	glEnd();
-	
+	//segments
 	glBegin(GL_LINES);
 	
+	glColor3fv(couleur);
 	glVertex2f (posx, posy);
     glVertex2f (vx+posx, vy+posy);
 	
 	glEnd();
+	//bouts de flèche
+	glBegin(GL_LINES);
+	
+	glColor3fv(couleur);
+	//glVertex2f(	vx+posx+COTE*0.5*cos(PI/6)*cos(angle)+COTE*0.5*sin(PI/6)*sin(angle), 
+			//	vy+posy+COTE*0.5*cos(PI/6)*sin(angle)-COTE*0.5*sin(PI/6)*cos(angle));
+	glVertex2f(vx+posx+COTE*0.5*cos(angle+(11.*PI/6.)), vy+posy+COTE*0.5*sin(angle+(11.*PI/6.)));		
+	glVertex2f(vx+posx, vy+posy);
+	
+	glEnd();
+	
+	glBegin(GL_LINES);
+	
+	glColor3fv(couleur);
+	//glVertex2f(	vx+posx+COTE*0.5*cos(PI/6)*cos(angle)-COTE*0.5*sin(PI/6)*sin(angle), 
+	//			vy+posy+COTE*0.5*cos(PI/6)*sin(angle)+COTE*0.5*sin(PI/6)*cos(angle));
+	glVertex2f(vx+posx+COTE*0.5*cos(angle-(11.*PI/6.)), vy+posy+COTE*0.5*sin(angle-(11.*PI/6.)));
+	glVertex2f(vx+posx, vy+posy);
+	
+	glEnd();
+	
+	
 	//printf("Exécution de draw_generateur avec comme paramètre: %lf, %lf, %lf, %lf\n", posx, posy, vx, vy);
 }
 void draw_trou_noir(double posx, double posy)
 {
 	int i;
 	const int SIDES = 50;
+	float couleur[3] = {0, 1, 0};
 	
 	glBegin (GL_POLYGON);
+	
+	glColor3fv(couleur);
 	//dessin du losange
 	glVertex2f (posx + COTE/2, posy);
     glVertex2f (posx, posy + COTE/2);
@@ -98,7 +128,11 @@ void draw_trou_noir(double posx, double posy)
     
 	glEnd();
 	
+	glLineWidth(LINE_WIDTH);
 	glBegin (GL_LINE_LOOP);
+	
+	glColor3fv(couleur);
+
 	
 	for (i=0; i < SIDES; i++)
     {

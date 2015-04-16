@@ -28,6 +28,8 @@
  * Constantes personnelles
  **********************************************************************/
 #define CHAR_MAX_LIGNE 	100
-#define COTE 			50
+#define COTE 			5
+#define R_GENERATEUR	8
+#define LINE_WIDTH		5
 
 #endif
