@@ -30,21 +30,21 @@ Generateur_t* string_parsing_generateur(char* ligne)
 {
     static Generateur_t* precGenerateur = NULL;
 	double rgen, posx, posy, vpi_x, vpi_y;
-	
+
     Generateur_t* actuelGenerateur = malloc(sizeof(Generateur_t));
     if(actuelGenerateur == NULL)
     {
         error_msg("Échec de l'allocation de mémoire.");
         return NULL;
     }
-    
+
 	sscanf(ligne, "%lf %lf %lf %lf %lf",
 			&rgen,
 			&posx,
 			&posy,
 			&vpi_x,
 			&vpi_y);
-			
+
 	if(rgen > RMAX || rgen < RMIN)
 	{
 		error_rayon_partic(ERR_GENERAT, nbGenerateurs);
@@ -62,31 +62,31 @@ Generateur_t* string_parsing_generateur(char* ligne)
 		actuelGenerateur->vpi   = vpi_x + vpi_y*I;
         actuelGenerateur->next  = precGenerateur;
 	}
-	
+
     precGenerateur = actuelGenerateur;
     ptrGenerateurs = actuelGenerateur;
     nbGenerateurs++;
-    
+
 	return actuelGenerateur;
 }
 void clean_generateurs(void)
 {
     Generateur_t* actuelGenerateur = ptrGenerateurs;
     Generateur_t* suivGenerateur   = NULL;
-    
+
     if(actuelGenerateur)
         suivGenerateur   = actuelGenerateur->next;
-    
+
     while(actuelGenerateur != NULL)
     {
         free(actuelGenerateur);
         nbGenerateurs--;
-        
+
         actuelGenerateur = suivGenerateur;
-        
+
         if(suivGenerateur)
             suivGenerateur   = suivGenerateur->next;
-        
+
         ptrGenerateurs   = actuelGenerateur;
     }
 }
@@ -101,4 +101,33 @@ void display_generateurs(void)
                         cimag(generateur->vpi));
         generateur = generateur->next;
     }
+}
+Generateur_t* get_gen_by_id(int id)
+{
+	Generateur_t* ptrTMP = ptrGenerateurs;
+	for(int i=0;i<=id;i++)
+	{
+		ptrTMP = ptrTMP->next;
+	}
+	return ptrTMP;
+}
+double get_gen_rgen(Generateur_t* gen)
+{
+	return gen->rgen;
+}
+double get_gen_posx(Generateur_t* gen)
+{
+	return creal(gen->pos);
+}
+double get_gen_posy(Generateur_t* gen)
+{
+	return cimag(gen->pos);
+}
+double get_gen_vpix(Generateur_t* gen)
+{
+	return creal(gen->vpi);
+}
+double get_gen_vpiy(Generateur_t* gen)
+{
+	return cimag(gen->vpi);
 }

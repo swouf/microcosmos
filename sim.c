@@ -20,7 +20,7 @@
 #define NB_TYPES	3
 
 static int lecture_paragraphe(FILE* fichier, int nb_lignes, \
-								int typeParagraphe);																
+								int typeParagraphe);
 int sim_lecture(const char* nomFichier)
 {
 	char	ligne[CHAR_MAX_LIGNE+1];
@@ -30,28 +30,31 @@ int sim_lecture(const char* nomFichier)
 	TYPE	typeParagraphe	= GENERATEUR; //pour changer la façon dont
 										  //on enregistre les
 										  //informations après.
-	
+
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
+	{
 		error_fichier_inexistant();
-	
-	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //récupération de la 
+		return 1;
+	}
+
+	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //récupération de la
 												//chaîne de caractères
 	{
 		if(isspace(ligne[0])||ligne[0] == '#') //ignore les commentaires
 		{
 			continue; // lignes à ignorer, on passe à la suivante
 		}
-		else 
+		else
 		{
-			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et 
+			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et
 							//convertion en int de la première valeur.
 			{
-				switch(typeParagraphe) 	//Dans le cas où sscanf ne 
+				switch(typeParagraphe) 	//Dans le cas où sscanf ne
 										//marcherait pas.
 				{
 					case GENERATEUR:
-						error_lect_nb_elements(ERR_GENERAT); 
+						error_lect_nb_elements(ERR_GENERAT);
 						return 1;
 					case TROU_NOIR:
 						error_lect_nb_elements(ERR_TROU_N);
@@ -59,16 +62,16 @@ int sim_lecture(const char* nomFichier)
 					case PARTICULE:
 						error_lect_nb_elements(ERR_PARTIC);
 						return 1;
-				}						
+				}
 			}
 			else
 			{
 				nbAppelsLectureP++;
 				if(lecture_paragraphe(fichier, nbLignes,
-									  typeParagraphe)) 
+									  typeParagraphe))
 										//traitement de l'information.
 					return 1;
-				switch(typeParagraphe) //change la manière d'enregistrer 
+				switch(typeParagraphe) //change la manière d'enregistrer
 							//l'information car on change de paragraphe
 				{
 					case GENERATEUR:
@@ -78,14 +81,14 @@ int sim_lecture(const char* nomFichier)
 						typeParagraphe = PARTICULE;
 						break;
 					case PARTICULE:
-						continue; //Traitement de l'information contenue 
+						continue; //Traitement de l'information contenue
 									//dans le fichier complète.
 				}
 			}
 		}
 	}
-	
-	if(nbAppelsLectureP != NB_TYPES) //vérifier la lecture des trois 
+
+	if(nbAppelsLectureP != NB_TYPES) //vérifier la lecture des trois
 														//paragraphes.
 	{
 		error_fichier_incomplet();
@@ -96,36 +99,36 @@ int sim_lecture(const char* nomFichier)
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 {
 	char ligne[CHAR_MAX_LIGNE];
-	
+
 	for(int i = 0; i < nbLignes; i++)
 	{
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
 		{
 			error_fichier_incomplet();
 			return 1;
-		}	
-		if(isspace(ligne[0])||ligne[0] == '#') //évite les commentaires, 
+		}
+		if(isspace(ligne[0])||ligne[0] == '#') //évite les commentaires,
 												//espaces, etc.
 		{
 			i--;
-			continue; 
+			continue;
 		}
 		else
 		{
-			if(strcmp(ligne, "FIN_LISTE\n"))//si ligne = FIN LISTE ne 
-											//rentre pas dans le bloc 
+			if(strcmp(ligne, "FIN_LISTE\n"))//si ligne = FIN LISTE ne
+											//rentre pas dans le bloc
 											//du if.
 			{
-				switch(typeParagraphe) 	//on active la fonction pour 
+				switch(typeParagraphe) 	//on active la fonction pour
 										//découper et trier l'information
-										//contenue dans chaque ligne 
+										//contenue dans chaque ligne
 										//selon le type de paragraphe.
 				{
 					case GENERATEUR:
 						if(string_parsing_generateur(ligne) == NULL)
 							return 1;
 						break;
-					case TROU_NOIR: 
+					case TROU_NOIR:
 						if(string_parsing_trou_noir(ligne) == NULL)
 							return 1;
 						break;
@@ -134,14 +137,14 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 							return 1;
 						break;
 				}
-			}	
+			}
 			else
-			{	
+			{
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						error_lecture_elements(ERR_GENERAT,
-											   ERR_PAS_ASSEZ); 
+											   ERR_PAS_ASSEZ);
 						return 1;
 					case TROU_NOIR:
 						error_lecture_elements(ERR_TROU_N,
@@ -153,7 +156,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 						return 1;
 				}
 			}
-		}		
+		}
 	}
 	while(1)
 	{
@@ -185,20 +188,17 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			}
 		}
 	}
-	return 0;	
+	return 0;
 }
 void sim_ecriture(const char* nomFichier)
 {
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
+
+	
+	fprintf
 	printf("Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
-	
-	FILE *log = NULL;
-	log = fopen("microcosmos.log", "wt");
-	fprintf(log, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
-    fprintf(fichier, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
-	fclose(log);
-	
+
 	fclose(fichier);
 }
 void sim_clean(void)
@@ -210,8 +210,8 @@ void sim_clean(void)
 void sim_display(void)
 {
     display_generateurs();
-    display_particules();
     display_trous_noirs();
+    display_particules();
 }
 void force(void)
 {

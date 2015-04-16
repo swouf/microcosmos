@@ -29,41 +29,41 @@ struct Trounoir
 Trounoir_t* string_parsing_trou_noir(char* ligne)
 {
 	static Trounoir_t* precTrouNoir = NULL;
-	
+
 	double posx, posy;
 
 	sscanf(ligne, "%lf %lf", &posx, &posy);
-    
+
     Trounoir_t* actuelTrouNoir = malloc(sizeof(Trounoir_t));
     if(actuelTrouNoir == NULL)
     {
         error_msg("Échec de l'allocation de mémoire.");
         return NULL;
     }
-    
-	
+
+
 	actuelTrouNoir->pos  = posx + posy*I;
 	actuelTrouNoir->next = precTrouNoir;
-    
+
     precTrouNoir  = actuelTrouNoir;
     ptrTrousNoirs = actuelTrouNoir;
     nbTrousNoirs++;
-    
+
 	return actuelTrouNoir;
 }
 void clean_trous_noirs(void)
 {
     Trounoir_t* actuelTrouNoir = ptrTrousNoirs;
     Trounoir_t* suivTrouNoir   = NULL;
-    
+
     if(actuelTrouNoir)
         suivTrouNoir = actuelTrouNoir->next;
-    
+
     while(actuelTrouNoir != NULL)
     {
         free(actuelTrouNoir);
         nbTrousNoirs--;
-        
+
         actuelTrouNoir = suivTrouNoir;
         suivTrouNoir   = suivTrouNoir->next;
         ptrTrousNoirs   = actuelTrouNoir;
@@ -78,4 +78,21 @@ void display_trous_noirs(void)
                        cimag(trouNoir->pos));
         trouNoir = trouNoir->next;
     }
+}
+Particule_t* get_trou_noir_by_id(int id)
+{
+    Trounoir_t* ptrTMP = ptrTrousNoirs;
+	for(int i=0;i<=id;i++)
+	{
+		ptrTMP = ptrTMP->next;
+	}
+	return ptrTMP;
+}
+double get_trou_noir_posx(Trounoir_t* trouNoir)
+{
+    return creal(trouNoir->pos);
+}
+double get_trou_noir_posy(Trounoir_t* trouNoir)
+{
+    return cimag(trouNoir->pos);
 }
