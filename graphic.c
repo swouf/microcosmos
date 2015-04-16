@@ -117,12 +117,12 @@ void affichage(void)
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-	GLfloat gauche = -100, droite = 100, bas = -100, haut = 100;
+	GLfloat gauche = -200, droite = 200, bas = -100, haut = 100;
 	glLoadIdentity();
 	if(aspect_ratio <= 1)
-		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -100, 100);
+		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
 	else
-		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -100, 100);
+		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -1, 1);
 
 	(*display_model)();
 	glutSwapBuffers();

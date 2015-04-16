@@ -228,6 +228,7 @@ int sim_ecriture(const char* nomFichier)
 				get_gen_rgen(genTMP),
 				get_gen_posx(genTMP),
 				get_gen_posy(genTMP),
+				get_gen_vpix(genTMP),
 				get_gen_vpix(genTMP));
 	}
 	fprintf(fichier, "FIN_LISTE\n\n");
