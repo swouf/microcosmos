@@ -210,7 +210,7 @@ int sim_ecriture(const char* nomFichier)
 	for(int i=0;i<nbGenerateurs;i++)
 	{
 		genTMP = get_gen_by_id(i);
-		fprintf(fichier, "%f %f %f %f\n",
+		fprintf(fichier, "%f %f %f %f %f\n",
 				get_gen_rgen(genTMP),
 				get_gen_posx(genTMP),
 				get_gen_posy(genTMP),
