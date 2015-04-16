@@ -192,7 +192,16 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 }
 int sim_ecriture(const char* nomFichier)
 {
-	printf("Début de sim_ecriture().");
+	printf("Début de la fonction sim_ecriture()");
+	FILE *log = NULL;
+	log = fopen("microcosmos.log", "w");
+	if(log == NULL)
+	{
+		error_msg("FUCK THAT SHIT !!!");
+		return 1;
+	}
+	fprintf(log, "Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
+	fprintf(log, "Mes ********* !");
 
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
@@ -260,6 +269,8 @@ int sim_ecriture(const char* nomFichier)
 	fprintf(fichier, "FIN_LISTE\n");
 
 	fclose(fichier);
+	fclose(log);
+	return 0;
 }
 void sim_clean(void)
 {

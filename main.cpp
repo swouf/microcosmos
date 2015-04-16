@@ -48,7 +48,7 @@ void control_cb(int control)
 			break;
 		case (SAVEBUTTON_ID):
             std::cout << "On s'enjaille ma gueule !!! " << edittextsave->get_text() << std::endl;
-		    sim_ecriture("./save.txt");
+		    sim_ecriture(edittextsave->get_text());
 			break;
 	}
 }
