@@ -259,7 +259,7 @@ void particule_integration_rendu2(void)
 Particule_t* get_part_by_id(int id)
 {
     Particule_t* ptrTMP = ptrParticules;
-	for(int i=0;i<=id;i++)
+	for(int i=0;i<id;i++)
 	{
 		ptrTMP = ptrTMP->next;
 	}

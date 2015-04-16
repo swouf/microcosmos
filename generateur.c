@@ -95,17 +95,17 @@ void display_generateurs(void)
     Generateur_t* generateur = ptrGenerateurs;
     while(generateur != NULL)
     {
-        draw_generateur(creal(generateur->pos),
+        /*draw_generateur(creal(generateur->pos),
                         cimag(generateur->pos),
                         creal(generateur->vpi),
-                        cimag(generateur->vpi));
+                        cimag(generateur->vpi));*/
         generateur = generateur->next;
     }
 }
 Generateur_t* get_gen_by_id(int id)
 {
 	Generateur_t* ptrTMP = ptrGenerateurs;
-	for(int i=0;i<=id;i++)
+	for(int i=0;i<id;i++)
 	{
 		ptrTMP = ptrTMP->next;
 	}
@@ -130,4 +130,8 @@ double get_gen_vpix(Generateur_t* gen)
 double get_gen_vpiy(Generateur_t* gen)
 {
 	return cimag(gen->vpi);
+}
+int get_nb_generateurs(void)
+{
+	return nbGenerateurs;
 }

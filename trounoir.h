@@ -25,5 +25,9 @@ Trounoir_t* string_parsing_trou_noir(char*);
 void clean_trous_noirs(void);
 
 void display_trous_noirs(void);
+Trounoir_t* get_trou_noir_by_id(int);
+double get_trou_noir_posx(Trounoir_t*);
+double get_trou_noir_posy(Trounoir_t*);
+int get_nb_trous_noirs(void);
 
 #endif

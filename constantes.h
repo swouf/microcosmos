@@ -10,7 +10,7 @@
 #define CONSTANTES_H
 
 #include "tolerance.h"
- 
+
 #define MAX_RENDU1		10
 #define KMASSE			0.1
 #define RMIN			0.5

@@ -190,16 +190,72 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 	}
 	return 0;
 }
-void sim_ecriture(const char* nomFichier)
+int sim_ecriture(const char* nomFichier)
 {
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
+	if(fichier == NULL)
+	{
+		error_msg("Échec de la sauvegarde de l'état de la simulation.");
+		return 1;
+	}
 
-	
-	fprintf
-	printf("Exécution de la fonction sim_ecriture avec comme paramètre: %s.\n", nomFichier);
+/*********************** Récupération des générateurs *************************/
+
+	Generateur_t* genTMP= NULL;
+	int nbGenerateurs = get_nb_generateurs();
+
+	fprintf(fichier, "%d\n", nbGenerateurs);
+
+	for(int i=0;i<nbGenerateurs;i++)
+	{
+		genTMP = get_gen_by_id(i);
+		fprintf(fichier, "%f %f %f %f\n",
+				get_gen_rgen(genTMP),
+				get_gen_posx(genTMP),
+				get_gen_posy(genTMP),
+				get_gen_vpix(genTMP),
+				get_gen_vpix(genTMP));
+	}
+	fprintf(fichier, "FIN_LISTE\n\n");
+
+/*********************** Récupération des trous noirs *************************/
+
+	Trounoir_t* trouNoirTMP= NULL;
+	int nbTrousNoirs = get_nb_trous_noirs();
+
+	fprintf(fichier, "%d\n", nbTrousNoirs);
+
+	for(int i=0;i<nbTrousNoirs;i++)
+	{
+		trouNoirTMP = get_trou_noir_by_id(i);
+		fprintf(fichier, "%f %f\n",
+				get_trou_noir_posx(trouNoirTMP),
+				get_trou_noir_posy(trouNoirTMP));
+	}
+	fprintf(fichier, "FIN_LISTE\n\n");
+
+/*********************** Récupération des particules **************************/
+
+	Particule_t* partTMP= NULL;
+	int nbParticules = get_nb_particules();
+
+	fprintf(fichier, "%d\n", nbParticules);
+
+	for(int i=0;i<nbParticules;i++)
+	{
+		partTMP = get_part_by_id(i);
+		fprintf(fichier, "%f %f %f %f %f\n",
+				get_part_rayon(partTMP),
+				get_part_posx(partTMP),
+				get_part_posy(partTMP),
+				get_part_vx(partTMP),
+				get_part_vy(partTMP));
+	}
+	fprintf(fichier, "FIN_LISTE\n");
 
 	fclose(fichier);
+	return 0;
 }
 void sim_clean(void)
 {
