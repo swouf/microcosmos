@@ -100,7 +100,6 @@ void clean_particules(void)
     while(actuelParticule)
     {
         free(actuelParticule);
-        nbParticules--;
 
         actuelParticule = suivParticule;
 
@@ -109,6 +108,7 @@ void clean_particules(void)
 
         ptrParticules   = actuelParticule;
     }
+    nbParticules = 0;
 }
 void display_particules(void)
 {
@@ -261,7 +261,10 @@ Particule_t* get_part_by_id(int id)
     Particule_t* ptrTMP = ptrParticules;
 	for(int i=0;i<id;i++)
 	{
-		ptrTMP = ptrTMP->next;
+        if(ptrTMP->next == NULL)
+            return NULL;
+        else
+		      ptrTMP = ptrTMP->next;
 	}
 	return ptrTMP;
 }
@@ -283,7 +286,7 @@ double get_part_vx(Particule_t* part)
 }
 double get_part_vy(Particule_t* part)
 {
-    return creal(part->v);
+    return cimag(part->v);
 }
 int* get_ptr_nb_part(void)
 {

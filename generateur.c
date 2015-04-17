@@ -80,7 +80,6 @@ void clean_generateurs(void)
     while(actuelGenerateur != NULL)
     {
         free(actuelGenerateur);
-        nbGenerateurs--;
 
         actuelGenerateur = suivGenerateur;
 
@@ -89,6 +88,7 @@ void clean_generateurs(void)
 
         ptrGenerateurs   = actuelGenerateur;
     }
+	nbGenerateurs = 0;
 }
 void display_generateurs(void)
 {
@@ -107,7 +107,10 @@ Generateur_t* get_gen_by_id(int id)
 	Generateur_t* ptrTMP = ptrGenerateurs;
 	for(int i=0;i<id;i++)
 	{
-		ptrTMP = ptrTMP->next;
+		if(ptrTMP->next == NULL)
+            return NULL;
+        else
+		      ptrTMP = ptrTMP->next;
 	}
 	return ptrTMP;
 }

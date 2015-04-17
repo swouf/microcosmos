@@ -150,18 +150,11 @@ void load_gui(void)
 	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
 
-	int** ptrNbEntite = get_3ptr_nb_entite();
+	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTPART_ID, control_cb);
 
-	printf("nb Particule : %X\nnbGenerateur : %X\nnbTrou noir : %X\n", *ptrNbEntite[0], *ptrNbEntite[1], *ptrNbEntite[2]);
+	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTGEN_ID, control_cb);
 
-	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[0], EDITTEXTPART_ID, control_cb);
-	edittextpart->set_int_val(*ptrNbEntite[0]);
-
-	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[1], EDITTEXTGEN_ID, control_cb);
-	edittextgen->set_int_val(*ptrNbEntite[1]);
-
-	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou noir: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[2], EDITTEXTTROU_ID, control_cb);
-	edittexttrou->set_int_val(*ptrNbEntite[2]);
+	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou noir: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTTROU_ID, control_cb);
 
 	//button
 	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
@@ -176,11 +169,11 @@ void load_gui(void)
 }
 void glui_idle(void)
 {
-	glui->sync_live();
-
 	int** ptrNbEntite = get_3ptr_nb_entite();
 
-	//printf("nb Particule : %X\nnbGenerateur : %X\nnbTrou noir : %X\n", *ptrNbEntite[0], *ptrNbEntite[1], *ptrNbEntite[2]);
+	edittextpart->set_int_val(*ptrNbEntite[0]);
+	edittextgen->set_int_val(*ptrNbEntite[1]);
+	edittexttrou->set_int_val(*ptrNbEntite[2]);
 
 	idle();
 }

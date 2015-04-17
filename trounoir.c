@@ -62,12 +62,15 @@ void clean_trous_noirs(void)
     while(actuelTrouNoir != NULL)
     {
         free(actuelTrouNoir);
-        nbTrousNoirs--;
 
-        actuelTrouNoir = suivTrouNoir;
-        suivTrouNoir   = suivTrouNoir->next;
-        ptrTrousNoirs   = actuelTrouNoir;
+		actuelTrouNoir = suivTrouNoir;
+
+        if(suivTrouNoir)
+        	suivTrouNoir = suivTrouNoir->next;
+
+        ptrTrousNoirs = actuelTrouNoir;
     }
+	nbTrousNoirs = 0;
 }
 void display_trous_noirs(void)
 {
@@ -84,7 +87,10 @@ Trounoir_t* get_trou_noir_by_id(int id)
     Trounoir_t* ptrTMP = ptrTrousNoirs;
 	for(int i=0;i<id;i++)
 	{
-		ptrTMP = ptrTMP->next;
+		if(ptrTMP->next == NULL)
+            return NULL;
+        else
+		      ptrTMP = ptrTMP->next;
 	}
 	return ptrTMP;
 }

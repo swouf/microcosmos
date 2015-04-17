@@ -190,10 +190,11 @@ void idle(void)
 }
 void set_projection_limits(float Xmax, float Xmin, float Ymax, float Ymin)
 {
-	gauche	= Xmin;
-	droite	= Xmax;
-	bas		= Ymin;
-	haut	= Ymax;
+	gauche	= Xmin-RMAX;
+	droite	= Xmax+RMAX;
+	bas		= Ymin-RMAX;
+	haut	= Ymax+RMAX;
 
 	printf("Xmax : %f\nXmin : %f\nYmax : %f\nYmin : %f\n", Xmax, Xmin, Ymax, Ymin);
+	printf("Gauche : %f\nHaut : %f\nDroite : %f\nBas : %f\n", gauche, haut, droite, bas);
 }
