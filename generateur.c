@@ -135,3 +135,7 @@ int get_nb_generateurs(void)
 {
 	return nbGenerateurs;
 }
+int* get_ptr_nb_gen(void)
+{
+    return &nbGenerateurs;
+}

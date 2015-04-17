@@ -20,20 +20,27 @@ extern "C"
 }
 namespace
 {
-	GLUI_EditText *edittextload;
-	GLUI_EditText *edittextsave;
-	GLUI_EditText *edittextpart;
-	GLUI_EditText *edittextgen;
-	GLUI_EditText *edittexttrou;
+	GLUI			*glui;
+	GLUI_EditText	*edittextload;
+	GLUI_EditText	*edittextsave;
+	GLUI_EditText	*edittextpart;
+	GLUI_EditText	*edittextgen;
+	GLUI_EditText	*edittexttrou;
 }
 
-#define EDITTEXTLOAD_ID 11
-#define EDITTEXTSAVE_ID 12
-#define EDITTEXTPART_ID 21
-#define EDITTEXTGEN_ID 22
-#define EDITTEXTTROU_ID 23
-#define LOADBUTTON_ID 31
-#define SAVEBUTTON_ID 32
+typedef enum GLUI_ID
+{
+	EDITTEXTLOAD_ID,
+	EDITTEXTSAVE_ID,
+	EDITTEXTPART_ID,
+	EDITTEXTGEN_ID,
+	EDITTEXTTROU_ID,
+	LOADBUTTON_ID,
+	SAVEBUTTON_ID
+} GLUI_ID;
+
+void load_gui(void);
+void glui_idle(void);
 
 void control_cb(int control)
 {
@@ -54,8 +61,6 @@ void control_cb(int control)
 }
 //rapport largeur/hauteur de la fenêtre utilisée pour le dessin
 //static GLfloat aspect_ratio; //avec namespace non nommé en C++
-
-void load_gui(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
@@ -110,17 +115,18 @@ int main(int argc, char **argv)
     set_display_model_func(sim_display);
     printf("Paramètrage de sim_display() TERMINÉ\n");
 
-	load_gui(argc, argv);
+	initGL(argc, argv);
+	fenetre_sim();
+	load_gui();
 
 	return 0;
 }
 
-void load_gui (int argc, char **argv)
+void load_gui(void)
 {
-	fenetre_sim (argc, argv);
 	/*widgets GLUI*/
 	//Pannel File
-	GLUI *glui = GLUI_Master.create_glui("GLUI");
+	glui = GLUI_Master.create_glui("Microcosmos GUI");
 
 	GLUI_Panel *file_panel = glui->add_panel("File");
 
@@ -142,15 +148,28 @@ void load_gui (int argc, char **argv)
 	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
 
-	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTPART_ID, control_cb);
+	int** ptrNbEntite = get_3ptr_nb_entite();
 
-	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ");
+	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[0], EDITTEXTPART_ID, control_cb);
 
-	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou Noir: ");
+	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[1], EDITTEXTGEN_ID, control_cb);
+
+	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou noir: ", GLUI_EDITTEXT_TEXT, ptrNbEntite[2], EDITTEXTTROU_ID, control_cb);
 
 	//button
 	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
 
 	/*Entrée dans la boucle principale de glut*/
+
+	GLUI_Master.set_glutReshapeFunc(reshape);
+	GLUI_Master.set_glutIdleFunc(glui_idle);
+	GLUI_Master.set_glutDisplayFunc(affichage);
+
 	glutMainLoop();
+}
+void glui_idle(void)
+{
+	glui->sync_live();
+
+	idle();
 }

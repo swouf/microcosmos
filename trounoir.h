@@ -29,5 +29,6 @@ Trounoir_t* get_trou_noir_by_id(int);
 double get_trou_noir_posx(Trounoir_t*);
 double get_trou_noir_posy(Trounoir_t*);
 int get_nb_trous_noirs(void);
+int* get_ptr_nb_trous_noirs(void);
 
 #endif

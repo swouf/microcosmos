@@ -32,5 +32,6 @@ double get_gen_posy(Generateur_t*);
 double get_gen_vpix(Generateur_t*);
 double get_gen_vpiy(Generateur_t*);
 int get_nb_generateurs(void);
+int* get_ptr_nb_gen(void);
 
 #endif

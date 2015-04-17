@@ -100,3 +100,7 @@ int get_nb_trous_noirs(void)
 {
 	return nbTrousNoirs;
 }
+int* get_ptr_nb_trous_noirs(void)
+{
+    return &nbTrousNoirs;
+}

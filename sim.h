@@ -34,5 +34,6 @@ void sim_clean(void);
 void sim_display(void);
 void force(void);
 void integration(void);
+int** get_3ptr_nb_entite(void);
 
 #endif
