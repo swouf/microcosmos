@@ -21,6 +21,8 @@ static GLfloat aspect_ratio = (GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
 static int     width        = WIDTH_DEF;
 static int     height       = HEIGHT_DEF;
 static int     sim_window   = 0;
+static const int COTE		= COTE_DEF;
+static const float RAYON	= COTE_DEF/2;
 
 static void reshape(int w, int h);
 
@@ -63,12 +65,15 @@ void draw_particule (double posx, double posy, double r, double v)
     }
 	glEnd ();
 }
-void draw_generateur(double posx, double posy, double vx, double vy)
+void draw_generateur(double posx, double posy, double vpix, double vpiy)
 {
 	int i;
 	const int SIDES = 50;
 	float couleur[3] = {0, 0, 1}; //Générateur de couleur bleu.
-	float angle = PI+atan2(vy,vx);
+	float anglePointe = PI/6;
+	float vx = L_FLECHE_GEN*vpix/sqrt(pow(vpix, 2)+pow(vpiy, 2));
+	float vy = L_FLECHE_GEN*vpiy/sqrt(pow(vpix, 2)+pow(vpiy, 2));
+	float angleVecteur = atan2(vy,vx);
 	glLineWidth(LINE_WIDTH);
 	glBegin (GL_POLYGON);
 	glColor3fv(couleur);
@@ -76,14 +81,14 @@ void draw_generateur(double posx, double posy, double vx, double vy)
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
-		glVertex2f(posx + COTE*0.5*cos(alpha), posy + COTE*0.5*sin(alpha));
+		glVertex2f(posx + RAYON*cos(alpha), posy + RAYON*sin(alpha));
     }  
       
 	glEnd();
+	
 	//segments
 	glBegin(GL_LINES);
-	
-	glColor3fv(couleur);
+
 	glVertex2f (posx, posy);
     glVertex2f (vx+posx, vy+posy);
 	
@@ -91,31 +96,24 @@ void draw_generateur(double posx, double posy, double vx, double vy)
 	//bouts de flèche
 	glBegin(GL_LINES);
 	
-	glColor3fv(couleur);
-	//glVertex2f(	vx+posx+COTE*0.5*cos(PI/6)*cos(angle)+COTE*0.5*sin(PI/6)*sin(angle), 
-			//	vy+posy+COTE*0.5*cos(PI/6)*sin(angle)-COTE*0.5*sin(PI/6)*cos(angle));
-	glVertex2f(vx+posx+COTE*0.5*cos(angle+(11.*PI/6.)), vy+posy+COTE*0.5*sin(angle+(11.*PI/6.)));		
+	glVertex2f(	vx+posx-COTE*cos(angleVecteur-anglePointe), 
+				vy+posy-COTE*sin(angleVecteur-anglePointe));
 	glVertex2f(vx+posx, vy+posy);
 	
 	glEnd();
 	
 	glBegin(GL_LINES);
 	
-	glColor3fv(couleur);
-	//glVertex2f(	vx+posx+COTE*0.5*cos(PI/6)*cos(angle)-COTE*0.5*sin(PI/6)*sin(angle), 
-	//			vy+posy+COTE*0.5*cos(PI/6)*sin(angle)+COTE*0.5*sin(PI/6)*cos(angle));
-	glVertex2f(vx+posx+COTE*0.5*cos(angle-(11.*PI/6.)), vy+posy+COTE*0.5*sin(angle-(11.*PI/6.)));
+	glVertex2f(	vx+posx-COTE*cos(angleVecteur+anglePointe), 
+				vy+posy-COTE*sin(angleVecteur+anglePointe));
 	glVertex2f(vx+posx, vy+posy);
 	
 	glEnd();
-	
-	
-	//printf("Exécution de draw_generateur avec comme paramètre: %lf, %lf, %lf, %lf\n", posx, posy, vx, vy);
 }
 void draw_trou_noir(double posx, double posy)
 {
 	int i;
-	const int SIDES = 50;
+	const int SIDES = 100;
 	float couleur[3] = {0, 1, 0};
 	
 	glBegin (GL_POLYGON);
@@ -129,12 +127,8 @@ void draw_trou_noir(double posx, double posy)
     
 	glEnd();
 	
+	//dessin des traitstillés
 	glLineWidth(LINE_WIDTH);
-	//glBegin (GL_LINE_LOOP);
-	
-	glColor3fv(couleur);
-
-	
 	for (i=0; i < SIDES; i+=2)
     {
 		double x1 = posx + RBLACK*cos(i * 2. * PI/SIDES);
@@ -143,9 +137,6 @@ void draw_trou_noir(double posx, double posy)
 		double y2 = posy + RBLACK*sin((i+1) * 2. * PI/SIDES);
 		graphic_draw_segment (x1, y1, x2, y2);		
     }  
-      
-	//glEnd();
-	//printf("Exécution de draw_trounoir avec comme paramètre: %lf, %lf\n", posx, posy);
 }
 void graphic_draw_segment (float x1,
                            float y1,
