@@ -35,5 +35,6 @@ void sim_display(void);
 void force(void);
 void integration(void);
 int** get_3ptr_nb_entite(void);
+void set_display_limits(void);
 
 #endif

@@ -61,7 +61,7 @@ graphic.o: graphic.c graphic.h constantes.h tolerance.h
 particule.o: particule.c graphic.h constantes.h tolerance.h error.h \
  particule.h
 sim.o: sim.c particule.h trounoir.h generateur.h error.h constantes.h \
- tolerance.h sim.h
+ tolerance.h sim.h graphic.h
 trounoir.o: trounoir.c graphic.h constantes.h tolerance.h error.h \
  trounoir.h
 #-- C++ rules --#

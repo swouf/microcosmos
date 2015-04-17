@@ -15,7 +15,5 @@ void affichage(void);
 void reshape(int, int);
 void initGL(int, char**);
 void idle(void);
-void graphic_draw_segment (float x1,
-                           float y1,
-                           float x2,
-                           float y2);
+void graphic_draw_segment (float, float, float, float);
+void set_projection_limits(float, float, float, float);

@@ -16,13 +16,17 @@
 
 static const double PI = 3.14159265358979323846;
 
-static void    (*display_model)(void);
-static GLfloat aspect_ratio = (GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
-static int     width        = WIDTH_DEF;
-static int     height       = HEIGHT_DEF;
-static int     sim_window   = 0;
-static const int COTE		= COTE_DEF;
-static const float RAYON	= COTE_DEF/2;
+static void    		(*display_model)(void);
+static GLfloat 		aspect_ratio	= (GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
+static int     		width			= WIDTH_DEF;
+static int     		height			= HEIGHT_DEF;
+static int     		sim_window		= 0;
+static const int 	COTE			= COTE_DEF;
+static const float 	RAYON			= COTE_DEF/2;
+static GLfloat 		gauche			= 0;
+static GLfloat 		droite			= 0;
+static GLfloat 		bas				= 0;
+static GLfloat 		haut			= 0;
 
 void initGL(int argc, char **argv)
 {
@@ -159,8 +163,6 @@ void affichage(void)
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	GLfloat gauche = -200, droite = 200, bas = -100, haut = 100;
-
 	glLoadIdentity();
 	if(aspect_ratio <= 1)
 		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
@@ -185,4 +187,13 @@ void set_display_model_func(void (*display_model_func)(void))
 void idle(void)
 {
 	//printf("Fonction idle (module graphic)\n");
+}
+void set_projection_limits(float Xmax, float Xmin, float Ymax, float Ymin)
+{
+	gauche	= Xmin;
+	droite	= Xmax;
+	bas		= Ymin;
+	haut	= Ymax;
+
+	printf("Xmax : %f\nXmin : %f\nYmax : %f\nYmin : %f\n", Xmax, Xmin, Ymax, Ymin);
 }

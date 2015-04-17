@@ -16,6 +16,7 @@
 #include "error.h"
 #include "constantes.h"
 #include "sim.h"
+#include "graphic.h"
 
 #define NB_TYPES	3
 
@@ -94,6 +95,9 @@ int sim_lecture(const char* nomFichier)
 		error_fichier_incomplet();
 		return 1;
 	}
+
+	set_display_limits();
+
 	return 0;
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
@@ -282,8 +286,77 @@ int** get_3ptr_nb_entite(void)
 	static int* ptrNbEntite[3];
 
 	ptrNbEntite[0] = get_ptr_nb_part();
-	ptrNbEntite[0] = get_ptr_nb_gen();
-	ptrNbEntite[0] = get_ptr_nb_trous_noirs();
+	ptrNbEntite[1] = get_ptr_nb_gen();
+	ptrNbEntite[2] = get_ptr_nb_trous_noirs();
 
 	return ptrNbEntite;
+}
+void set_display_limits(void)
+{
+	double Xmax = 0;
+	double Xmin = 0;
+	double Ymax = 0;
+	double Ymin = 0;
+
+	double x	= 0;
+	double y	= 0;
+
+	int nbGenerateurs	= get_nb_generateurs();
+	int nbTrousNoirs	= get_nb_trous_noirs();
+	int nbParticules	= get_nb_particules();
+
+	printf("nbGen : %d\nnbTrNoirs : %d\nnbPart : %d\n", nbGenerateurs, nbTrousNoirs, nbParticules);
+
+	Generateur_t*	genTMP		= NULL;
+	Trounoir_t*		trouNoirTMP	= NULL;
+	Particule_t*	partTMP		= NULL;
+
+	for(int i=0;i<nbGenerateurs;i++)
+	{
+		genTMP = get_gen_by_id(i);
+		x = get_gen_posx(genTMP);
+		y = get_gen_posy(genTMP);
+
+		if(x >= Xmax)
+			Xmax = x;
+		else if(x <= Xmin)
+			Xmin = x;
+		else if(y >= Ymax)
+			Ymax = y;
+		else if(y <= Ymin)
+			Ymin = y;
+		printf("Generateur %d : (%f;%f)\n", i, x, y);
+	}
+	for(int i=0;i<nbTrousNoirs;i++)
+	{
+		trouNoirTMP = get_trou_noir_by_id(i);
+		x = get_trou_noir_posx(trouNoirTMP);
+		y = get_trou_noir_posy(trouNoirTMP);
+
+		if(x >= Xmax)
+			Xmax = x;
+		else if(x <= Xmin)
+			Xmin = x;
+		else if(y >= Ymax)
+			Ymax = y;
+		else if(y <= Ymin)
+			Ymin = y;
+	}
+	for(int i=0;i<nbParticules;i++)
+	{
+		partTMP = get_part_by_id(i);
+		x = get_part_posx(partTMP);
+		y = get_part_posy(partTMP);
+
+		if(x >= Xmax)
+			Xmax = x;
+		else if(x <= Xmin)
+			Xmin = x;
+		else if(y >= Ymax)
+			Ymax = y;
+		else if(y <= Ymin)
+			Ymin = y;
+	}
+
+	set_projection_limits(Xmax, Xmin, Ymax, Ymin);
 }
