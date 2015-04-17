@@ -72,6 +72,7 @@ void draw_generateur(double posx, double posy, double vx, double vy)
 	glLineWidth(LINE_WIDTH);
 	glBegin (GL_POLYGON);
 	glColor3fv(couleur);
+	
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
@@ -129,19 +130,35 @@ void draw_trou_noir(double posx, double posy)
 	glEnd();
 	
 	glLineWidth(LINE_WIDTH);
-	glBegin (GL_LINE_LOOP);
+	//glBegin (GL_LINE_LOOP);
 	
 	glColor3fv(couleur);
 
 	
-	for (i=0; i < SIDES; i++)
+	for (i=0; i < SIDES; i+=2)
     {
-		float alpha = i * 2. * PI/SIDES;
-		glVertex2f(posx + RBLACK*cos(alpha), posy + RBLACK*sin(alpha));
+		double x1 = posx + RBLACK*cos(i * 2. * PI/SIDES);
+		double y1 = posy + RBLACK*sin(i * 2. * PI/SIDES);
+		double x2 = posx + RBLACK*cos((i+1) * 2. * PI/SIDES);
+		double y2 = posy + RBLACK*sin((i+1) * 2. * PI/SIDES);
+		graphic_draw_segment (x1, y1, x2, y2);		
     }  
       
-	glEnd();
+	//glEnd();
 	//printf("Exécution de draw_trounoir avec comme paramètre: %lf, %lf\n", posx, posy);
+}
+void graphic_draw_segment (float x1,
+                           float y1,
+                           float x2,
+                           float y2)
+
+{ 
+    glBegin (GL_LINES);
+
+    glVertex2f (x1, y1);
+    glVertex2f (x2, y2);
+
+    glEnd ();
 }
 void affichage(void)
 {
@@ -151,7 +168,7 @@ void affichage(void)
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-	GLfloat gauche = -200, droite = 200, bas = -100, haut = 100;
+	GLfloat gauche = -100, droite = 100, bas = -100, haut = 100;
 	glLoadIdentity();
 	if(aspect_ratio <= 1)
 		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);

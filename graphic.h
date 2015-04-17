@@ -12,3 +12,7 @@ void draw_generateur(double posx, double posy, double vx, double vy);
 void draw_trou_noir(double posx, double posy);
 void set_display_model_func(void (*display_model_func)(void));
 void affichage(void);
+void graphic_draw_segment (float x1,
+                           float y1,
+                           float x2,
+                           float y2);
