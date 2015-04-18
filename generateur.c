@@ -77,7 +77,7 @@ void clean_generateurs(void)
     if(actuelGenerateur)
         suivGenerateur   = actuelGenerateur->next;
 
-    while(actuelGenerateur != NULL)
+    while(actuelGenerateur)
     {
         free(actuelGenerateur);
 

@@ -55,7 +55,6 @@ void control_cb(int control)
             affichage();
 			break;
 		case (SAVEBUTTON_ID):
-            std::cout << "On s'enjaille ma gueule !!! " << edittextsave->get_text() << std::endl;
 		    sim_ecriture(edittextsave->get_text());
 			break;
 		case (STARTBUTTON_ID):
@@ -109,15 +108,12 @@ int main(int argc, char **argv)
             if(sim_lecture(argv[2]))
                 return 1;
             else
-            {
 				load_gui(argv[2]);
-            }
         }
 		else
         {
             error_msg((char*)"Paramètres invalides.");
         }
-			return 1;
 	}
     else if(argc == 2)
     {
@@ -132,6 +128,8 @@ int main(int argc, char **argv)
     {
         error_msg((char*)"Nombre de paramètres invalides.");
     }
+	else
+	load_gui((char*)"");
 
     set_display_model_func(sim_display);
 

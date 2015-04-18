@@ -38,7 +38,5 @@ int** get_3ptr_nb_entite(void);
 void set_display_limits(void);
 void start(void);
 void step(void);
-// FONCTION DE DEBUGGING
-void print_data_sim(void);
 
 #endif

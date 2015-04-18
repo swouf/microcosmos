@@ -96,10 +96,7 @@ int sim_lecture(const char* nomFichier)
 		error_fichier_incomplet();
 		return 1;
 	}
-
-	print_data_sim();
 	set_display_limits();
-	print_data_sim();
 
 	return 0;
 }
@@ -199,7 +196,6 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 }
 int sim_ecriture(const char* nomFichier)
 {
-	print_data_sim();
 	FILE *fichier = NULL;
 	fichier = fopen(nomFichier, "wt");
 	if(fichier == NULL)
@@ -315,8 +311,6 @@ void set_display_limits(void)
 	int nbTrousNoirs	= get_nb_trous_noirs();
 	int nbParticules	= get_nb_particules();
 
-	printf("nbGen : %d\nnbTrNoirs : %d\nnbPart : %d\n", nbGenerateurs, nbTrousNoirs, nbParticules);
-
 	Generateur_t*	genTMP		= NULL;
 	Trounoir_t*		trouNoirTMP	= NULL;
 	Particule_t*	partTMP		= NULL;
@@ -329,9 +323,6 @@ void set_display_limits(void)
 		x = get_gen_posx(genTMP);
 		y = get_gen_posy(genTMP);
 
-		printf("Generateur %d : (%f;%f)\n", i, x, y);
-		printf("x : %f\ny : %f\n-Xmax : %f\n-Xmin : %f\n-Ymax : %f\n-Ymin : %f\n", x, y, Xmax, Xmin, Ymax, Ymin);
-
 		if(x >= Xmax)
 			Xmax = x;
 		if(x <= Xmin)
@@ -342,7 +333,6 @@ void set_display_limits(void)
 		if(y <= Ymin)
 			Ymin = y;
 	}
-	printf("Ymin à la sortie de la boucle des generateurs : %f\n", Ymin);
 	for(int i=0;i<nbTrousNoirs;i++)
 	{
 		trouNoirTMP = get_trou_noir_by_id(i);
@@ -360,7 +350,6 @@ void set_display_limits(void)
 			Ymax = y;
 		if(y <= Ymin)
 			Ymin = y;
-		printf("Trou noir %d : (%f;%f)\n", i, x, y);
 	}
 	for(int i=0;i<nbParticules;i++)
 	{
@@ -379,81 +368,9 @@ void set_display_limits(void)
 			Ymax = y;
 		if(y <= Ymin)
 			Ymin = y;
-
-		printf("Particule %d : (%f;%f)\n", i, x, y);
 	}
 
 	set_projection_limits(Xmax, Xmin, Ymax, Ymin);
-}
-// FONCTION DE DEBUGGING
-void print_data_sim(void)
-{
-
-	printf("\033[33m#### DONNÉE DE LA SIMULATION ####\n");
-
-/*********************** Récupération des générateurs *************************/
-
-	printf("# Générateurs #\n");
-
-	Generateur_t* genTMP= NULL;
-	int nbGenerateurs = get_nb_generateurs();
-
-	printf("%d\n", nbGenerateurs);
-
-	for(int i=0;i<nbGenerateurs;i++)
-	{
-		genTMP = get_gen_by_id(i);
-		if(genTMP == NULL)
-			break;
-		printf("%f %f %f %f %f\n",
-				get_gen_rgen(genTMP),
-				get_gen_posx(genTMP),
-				get_gen_posy(genTMP),
-				get_gen_vpix(genTMP),
-				get_gen_vpiy(genTMP));
-	}
-
-/*********************** Récupération des trous noirs *************************/
-
-	printf("# Trous Noirs #\n");
-
-	Trounoir_t* trouNoirTMP= NULL;
-	int nbTrousNoirs = get_nb_trous_noirs();
-
-	printf("%d\n", nbTrousNoirs);
-
-	for(int i=0;i<nbTrousNoirs;i++)
-	{
-		trouNoirTMP = get_trou_noir_by_id(i);
-		if(trouNoirTMP == NULL)
-			break;
-		printf("%f %f\n",
-				get_trou_noir_posx(trouNoirTMP),
-				get_trou_noir_posy(trouNoirTMP));
-	}
-
-/*********************** Récupération des particules **************************/
-
-	printf(" Particules #\n");
-
-	Particule_t* partTMP= NULL;
-	int nbParticules = get_nb_particules();
-
-	printf("%d\n", nbParticules);
-
-	for(int i=0;i<nbParticules;i++)
-	{
-		partTMP = get_part_by_id(i);
-		if(partTMP == NULL)
-			break;
-		printf("%f %f %f %f %f\n",
-				get_part_rayon(partTMP),
-				get_part_posx(partTMP),
-				get_part_posy(partTMP),
-				get_part_vx(partTMP),
-				get_part_vy(partTMP));
-	}
-	printf("\033[0m");
 }
 void start(void)
 {

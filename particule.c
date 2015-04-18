@@ -119,24 +119,18 @@ void display_particules(void)
 }
 void particule_force_rendu1(void)
 {
-/**********************************************************************/
-/************************** STUB **************************************/
-    printf("Exécution de la fonction : particule_force_rendu1()");
-/**********************************************************************/
-
-/*
-    Particule_t* part0 = ptrParticules;
-    Particule_t* part1 = ptrParticules->next;
+    Particule_t* part0 = get_part_by_id(nbParticules-1);
+    Particule_t* part1 = get_part_by_id(nbParticules-2);
 
 	double seuil_d = 0;
 
 	double rayon0 = part0->rayon;
 	double rayon1 = part1->rayon;
 
-	double posx0 = part0->posx;
-	double posy0 = part0->posy;
-	double posx1 = part1->posx;
-	double posy1 = part1->posy;
+	double posx0 = creal(part0->pos);
+	double posy0 = cimag(part0->pos);
+	double posx1 = creal(part1->pos);
+	double posy1 = cimag(part1->pos);
 
 	double minimum;
 
@@ -171,7 +165,6 @@ void particule_force_rendu1(void)
 		force = 0;
 
 	printf("%8.3f\n", force);
-    */
 }
 void particule_integration_rendu2(void)
 {

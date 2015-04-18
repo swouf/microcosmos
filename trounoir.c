@@ -28,28 +28,25 @@ struct Trounoir
 
 Trounoir_t* string_parsing_trou_noir(char* ligne)
 {
-	static Trounoir_t* precTrouNoir = NULL;
-
 	double posx, posy;
 
 	sscanf(ligne, "%lf %lf", &posx, &posy);
 
-    Trounoir_t* actuelTrouNoir = malloc(sizeof(Trounoir_t));
-    if(actuelTrouNoir == NULL)
+    Trounoir_t* ptrTMP = malloc(sizeof(Trounoir_t));
+    if(ptrTMP == NULL)
     {
         error_msg("Échec de l'allocation de mémoire.");
         return NULL;
     }
 
 
-	actuelTrouNoir->pos  = posx + posy*I;
-	actuelTrouNoir->next = precTrouNoir;
+	ptrTMP->pos  = posx + posy*I;
+	ptrTMP->next = ptrTrousNoirs;
 
-    precTrouNoir  = actuelTrouNoir;
-    ptrTrousNoirs = actuelTrouNoir;
+    ptrTrousNoirs = ptrTMP;
     nbTrousNoirs++;
 
-	return actuelTrouNoir;
+	return ptrTMP;
 }
 void clean_trous_noirs(void)
 {
@@ -59,7 +56,7 @@ void clean_trous_noirs(void)
     if(actuelTrouNoir)
         suivTrouNoir = actuelTrouNoir->next;
 
-    while(actuelTrouNoir != NULL)
+    while(actuelTrouNoir)
     {
         free(actuelTrouNoir);
 
