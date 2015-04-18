@@ -1,4 +1,4 @@
-/*!
+    /*!
  * \file trounoir.h
  * \brief (HEADER) Module de gestion des entités trous noirs
  * \date 19.04.2015

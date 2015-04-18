@@ -28,15 +28,7 @@ struct Generateur
 
 Generateur_t* string_parsing_generateur(char* ligne)
 {
-    static Generateur_t* precGenerateur = NULL;
 	double rgen, posx, posy, vpi_x, vpi_y;
-
-    Generateur_t* actuelGenerateur = malloc(sizeof(Generateur_t));
-    if(actuelGenerateur == NULL)
-    {
-        error_msg("Échec de l'allocation de mémoire.");
-        return NULL;
-    }
 
 	sscanf(ligne, "%lf %lf %lf %lf %lf",
 			&rgen,
@@ -57,17 +49,22 @@ Generateur_t* string_parsing_generateur(char* ligne)
 	}
 	else
 	{
-		actuelGenerateur->rgen  = rgen;
-		actuelGenerateur->pos   = posx + posy*I;
-		actuelGenerateur->vpi   = vpi_x + vpi_y*I;
-        actuelGenerateur->next  = precGenerateur;
-	}
+		Generateur_t* ptrTMP    = malloc(sizeof(Generateur_t));
+		if(ptrTMP == NULL)
+	    {
+	        error_msg("Échec de l'allocation de mémoire.");
+	        return NULL;
+	    }
+		ptrTMP->rgen			= rgen;
+		ptrTMP->pos				= posx + posy*I;
+		ptrTMP->vpi				= vpi_x + vpi_y*I;
+		ptrTMP->next			= ptrGenerateurs;
 
-    precGenerateur = actuelGenerateur;
-    ptrGenerateurs = actuelGenerateur;
+		ptrGenerateurs = ptrTMP;
+	}
     nbGenerateurs++;
 
-	return actuelGenerateur;
+	return ptrGenerateurs;
 }
 void clean_generateurs(void)
 {
@@ -93,7 +90,7 @@ void clean_generateurs(void)
 void display_generateurs(void)
 {
     Generateur_t* generateur = ptrGenerateurs;
-    while(generateur != NULL)
+    while(generateur)
     {
         draw_generateur(creal(generateur->pos),
                         cimag(generateur->pos),
