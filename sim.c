@@ -323,11 +323,10 @@ void set_display_limits(void)
 		x = get_gen_posx(genTMP);
 		y = get_gen_posy(genTMP);
 
-<<<<<<< HEAD
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
 		if(y >= yMax)
 			yMax = y;
@@ -347,10 +346,10 @@ void set_display_limits(void)
 		if(x <= xMin)
 			xMin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 	}
 	for(int i=0;i<nbParticules;i++)
 	{
@@ -365,10 +364,10 @@ void set_display_limits(void)
 		if(x <= xMin)
 			xMin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 	}
 
 	set_projection_limits(xMax, xMin, yMax, yMin);
