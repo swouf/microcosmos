@@ -303,10 +303,10 @@ int** get_3ptr_nb_entite(void)
 }
 void set_display_limits(void)
 {
-	double Xmax = DBL_MIN;
-	double Xmin = DBL_MAX;
-	double Ymax = DBL_MIN;
-	double Ymin = DBL_MAX;
+	double xMax = DBL_MIN;
+	double xMin = DBL_MAX;
+	double yMax = DBL_MIN;
+	double yMin = DBL_MAX;
 
 	double x	= 0;
 	double y	= 0;
@@ -330,19 +330,19 @@ void set_display_limits(void)
 		y = get_gen_posy(genTMP);
 
 		printf("Generateur %d : (%f;%f)\n", i, x, y);
-		printf("x : %f\ny : %f\n-Xmax : %f\n-Xmin : %f\n-Ymax : %f\n-Ymin : %f\n", x, y, Xmax, Xmin, Ymax, Ymin);
+		printf("x : %f\ny : %f\n-xMax : %f\n-xMin : %f\n-yMax : %f\n-yMin : %f\n", x, y, xMax, xMin, yMax, yMin);
 
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 	}
-	printf("Ymin à la sortie de la boucle des generateurs : %f\n", Ymin);
+	printf("yMin à la sortie de la boucle des generateurs : %f\n", yMin);
 	for(int i=0;i<nbTrousNoirs;i++)
 	{
 		trouNoirTMP = get_trou_noir_by_id(i);
@@ -351,15 +351,15 @@ void set_display_limits(void)
 		x = get_trou_noir_posx(trouNoirTMP);
 		y = get_trou_noir_posy(trouNoirTMP);
 
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 		printf("Trou noir %d : (%f;%f)\n", i, x, y);
 	}
 	for(int i=0;i<nbParticules;i++)
@@ -370,20 +370,20 @@ void set_display_limits(void)
 		x = get_part_posx(partTMP);
 		y = get_part_posy(partTMP);
 
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 
 		printf("Particule %d : (%f;%f)\n", i, x, y);
 	}
 
-	set_projection_limits(Xmax, Xmin, Ymax, Ymin);
+	set_projection_limits(xMax, xMin, yMax, yMin);
 }
 // FONCTION DE DEBUGGING
 void print_data_sim(void)
