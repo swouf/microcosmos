@@ -194,23 +194,23 @@ void idle(void)
 {
 	//printf("Fonction idle (module graphic)\n");
 }
-void set_projection_limits(float Xmax, float Xmin, float Ymax, float Ymin)
+void set_projection_limits(float xMax, float xMin, float yMax, float yMin)
 {
-	float diff = abs(Xmax-Xmin) - abs(Ymax-Ymin);
+	float diff = abs(xMax-xMin) - abs(yMax-yMin);
 
 	if(diff > 0)
 	{
-		Ymax += diff/2;
-		Ymin -= diff/2;
+		yMax += diff/2;
+		yMin -= diff/2;
 	}
 	else if(diff < 0)
 	{
-		Xmax += diff/2;
-		Xmin -= diff/2;
+		xMax += diff/2;
+		xMin -= diff/2;
 	}
 
-	gauche	= Xmin-RMAX;
-	droite	= Xmax+RMAX;
-	bas		= Ymin-RMAX;
-	haut	= Ymax+RMAX;
+	gauche	= xMin-RMAX;
+	droite	= xMax+RMAX;
+	bas		= yMin-RMAX;
+	haut	= yMax+RMAX;
 }
