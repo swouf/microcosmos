@@ -9,7 +9,7 @@ PROJECT = Microcosmos
 EXE = rendu2.x
 
 CC = gcc
-CFLAGS = -Wall -std=c99 -c -g
+CFLAGS = -Wall -std=c99 -c
 CFILES = $(wildcard *.c)
 
 CPPC = g++

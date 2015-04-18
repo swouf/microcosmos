@@ -205,8 +205,8 @@ void set_projection_limits(float xMax, float xMin, float yMax, float yMin)
 	}
 	else if(diff < 0)
 	{
-		xMax += diff/2;
-		xMin -= diff/2;
+		xMax -= diff/2;
+		xMin += diff/2;
 	}
 
 	gauche	= xMin-RMAX;
