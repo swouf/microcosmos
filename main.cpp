@@ -36,10 +36,12 @@ typedef enum GLUI_ID
 	EDITTEXTGEN_ID,
 	EDITTEXTTROU_ID,
 	LOADBUTTON_ID,
-	SAVEBUTTON_ID
+	SAVEBUTTON_ID,
+	STARTBUTTON_ID,
+	STEPBUTTON_ID
 } GLUI_ID;
 
-void load_gui(void);
+void load_gui(char*);
 void glui_idle(void);
 
 void control_cb(int control)
@@ -48,7 +50,6 @@ void control_cb(int control)
 	{
 		case (LOADBUTTON_ID):
 			sim_clean();
-			printf("%s\n", edittextload->get_text());
             if(sim_lecture(edittextload->get_text()))
                 break;
             affichage();
@@ -57,6 +58,12 @@ void control_cb(int control)
             std::cout << "On s'enjaille ma gueule !!! " << edittextsave->get_text() << std::endl;
 		    sim_ecriture(edittextsave->get_text());
 			break;
+		case (STARTBUTTON_ID):
+			start();
+			break;
+		case (STEPBUTTON_ID):
+			step();
+			break;
 	}
 }
 //rapport largeur/hauteur de la fenêtre utilisée pour le dessin
@@ -64,6 +71,7 @@ void control_cb(int control)
 
 int main(int argc, char **argv)
 {
+	initGL(argc, argv);
 	if(argc == 3)
 	{
 		if (std::string(argv[1]) == "Error")
@@ -96,56 +104,70 @@ int main(int argc, char **argv)
                 return 0;
             }
         }
+		else if(std::string(argv[1]) == "Graphic")
+        {
+            if(sim_lecture(argv[2]))
+                return 1;
+            else
+            {
+				load_gui(argv[2]);
+            }
+        }
 		else
         {
-            error_msg("Paramètres invalides.");
+            error_msg((char*)"Paramètres invalides.");
         }
 			return 1;
 	}
     else if(argc == 2)
     {
-        sim_lecture(argv[1]);
+        if(sim_lecture(argv[1]))
+			return 1;
+		else
+		{
+			load_gui(argv[1]);
+		}
     }
     else if(argc > 3)
     {
-        error_msg("Nombre de paramètres invalides.");
+        error_msg((char*)"Nombre de paramètres invalides.");
     }
 
-    printf("Paramètrage de sim_display()\n");
     set_display_model_func(sim_display);
-    printf("Paramètrage de sim_display() TERMINÉ\n");
 
-	initGL(argc, argv);
 	fenetre_sim();
-	load_gui();
+
+	glutMainLoop();
 
 	sim_clean();
 
 	return 0;
 }
 
-void load_gui(void)
+void load_gui(char* nomFichier)
 {
 	/*widgets GLUI*/
 	//Pannel File
-	glui = GLUI_Master.create_glui("Microcosmos GUI");
+	glui = GLUI_Master.create_glui("Microcosmos");
 
 	GLUI_Panel *file_panel = glui->add_panel("File");
 
 	edittextload = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTLOAD_ID, control_cb);
+	edittextload->set_text(nomFichier);
 
 	glui->add_button_to_panel(file_panel,"Load", LOADBUTTON_ID, control_cb);
 
 	edittextsave = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTSAVE_ID, control_cb);
+	edittextsave->set_text("save.txt");
 
 	glui->add_button_to_panel(file_panel, "Save", SAVEBUTTON_ID, control_cb);
 
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
 
-	glui->add_button_to_panel(simulation_panel,"Start");
+	glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID, control_cb);
 
-	glui->add_button_to_panel(simulation_panel,"Step");
+	glui->add_button_to_panel(simulation_panel,"Step", STEPBUTTON_ID, control_cb);
 
 	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
@@ -159,13 +181,7 @@ void load_gui(void)
 	//button
 	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
 
-	/*Entrée dans la boucle principale de glut*/
-
-	GLUI_Master.set_glutReshapeFunc(reshape);
 	GLUI_Master.set_glutIdleFunc(glui_idle);
-	GLUI_Master.set_glutDisplayFunc(affichage);
-
-	glutMainLoop();
 }
 void glui_idle(void)
 {

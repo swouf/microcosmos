@@ -455,3 +455,11 @@ void print_data_sim(void)
 	}
 	printf("\033[0m");
 }
+void start(void)
+{
+	printf("start()\n");
+}
+void step(void)
+{
+	printf("step()\n");
+}

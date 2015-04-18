@@ -1,0 +1,12 @@
+#
+# Fichier de test custom
+#
+
+0
+FIN_LISTE
+0
+FIN_LISTE
+2
+45 1000 0 2 2
+45 -1000 0 2 2
+FIN_LISTE

@@ -11,8 +11,8 @@
 #include "graphic.h"
 #include "constantes.h"
 
-#define WIDTH_DEF   600
-#define HEIGHT_DEF  300
+#define WIDTH_DEF   640
+#define HEIGHT_DEF  360
 
 static const double PI = 3.14159265358979323846;
 
@@ -38,7 +38,10 @@ void fenetre_sim (void)
 	glutInitWindowPosition(300, 300);
 	glutInitWindowSize(WIDTH_DEF, HEIGHT_DEF);
 
-	sim_window = glutCreateWindow("Microcosmos sim");
+	sim_window = glutCreateWindow("Microcosmos");
+
+	glutReshapeFunc(reshape);
+	glutDisplayFunc(affichage);
 
     affichage();
 }
@@ -157,7 +160,10 @@ void graphic_draw_segment (float x1,
 }
 void affichage(void)
 {
-    glutSetWindow(sim_window);
+    if(sim_window)
+		glutSetWindow(sim_window);
+	else
+		return;
 
     glViewport(0, 0, width, height);
     glClearColor(1, 1, 1, 0);
@@ -190,6 +196,19 @@ void idle(void)
 }
 void set_projection_limits(float Xmax, float Xmin, float Ymax, float Ymin)
 {
+	float diff = abs(Xmax-Xmin) - abs(Ymax-Ymin);
+
+	if(diff > 0)
+	{
+		Ymax += diff/2;
+		Ymin -= diff/2;
+	}
+	else if(diff < 0)
+	{
+		Xmax += diff/2;
+		Xmin -= diff/2;
+	}
+
 	gauche	= Xmin-RMAX;
 	droite	= Xmax+RMAX;
 	bas		= Ymin-RMAX;

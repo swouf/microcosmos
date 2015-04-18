@@ -1,0 +1,11 @@
+# Fichier de test custom
+
+0
+FIN_LISTE
+
+1
+15 15
+FIN_LISTE
+
+0
+FIN_LISTE

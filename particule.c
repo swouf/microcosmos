@@ -37,11 +37,6 @@ int get_nb_particules(void)
     return nbParticules;
 }
 
-static void set_ptr_particules(Particule_t* ptrPart)
-{
-	ptrParticules = ptrPart;
-}
-
 Particule_t* string_parsing_particule(char* ligne)
 {
 	double rayon, posx, posy, vx, vy;
