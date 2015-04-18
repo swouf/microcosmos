@@ -299,10 +299,10 @@ int** get_3ptr_nb_entite(void)
 }
 void set_display_limits(void)
 {
-	double Xmax = DBL_MIN;
-	double Xmin = DBL_MAX;
-	double Ymax = DBL_MIN;
-	double Ymin = DBL_MAX;
+	double xMax = DBL_MIN;
+	double xMin = DBL_MAX;
+	double yMax = DBL_MIN;
+	double yMin = DBL_MAX;
 
 	double x	= 0;
 	double y	= 0;
@@ -323,15 +323,16 @@ void set_display_limits(void)
 		x = get_gen_posx(genTMP);
 		y = get_gen_posy(genTMP);
 
+<<<<<<< HEAD
 		if(x >= Xmax)
 			Xmax = x;
 		if(x <= Xmin)
 			Xmin = x;
 
-		if(y >= Ymax)
-			Ymax = y;
-		if(y <= Ymin)
-			Ymin = y;
+		if(y >= yMax)
+			yMax = y;
+		if(y <= yMin)
+			yMin = y;
 	}
 	for(int i=0;i<nbTrousNoirs;i++)
 	{
@@ -341,10 +342,10 @@ void set_display_limits(void)
 		x = get_trou_noir_posx(trouNoirTMP);
 		y = get_trou_noir_posy(trouNoirTMP);
 
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
 		if(y >= Ymax)
 			Ymax = y;
@@ -359,10 +360,10 @@ void set_display_limits(void)
 		x = get_part_posx(partTMP);
 		y = get_part_posy(partTMP);
 
-		if(x >= Xmax)
-			Xmax = x;
-		if(x <= Xmin)
-			Xmin = x;
+		if(x >= xMax)
+			xMax = x;
+		if(x <= xMin)
+			xMin = x;
 
 		if(y >= Ymax)
 			Ymax = y;
@@ -370,7 +371,7 @@ void set_display_limits(void)
 			Ymin = y;
 	}
 
-	set_projection_limits(Xmax, Xmin, Ymax, Ymin);
+	set_projection_limits(xMax, xMin, yMax, yMin);
 }
 void start(void)
 {
