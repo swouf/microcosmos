@@ -1,8 +1,8 @@
 /*!
  * \file trounoir.h
  * \brief (HEADER) Module de gestion des entités trous noirs
- * \date 15.03.2015
- * \version 1
+ * \date 19.04.2015
+ * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -22,7 +22,14 @@ typedef struct Trounoir Trounoir_t;
  */
 Trounoir_t* string_parsing_trou_noir(char*);
 
+/*!
+ * \fn void clean_trous_noirs(void)
+ * \brief Vide complétement la liste chainée contenue dans le module et
+ * remets le pointeur ptrTrousNoirs ainsi que la variable nbTrousNoirs
+ * respectivement à NULL et à 0 (zéro).
+ */
 void clean_trous_noirs(void);
+
 
 void display_trous_noirs(void);
 Trounoir_t* get_trou_noir_by_id(int);

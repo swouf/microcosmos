@@ -1,7 +1,7 @@
 ########################################################################
 # Makefile pour le rendu 1 du projet Microcosmos
-# date : 15.03.2015
-# version : 1
+# date : 19.04.2015
+# version : 2
 # Auteur : Minh Truong & Jérémy Jayet
 ########################################################################
 
@@ -53,16 +53,3 @@ depend:
 	@mv Makefile.tmp Makefile
 
 ### DEPENDENCIES ###
-#-- C rules --#
-error.o: error.c error.h
-generateur.o: generateur.c graphic.h error.h constantes.h tolerance.h \
- generateur.h
-graphic.o: graphic.c graphic.h constantes.h tolerance.h
-particule.o: particule.c graphic.h constantes.h tolerance.h error.h \
- particule.h
-sim.o: sim.c particule.h trounoir.h generateur.h error.h constantes.h \
- tolerance.h sim.h graphic.h
-trounoir.o: trounoir.c graphic.h constantes.h tolerance.h error.h \
- trounoir.h
-#-- C++ rules --#
-main.o: main.cpp sim.h error.h graphic.h

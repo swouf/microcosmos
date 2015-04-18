@@ -1,8 +1,8 @@
 /*!
  * \file constantes.h
  * \brief (HEADER) Contient des constantes utilisées par le programme
- * \date 15.03.2015
- * \version 1
+ * \date 19.04.2015
+ * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -31,7 +31,7 @@
 #define COTE_DEF 		5
 #define R_GENERATEUR	8
 #define LINE_WIDTH		3
-#define L_FLECHE_GEN	10			
+#define L_FLECHE_GEN	10
 
 
 #endif

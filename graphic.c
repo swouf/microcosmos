@@ -1,8 +1,8 @@
 /*!
  * \file graphic.c
- * \brief Module de gestion de la simulation
- * \date 15.03.2015
- * \version 1
+ * \brief Module de dessin et de gestion de la fenêtre de la simulation
+ * \date 19.04.2015
+ * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
 #include <stdio.h>

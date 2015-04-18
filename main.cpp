@@ -1,8 +1,8 @@
 /*!
  * \file main.cpp
  * \brief Fichier main du projet
- * \date 15.03.2015
- * \version 1
+ * \date 19.04.2015
+ * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
 
