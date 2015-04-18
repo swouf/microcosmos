@@ -1,0 +1,14 @@
+#
+# Fichier de test custom
+# Les deux particules sont l'une à côté de l'autre
+
+0
+FIN_LISTE
+2
+-30 -10
+-30  -5
+FIN_LISTE
+2
+50 0 1000 4 4
+50 0 -1000 4 4
+FIN_LISTE
