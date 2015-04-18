@@ -11,8 +11,11 @@
 #include "graphic.h"
 #include "constantes.h"
 
-#define WIDTH_DEF   640
-#define HEIGHT_DEF  360
+#define WIDTH_DEF		640
+#define HEIGHT_DEF  	360
+#define R_COMP_VMAX		1f
+#define G_COMP_VMAX		0.2f
+#define B_COMP_VMAX		0.2f
 
 static const double PI = 3.14159265358979323846;
 
@@ -53,15 +56,14 @@ void draw_particule (double posx, double posy, double r, double v)
 
 	//Couleur en fonction de la vitesse
 	rouge = v/MAX_VITESSE;
-	vert = rouge - 0.8;
+	vert = (G_COMP_VMAX/MAX_VITESSE)*v;
 	bleu = vert;
 	float couleur[3] = {rouge, vert, bleu};
 
 	//Dessin du cercle
 	glLineWidth(LINE_WIDTH);
-	glBegin (GL_LINE_LOOP);
 	glColor3fv(couleur);
-
+	glBegin (GL_LINE_LOOP);
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
@@ -78,18 +80,21 @@ void draw_generateur(double posx, double posy, double vpix, double vpiy)
 	float vx = L_FLECHE_GEN*vpix/sqrt(pow(vpix, 2)+pow(vpiy, 2));
 	float vy = L_FLECHE_GEN*vpiy/sqrt(pow(vpix, 2)+pow(vpiy, 2));
 	float angleVecteur = atan2(vy,vx);
+	
 	glLineWidth(LINE_WIDTH);
-	glBegin (GL_POLYGON);
 	glColor3fv(couleur);
-
+	//dessin du disque
+	glBegin (GL_POLYGON);
+	
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
 		glVertex2f(posx + RAYON*cos(alpha), posy + RAYON*sin(alpha));
     }
+	
 	glEnd();
 
-	//segments
+	//dessin du segment
 	glBegin(GL_LINES);
 
 	glColor3fv(couleur);
@@ -97,22 +102,20 @@ void draw_generateur(double posx, double posy, double vpix, double vpiy)
     glVertex2f (vx+posx, vy+posy);
 
 	glEnd();
-	//bouts de flèche
+	//dessin de premier bout de flèche
 	glBegin(GL_LINES);
 
 	glVertex2f(	vx+posx-COTE*cos(angleVecteur-anglePointe),
 				vy+posy-COTE*sin(angleVecteur-anglePointe));
-
 	glVertex2f(vx+posx, vy+posy);
 
 	glEnd();
 
+	//dessin du deuxième bout de flèche
 	glBegin(GL_LINES);
-
 
 	glVertex2f(	vx+posx-COTE*cos(angleVecteur+anglePointe),
 				vy+posy-COTE*sin(angleVecteur+anglePointe));
-
 	glVertex2f(vx+posx, vy+posy);
 
 	glEnd();

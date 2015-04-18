@@ -172,49 +172,33 @@ void particule_integration_rendu2(void)
 
     for(;part0->next != NULL;part0 = part0->next){}
 
-    double         seuil_d       = 0;
+    double seuil_d, rayon1, minimum;
+    double complex pos1, v_k, pos_k, distance, unitVDistance;
 	double         rayon0        = part0->rayon;
-    double         rayon1        = 0;
-	double         minimum       = 0;
     double         x             = 0;
     double         m0            = part0->m;
     double complex force         = 0;
     double complex pos0          = part0->pos;
-    double complex pos1          = 0;
     double complex v0            = part0->v;
-    double complex v_k           = 0;
-    double complex pos_k         = 0;
-	double complex distance      = 0;
-    double complex unitVDistance = 0;
 
     for(Particule_t* part1 = ptrParticules;part1 != part0;
         part1 = part1->next)
     {
         rayon1  = part1->rayon;
         pos1    = part1->pos;
-
         distance = pos1 - pos0;
         unitVDistance = distance/cabs(distance);
-
+        
         if(rayon0 > rayon1)
             minimum = rayon1;
         else
             minimum = rayon0;
-
+        
         seuil_d = rayon0 + rayon1 + minimum;
-
         x = cabs(distance)/seuil_d;
-
+       
         if(x < EPSILON_ZERO)
-        {
-            /*
-            srand((long int)part1);
-            double complex randVect = rand()-(RAND_MAX/2)
-                                    + (rand()-(RAND_MAX/2))*I;
-            randVect = randVect/cabs(randVect);
-            */
             force += MAX_REP*I;
-        }
         else if((x > EPSILON_ZERO) && (x<=1))
             force += unitVDistance*(-MAX_REP*x + MAX_REP);
         else if	((x > 1) && (x <= 2))
@@ -232,15 +216,13 @@ void particule_integration_rendu2(void)
         else
             force += 0 + 0*I;
     }
-
     printf("%8.3f %8.3f\n", creal(force), cimag(force));
-
     v_k     = (force/m0)*DELTA_T+v0;
+    
     if(cabs(v_k) > MAX_VITESSE)
         v_k = (v_k/cabs(v_k))*MAX_VITESSE;
-
+    
     pos_k   = v_k*DELTA_T+pos0;
-
     printf("%7.3f %7.3f %9.4f %9.4f\n", creal(v_k), cimag(v_k),
                                         creal(pos_k), cimag(pos_k));
 }
