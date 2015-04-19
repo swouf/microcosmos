@@ -66,17 +66,16 @@ void integration(void);
 
 /*!
  * \fn int** get_3ptr_nb_entite(void)
- * \brief Sert à obtenir un tableau contenant 3 pointeurs sur des
- *			variables (int) contenant chacune le nombre d'entités
+ * \brief Sert à obtenir un tableau contenant les 3 nombres d'entités
  *			enregistrées dans leurs modules respectifs.
- * \return Retourne un tableau (pointeur) contenant des pointeurs :
- *		   	---------------------------------------------
- *		   	+ Case 1 : pointeurs sur nbGenerateurs		+
- *			+ Case 2 : pointeurs sur nbTrousNoirs		+
- *			+ Case 2 : pointeurs sur nbParticules		+
- *			---------------------------------------------
+ * \return Retourne un tableau (pointeur) contenant des int :
+ *		   	-----------------------------
+ *		   	+ Case 1 : nbParticules		+
+ *			+ Case 2 : nbGenerateurs	+
+ *			+ Case 2 : nbTrousNoirs		+
+ *			-----------------------------
  */
-int** get_3ptr_nb_entite(void);
+int* get_3nb_entite(void);
 
 /*!
  * \fn void set_display_limits(void)

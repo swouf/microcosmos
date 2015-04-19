@@ -171,11 +171,11 @@ void load_gui(char* nomFichier)
 }
 void glui_idle(void)
 {
-	int** ptrNbEntite = get_3ptr_nb_entite();
+	int* ptrNbEntite = get_3nb_entite();
 
-	edittextpart->set_int_val(*ptrNbEntite[0]);
-	edittextgen->set_int_val(*ptrNbEntite[1]);
-	edittexttrou->set_int_val(*ptrNbEntite[2]);
+	edittextpart->set_int_val(ptrNbEntite[0]);
+	edittextgen->set_int_val(ptrNbEntite[1]);
+	edittexttrou->set_int_val(ptrNbEntite[2]);
 
 	idle();
 }
