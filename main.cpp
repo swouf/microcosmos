@@ -111,37 +111,25 @@ int main(int argc, char **argv)
 				load_gui(argv[2]);
         }
 		else
-        {
             error_msg((char*)"Paramètres invalides.");
-        }
 	}
     else if(argc == 2)
     {
         if(sim_lecture(argv[1]))
 			return 1;
 		else
-		{
 			load_gui(argv[1]);
-		}
     }
     else if(argc > 3)
-    {
         error_msg((char*)"Nombre de paramètres invalides.");
-    }
 	else
-	load_gui((char*)"");
-
+		load_gui((char*)"");
     set_display_model_func(sim_display);
-
 	fenetre_sim();
-
 	glutMainLoop();
-
 	sim_clean();
-
 	return 0;
 }
-
 void load_gui(char* nomFichier)
 {
 	/*widgets GLUI*/

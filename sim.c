@@ -29,9 +29,7 @@ int sim_lecture(const char* nomFichier)
 	FILE	*fichier		= NULL;
 	int		nbLignes		= 0;
 	int		nbAppelsLectureP= 0;
-	TYPE	typeParagraphe	= GENERATEUR; //pour changer la façon dont
-										  //on enregistre les
-										  //informations après.
+	TYPE	typeParagraphe	= GENERATEUR;
 
 	fichier = fopen(nomFichier, "rt");
 	if (fichier == NULL)
@@ -39,21 +37,15 @@ int sim_lecture(const char* nomFichier)
 		error_fichier_inexistant();
 		return 1;
 	}
-
-	while(fgets(ligne, CHAR_MAX_LIGNE, fichier)) //récupération de la
-												//chaîne de caractères
+	while(fgets(ligne, CHAR_MAX_LIGNE, fichier))
 	{
-		if(isspace(ligne[0])||ligne[0] == '#') //ignore les commentaires
-		{
-			continue; // lignes à ignorer, on passe à la suivante
-		}
+		if(isspace(ligne[0])||ligne[0] == '#')
+			continue;
 		else
 		{
-			if(sscanf(ligne, "%u", &nbLignes) != 1) //Récupération et
-							//convertion en int de la première valeur.
+			if(sscanf(ligne, "%u", &nbLignes) != 1)
 			{
-				switch(typeParagraphe) 	//Dans le cas où sscanf ne
-										//marcherait pas.
+				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						error_lect_nb_elements(ERR_GENERAT);
@@ -69,12 +61,9 @@ int sim_lecture(const char* nomFichier)
 			else
 			{
 				nbAppelsLectureP++;
-				if(lecture_paragraphe(fichier, nbLignes,
-									  typeParagraphe))
-										//traitement de l'information.
+				if(lecture_paragraphe(fichier, nbLignes, typeParagraphe))
 					return 1;
-				switch(typeParagraphe) //change la manière d'enregistrer
-							//l'information car on change de paragraphe
+				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						typeParagraphe = TROU_NOIR;
@@ -83,21 +72,14 @@ int sim_lecture(const char* nomFichier)
 						typeParagraphe = PARTICULE;
 						break;
 					case PARTICULE:
-						continue; //Traitement de l'information contenue
-									//dans le fichier complète.
-				}
-			}
-		}
-	}
-
-	if(nbAppelsLectureP != NB_TYPES) //vérifier la lecture des trois
-														//paragraphes.
+						continue;
+	}	}	}	}
+	if(nbAppelsLectureP != NB_TYPES)
 	{
 		error_fichier_incomplet();
 		return 1;
 	}
 	set_display_limits();
-
 	return 0;
 }
 int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
@@ -111,22 +93,16 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			error_fichier_incomplet();
 			return 1;
 		}
-		if(isspace(ligne[0])||ligne[0] == '#') //évite les commentaires,
-												//espaces, etc.
+		if(isspace(ligne[0])||ligne[0] == '#')
 		{
 			i--;
 			continue;
 		}
 		else
 		{
-			if(strcmp(ligne, "FIN_LISTE\n"))//si ligne = FIN LISTE ne
-											//rentre pas dans le bloc
-											//du if.
+			if(strcmp(ligne, "FIN_LISTE\n"))
 			{
-				switch(typeParagraphe) 	//on active la fonction pour
-										//découper et trier l'information
-										//contenue dans chaque ligne
-										//selon le type de paragraphe.
+				switch(typeParagraphe)
 				{
 					case GENERATEUR:
 						if(string_parsing_generateur(ligne) == NULL)
@@ -147,21 +123,15 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 				switch(typeParagraphe)
 				{
 					case GENERATEUR:
-						error_lecture_elements(ERR_GENERAT,
-											   ERR_PAS_ASSEZ);
+						error_lecture_elements(ERR_GENERAT, ERR_PAS_ASSEZ);
 						return 1;
 					case TROU_NOIR:
-						error_lecture_elements(ERR_TROU_N,
-											   ERR_PAS_ASSEZ);
+						error_lecture_elements(ERR_TROU_N, ERR_PAS_ASSEZ);
 						return 1;
 					case PARTICULE:
-						error_lecture_elements(ERR_PARTIC,
-											   ERR_PAS_ASSEZ);
+						error_lecture_elements(ERR_PARTIC, ERR_PAS_ASSEZ);
 						return 1;
-				}
-			}
-		}
-	}
+				}	}	}	}
 	while(1)
 	{
 		if(fgets(ligne, CHAR_MAX_LIGNE, fichier) == NULL)
@@ -170,9 +140,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 			return 1;
 		}
 		else if(strncmp(ligne, "FIN_LISTE", 9) == 0)
-		{
 			break;
-		}
 		else
 		{
 			if(!(isspace(ligne[0])||ligne[0] == '#'))
@@ -188,10 +156,7 @@ int lecture_paragraphe(FILE* fichier, int nbLignes, int typeParagraphe)
 					case PARTICULE:
 						error_lecture_elements(ERR_PARTIC, ERR_TROP);
 						return 1;
-				}
-			}
-		}
-	}
+				}	}	}	}
 	return 0;
 }
 int sim_ecriture(const char* nomFichier)
@@ -303,14 +268,11 @@ void set_display_limits(void)
 	double xMin = DBL_MAX;
 	double yMax = DBL_MIN;
 	double yMin = DBL_MAX;
-
 	double x	= 0;
 	double y	= 0;
-
 	int nbGenerateurs	= get_nb_generateurs();
 	int nbTrousNoirs	= get_nb_trous_noirs();
 	int nbParticules	= get_nb_particules();
-
 	Generateur_t*	genTMP		= NULL;
 	Trounoir_t*		trouNoirTMP	= NULL;
 	Particule_t*	partTMP		= NULL;
@@ -322,12 +284,10 @@ void set_display_limits(void)
 			break;
 		x = get_gen_posx(genTMP);
 		y = get_gen_posy(genTMP);
-
 		if(x >= xMax)
 			xMax = x;
 		if(x <= xMin)
 			xMin = x;
-
 		if(y >= yMax)
 			yMax = y;
 		if(y <= yMin)
@@ -340,12 +300,10 @@ void set_display_limits(void)
 			break;
 		x = get_trou_noir_posx(trouNoirTMP);
 		y = get_trou_noir_posy(trouNoirTMP);
-
 		if(x >= xMax)
 			xMax = x;
 		if(x <= xMin)
 			xMin = x;
-
 		if(y >= yMax)
 			yMax = y;
 		if(y <= yMin)
@@ -358,18 +316,15 @@ void set_display_limits(void)
 			break;
 		x = get_part_posx(partTMP);
 		y = get_part_posy(partTMP);
-
 		if(x >= xMax)
 			xMax = x;
 		if(x <= xMin)
 			xMin = x;
-
 		if(y >= yMax)
 			yMax = y;
 		if(y <= yMin)
 			yMin = y;
 	}
-
 	set_projection_limits(xMax, xMin, yMax, yMin);
 }
 void start(void)
