@@ -25,11 +25,11 @@ static int nbParticules = 0;
 
 struct Particule
 {
-    double         rayon; //Rayon de la particule.
-	double complex pos; //La position de la particule sous forme complexe.
+    double         rayon;
+	double complex pos; 
     double complex delta_pos;
-	double complex v; //La vitesse de la particule sous forme complexe.
-    double         m; // Masse de la particule.
+	double complex v; 
+    double         m; 
     Particule_t*   next;
 };
 

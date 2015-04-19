@@ -22,7 +22,6 @@ static const double PI		= 3.14159265358979323846;
 static const int	SIDES	= SIDES_DEF;
 
 static void    		(*display_model)(void);
-static GLfloat 		aspect_ratio	= (GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
 static int     		width			= WIDTH_DEF;
 static int     		height			= HEIGHT_DEF;
 static int     		sim_window		= 0;
@@ -32,6 +31,7 @@ static GLfloat 		gauche			= 0;
 static GLfloat 		droite			= 0;
 static GLfloat 		bas				= 0;
 static GLfloat 		haut			= 0;
+static GLfloat 		aspect_ratio=(GLfloat)WIDTH_DEF/(GLfloat)HEIGHT_DEF;
 
 void initGL(int argc, char **argv)
 {
@@ -178,9 +178,11 @@ void affichage(void)
 	glLoadIdentity();
     
     if(aspect_ratio <= 1)
-		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
+		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, \
+				-1, 1);
 	else
-		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -1, 1);
+		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, \
+				-1, 1);
 
 	(*display_model)();
 	glutSwapBuffers();
@@ -203,7 +205,8 @@ void idle(void)
 {
 	glutPostRedisplay();
 }
-void set_projection_limits(float xMax, float xMin, float yMax, float yMin)
+void set_projection_limits(float xMax, float xMin, float yMax,\ 
+							float yMin)
 {
 	float diff = abs(xMax-xMin) - abs(yMax-yMin);
 
