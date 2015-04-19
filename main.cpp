@@ -138,31 +138,53 @@ void load_gui(char* nomFichier)
 
 	GLUI_Panel *file_panel = glui->add_panel("File");
 
-	edittextload = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTLOAD_ID, control_cb);
+	edittextload = glui->add_edittext_to_panel(file_panel,"FileName: ",\
+												GLUI_EDITTEXT_TEXT,\
+												NULL, EDITTEXTLOAD_ID,\
+												control_cb);
 	edittextload->set_text(nomFichier);
 
-	glui->add_button_to_panel(file_panel,"Load", LOADBUTTON_ID, control_cb);
+	glui->add_button_to_panel(file_panel,"Load", LOADBUTTON_ID,\
+								control_cb);
 
-	edittextsave = glui->add_edittext_to_panel(file_panel,"FileName: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTSAVE_ID, control_cb);
+	edittextsave = glui->add_edittext_to_panel(file_panel,"FileName: ",\
+												GLUI_EDITTEXT_TEXT,\
+												NULL, EDITTEXTSAVE_ID,\
+												control_cb);
 	edittextsave->set_text("save.txt");
 
-	glui->add_button_to_panel(file_panel, "Save", SAVEBUTTON_ID, control_cb);
+	glui->add_button_to_panel(file_panel, "Save", SAVEBUTTON_ID,\
+								control_cb);
 
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
 
-	glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID, control_cb);
+	glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID,\
+								control_cb);
 
-	glui->add_button_to_panel(simulation_panel,"Step", STEPBUTTON_ID, control_cb);
+	glui->add_button_to_panel(simulation_panel,"Step", STEPBUTTON_ID,\
+								control_cb);
 
 	//Panel Information
 	GLUI_Panel *information_panel = glui->add_panel("Information");
 
-	edittextpart = glui->add_edittext_to_panel(information_panel, "Nb Particule: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTPART_ID, control_cb);
+	edittextpart = glui->add_edittext_to_panel(information_panel,\
+												"Nb Particule: ",\
+												GLUI_EDITTEXT_TEXT,\
+												NULL, EDITTEXTPART_ID,\
+												control_cb);
 
-	edittextgen = glui->add_edittext_to_panel(information_panel, "Nb Generateur: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTGEN_ID, control_cb);
+	edittextgen = glui->add_edittext_to_panel(information_panel,\
+												"Nb Generateur: ",\
+												GLUI_EDITTEXT_TEXT,\
+												NULL, EDITTEXTGEN_ID,\
+												control_cb);
 
-	edittexttrou = glui->add_edittext_to_panel(information_panel, "Nb Trou noir: ", GLUI_EDITTEXT_TEXT, NULL, EDITTEXTTROU_ID, control_cb);
+	edittexttrou = glui->add_edittext_to_panel(information_panel,\
+												"Nb Trou noir: ",\
+												GLUI_EDITTEXT_TEXT,\
+												NULL, EDITTEXTTROU_ID,\
+												control_cb);
 
 	//button
 	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
