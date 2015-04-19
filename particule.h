@@ -21,12 +21,34 @@ typedef struct Particule Particule_t;
  */
 Particule_t* string_parsing_particule(char*);
 
+/*!
+ * \fn void clean_particules(void)
+ * \brief Vide complétement la liste chainée contenue dans le module et
+ *          remets le pointeur ptrParticules ainsi que la variable
+ *          nbParticules respectivement à NULL et à 0 (zéro).
+ */
 void clean_particules(void);
 
+/*!
+ * \fn int get_nb_particules(void)
+ * \brief Récupére le nombre de particules dans la simulation.
+ * \return Nombre de particules dans la simulation
+ */
 int get_nb_particules(void);
 
+/*!
+ * \fn void display_particules(void)
+ * \brief Affiche les particules
+ */
 void display_particules(void);
 
+/*!
+ * \fn void particule_force_rendu1(void)
+ * \brief Calcule la force à laquelle est soumise la première particule
+ *          du fichier. Affiche cette force (sous forme vectorielle)
+ *          ainsi que la vitesse et la position calculée après un
+ *          instant DELTA_T
+ */
 void particule_integration_rendu2(void);
 
 /*!
@@ -36,11 +58,60 @@ void particule_integration_rendu2(void);
  */
 void particule_force_rendu1(void);
 
+/*!
+ * \fn Particule_t* get_part_by_id(int id)
+ * \brief Récupére un pointeur sur une particule en donnant son id (sa
+ *          place dans la liste contenant les particules).
+ * \param id : place de la particule dans la liste contenant les
+ *              particules.
+ * \return Pointeur sur la particule, ou NULL en cas d'erreur (id trop
+ *          grand ou autre)
+ */
 Particule_t* get_part_by_id(int);
+
+/*!
+ * \fn double get_part_rayon(Particule_t* part)
+ * \brief Récupére le rayon d'une particule.
+ * \param trouNoir : pointeur sur la particule dont on veut récupérer
+ *                   le rayon.
+ * \return Rayon de la particule
+ */
 double get_part_rayon(Particule_t*);
+
+/*!
+ * \fn double get_part_posx(Particule_t* part)
+ * \brief Récupére la position en x d'une particule.
+ * \param trouNoir : pointeur sur la particule dont on veut récupérer
+ *                   la position.
+ * \return Position en x de la particule
+ */
 double get_part_posx(Particule_t*);
+
+/*!
+ * \fn double get_part_posy(Particule_t* part)
+ * \brief Récupére la position en y d'une particule.
+ * \param trouNoir : pointeur sur la particule dont on veut récupérer
+ *                   la position.
+ * \return Position en y de la particule
+ */
 double get_part_posy(Particule_t*);
+
+/*!
+ * \fn double get_part_vx(Particule_t* part)
+ * \brief Récupére la vitesse en x d'une particule.
+ * \param trouNoir : pointeur sur la particule dont on veut récupérer
+ *                   la vitesse.
+ * \return Vitesse en x de la particule
+ */
 double get_part_vx(Particule_t*);
+
+/*!
+ * \fn double get_part_vy(Particule_t* part)
+ * \brief Récupére la vitesse en y d'une particule.
+ * \param trouNoir : pointeur sur la particule dont on veut récupérer
+ *                   la vitesse.
+ * \return Vitesse en y de la particule
+ */
 double get_part_vy(Particule_t*);
 
 #endif

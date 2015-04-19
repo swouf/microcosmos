@@ -66,7 +66,7 @@ double get_trou_noir_posx(Trounoir_t*);
 double get_trou_noir_posy(Trounoir_t*);
 
 /*!
- * \fn double get_trou_noir_posy(Trounoir_t* trouNoir)
+ * \fn int get_nb_trous_noirs(void)
  * \brief Récupére le nombre de trous noirs dans la simulation.
  * \return nombre de trous noirs dans la simulation
  */
