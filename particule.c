@@ -259,7 +259,3 @@ double get_part_vy(Particule_t* part)
 {
     return cimag(part->v);
 }
-int* get_ptr_nb_part(void)
-{
-    return &nbParticules;
-}

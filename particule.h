@@ -42,6 +42,5 @@ double get_part_posx(Particule_t*);
 double get_part_posy(Particule_t*);
 double get_part_vx(Particule_t*);
 double get_part_vy(Particule_t*);
-int* get_ptr_nb_part(void);
 
 #endif

@@ -311,13 +311,13 @@ void integration(void)
 {
     particule_integration_rendu2();
 }
-int** get_3ptr_nb_entite(void)
+int* get_3nb_entite(void)
 {
-	static int* ptrNbEntite[3];
+	static int ptrNbEntite[3];
 
-	ptrNbEntite[0] = get_ptr_nb_part();
-	ptrNbEntite[1] = get_ptr_nb_gen();
-	ptrNbEntite[2] = get_ptr_nb_trous_noirs();
+	ptrNbEntite[0] = get_nb_particules();
+	ptrNbEntite[1] = get_nb_generateurs();
+	ptrNbEntite[2] = get_nb_trous_noirs();
 
 	return ptrNbEntite;
 }
