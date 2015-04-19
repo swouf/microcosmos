@@ -30,7 +30,10 @@ Trounoir_t* string_parsing_trou_noir(char*);
  */
 void clean_trous_noirs(void);
 
-
+/*!
+ * \fn void display_trous_noirs(void)
+ * \brief
+ */
 void display_trous_noirs(void);
 Trounoir_t* get_trou_noir_by_id(int);
 double get_trou_noir_posx(Trounoir_t*);
