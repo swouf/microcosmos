@@ -16,7 +16,7 @@
 #define R_COMP_VMAX		1f
 #define G_COMP_VMAX		0.2f
 #define B_COMP_VMAX		0.2f
-#define SIDES_DEF		15
+#define SIDES_DEF		30
 
 static const double PI		= 3.14159265358979323846;
 static const int	SIDES	= SIDES_DEF;
@@ -47,6 +47,8 @@ void fenetre_sim (void)
 
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(affichage);	
+	
+	glViewport(0, 0, width, height);
 
     glutPostRedisplay();
 }
@@ -64,14 +66,17 @@ void draw_particule (double posx, double posy, double r, double v)
 	//Dessin du cercle
 	glLineWidth(LINE_WIDTH);
 	glColor3fv(couleur);
-	glBegin (GL_LINE_LOOP);
 	
-	for (i=0; i < SIDES; i++)
+	double x1, y1, x2, y2;
+	
+	for (i=0; i < (2*SIDES); i++)
     {
-		float alpha = i * 2. * PI/SIDES;
-		glVertex2f(posx + r*cos(alpha), posy + r*sin(alpha));
+		x1 = posx + r*cos(i * PI/SIDES);
+		y1 = posy + r*sin(i * PI/SIDES);
+		x2 = posx + r*cos((i+1) * PI/SIDES);
+		y2 = posy + r*sin((i+1) * PI/SIDES);
+		graphic_draw_segment (x1, y1, x2, y2);
     }
-	glEnd ();
 }
 void draw_generateur(double posx, double posy, double vpix, double vpiy)
 {
@@ -168,6 +173,14 @@ void affichage(void)
 
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+    
+    if(aspect_ratio <= 1)
+		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
+	else
+		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -1, 1);
 
 	(*display_model)();
 	glutSwapBuffers();
@@ -176,17 +189,9 @@ void reshape(int w, int h)
 {
 	glViewport(0, 0, w, h);
 	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
     width   = w;
     height  = h;
 	aspect_ratio = (GLfloat) w / (GLfloat) h;
-	
-	if(aspect_ratio <= 1)
-		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, -1, 1);
-	else
-		glOrtho(gauche*aspect_ratio, droite*aspect_ratio, bas, haut, -1, 1);
 	
 	glutPostRedisplay();
 }
