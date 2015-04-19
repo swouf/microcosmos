@@ -205,7 +205,7 @@ void idle(void)
 {
 	glutPostRedisplay();
 }
-void set_projection_limits(float xMax, float xMin, float yMax,\ 
+void set_projection_limits(float xMax, float xMin, float yMax,\
 							float yMin)
 {
 	float diff = abs(xMax-xMin) - abs(yMax-yMin);
