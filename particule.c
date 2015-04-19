@@ -27,6 +27,7 @@ struct Particule
 {
     double         rayon; //Rayon de la particule.
 	double complex pos; //La position de la particule sous forme complexe.
+    double complex delta_pos;
 	double complex v; //La vitesse de la particule sous forme complexe.
     double         m; // Masse de la particule.
     Particule_t*   next;
@@ -188,15 +189,15 @@ void particule_integration_rendu2(void)
         pos1    = part1->pos;
         distance = pos1 - pos0;
         unitVDistance = distance/cabs(distance);
-        
+
         if(rayon0 > rayon1)
             minimum = rayon1;
         else
             minimum = rayon0;
-        
+
         seuil_d = rayon0 + rayon1 + minimum;
         x = cabs(distance)/seuil_d;
-       
+
         if(x < EPSILON_ZERO)
             force += MAX_REP*I;
         else if((x > EPSILON_ZERO) && (x<=1))
@@ -218,10 +219,10 @@ void particule_integration_rendu2(void)
     }
     printf("%8.3f %8.3f\n", creal(force), cimag(force));
     v_k     = (force/m0)*DELTA_T+v0;
-    
+
     if(cabs(v_k) > MAX_VITESSE)
         v_k = (v_k/cabs(v_k))*MAX_VITESSE;
-    
+
     pos_k   = v_k*DELTA_T+pos0;
     printf("%7.3f %7.3f %9.4f %9.4f\n", creal(v_k), cimag(v_k),
                                         creal(pos_k), cimag(pos_k));

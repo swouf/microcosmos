@@ -13,7 +13,7 @@ CFLAGS = -Wall -std=c99 -c
 CFILES = $(wildcard *.c)
 
 CPPC = g++
-CPPFLAGS = -Wall -c -g
+CPPFLAGS = -Wall -c
 CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
