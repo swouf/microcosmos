@@ -1,6 +1,6 @@
 #
 # Fichier de test custom
-#
+# Les deux particules sont l'une à côté de l'autre
 
 0
 FIN_LISTE
