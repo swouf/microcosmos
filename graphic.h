@@ -1,6 +1,7 @@
 /*!
  * \file graphic.h
- * \brief (HEADER) Module de dessin et de gestion de la fenêtre de la simulation
+ * \brief (HEADER) Module de dessin et de gestion de la fenêtre de la
+ * 				   simulation
  * \date 19.04.2015
  * \version 2
  * \author Minh Truong & Jérémy Jayet

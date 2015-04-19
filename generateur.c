@@ -20,9 +20,9 @@ static int           nbGenerateurs   = 0;
 
 struct Generateur
 {
-	double         rgen; //Rayon du générateur.
-	double complex pos;  //La position selon l'axe x du générateur.
-	double complex vpi;	 //La vitesse initiale selon l'axe x d'une particule.
+	double         rgen; 
+	double complex pos;  
+	double complex vpi;	 
     Generateur_t*  next;
 };
 
