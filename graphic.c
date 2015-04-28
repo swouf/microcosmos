@@ -18,7 +18,6 @@
 #define G_COMP_VMAX		0.2f
 #define B_COMP_VMAX		0.2f
 #define SIDES_DEF		30
-#define FPS				0.5
 
 static const double PI		= 3.14159265358979323846;
 static const int	SIDES	= SIDES_DEF;
@@ -50,6 +49,7 @@ void fenetre_sim (void)
 
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(affichage);
+	glutTimerFunc(1000/FPS, idle, 0);
 
 	glViewport(0, 0, width, height);
 
@@ -208,21 +208,11 @@ void set_idle_model_func(void (*idle_model_func)(void))
 {
 	idle_model = idle_model_func;
 }
-void idle(void)
+void idle(int value)
 {
-	static double dt = 0;
-	static clock_t lastCall;
-	clock_t now = clock();
-
-	dt = (now - lastCall)/CLOCKS_PER_SEC;
-
-	printf("dt = %lf\n", dt);
-
-	if(dt >= 1/FPS)
-	{
-		(*idle_model)();
-		glutPostRedisplay();
-	}
+	glutTimerFunc(1000/FPS, idle, 0);
+	(*idle_model)();
+	glutPostWindowRedisplay(sim_window);
 }
 void set_projection_limits(float xMax, float xMin, float yMax,\
 							float yMin)

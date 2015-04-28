@@ -258,8 +258,13 @@ double get_part_vy(Particule_t* part)
 {
     return cimag(part->v);
 }
-void update_particules(double dt)
+void update_particules(void)
 {
+    const double dt = DELTA_T;
+
+    printf("FPS = %d\t dt = %lf\n",FPS, dt);
+
+    int i;
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0,\
                     force;
@@ -269,7 +274,7 @@ void update_particules(double dt)
     Particule_t* updatedParticules = NULL;
     Particule_t* ptrTMP            = NULL;
 
-    for(int i=0;i<nbParticules;i++)
+    for(i=0;i<nbParticules;i++)
     {
         part0 = get_part_by_id(i);
 
@@ -343,5 +348,6 @@ void update_particules(double dt)
     }
 
     clean_particules();
+    nbParticules = i;
     ptrParticules = updatedParticules;
 }

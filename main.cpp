@@ -124,6 +124,8 @@ int main(int argc, char **argv)
         error_msg((char*)"Nombre de paramètres invalides.");
 	else
 		load_gui((char*)"");
+
+
     set_display_model_func(sim_display);
 	set_idle_model_func(sim_idle);
 	fenetre_sim();
@@ -199,6 +201,5 @@ void glui_idle(void)
 	edittextpart->set_int_val(ptrNbEntite[0]);
 	edittextgen->set_int_val(ptrNbEntite[1]);
 	edittexttrou->set_int_val(ptrNbEntite[2]);
-
-	idle();
+	
 }

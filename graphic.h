@@ -73,7 +73,8 @@ void initGL(int, char**);
  * \fn void idle(void)
  * \brief 	Rafraîchit l'affichage
  */
-void idle(void);
+void idle(int);
+
 /*!
  * \fn graphic_draw_segment (float x1, float y1, float x2, float y2)
  * \brief 	Dessine un segment
@@ -83,6 +84,7 @@ void idle(void);
  * 			y2: coordonnée y du deuxième point
  */
 void graphic_draw_segment (float, float, float, float);
+
 /*!
  * \fn set_projection_limits(	float xMax, float xMin, float yMax,
  * 							float yMin)

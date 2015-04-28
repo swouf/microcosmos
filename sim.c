@@ -26,7 +26,7 @@ static int lecture_paragraphe_generateur(FILE*, int);
 static int lecture_paragraphe_trou_noir(FILE*, int);
 static int lecture_paragraphe_particule(FILE*, int);
 
-static int isStarted = 0;
+static volatile int isStarted = 0;
 
 int sim_lecture(const char* nomFichier)
 {
@@ -375,16 +375,11 @@ void set_display_limits(void)
 }
 void sim_idle(void)
 {
-	static double dt = 0;
-	static clock_t lastCall;
-	clock_t now = clock();
-
-	dt = (now - lastCall)/CLOCKS_PER_SEC;
-
 	if(isStarted)
 	{
-		update_particules(dt);
+		update_particules();
 	}
+	else;
 }
 void start(void)
 {
