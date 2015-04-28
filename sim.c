@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <float.h>
+#include <time.h>
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
@@ -24,6 +25,8 @@
 static int lecture_paragraphe_generateur(FILE*, int);
 static int lecture_paragraphe_trou_noir(FILE*, int);
 static int lecture_paragraphe_particule(FILE*, int);
+
+static int isStarted = 0;
 
 int sim_lecture(const char* nomFichier)
 {
@@ -370,9 +373,23 @@ void set_display_limits(void)
 	}
 	set_projection_limits(xMax, xMin, yMax, yMin);
 }
+void sim_idle(void)
+{
+	static double dt = 0;
+	static clock_t lastCall;
+	clock_t now = clock();
+
+	dt = (now - lastCall)/CLOCKS_PER_SEC;
+
+	if(isStarted)
+	{
+		update_particules(dt);
+	}
+}
 void start(void)
 {
-	printf("start()\n");
+	isStarted = !isStarted;
+	printf("Simulation started : isStarted = %d\n", isStarted);
 }
 void step(void)
 {

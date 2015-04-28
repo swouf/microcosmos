@@ -125,6 +125,7 @@ int main(int argc, char **argv)
 	else
 		load_gui((char*)"");
     set_display_model_func(sim_display);
+	set_idle_model_func(sim_idle);
 	fenetre_sim();
 	glutMainLoop();
 	sim_clean();

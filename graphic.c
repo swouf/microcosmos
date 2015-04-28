@@ -7,6 +7,7 @@
  */
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 #include <GL/glut.h>
 #include "graphic.h"
 #include "constantes.h"
@@ -17,11 +18,13 @@
 #define G_COMP_VMAX		0.2f
 #define B_COMP_VMAX		0.2f
 #define SIDES_DEF		30
+#define FPS				0.5
 
 static const double PI		= 3.14159265358979323846;
 static const int	SIDES	= SIDES_DEF;
 
 static void    		(*display_model)(void);
+static void			(*idle_model)(void);
 static int     		width			= WIDTH_DEF;
 static int     		height			= HEIGHT_DEF;
 static int     		sim_window		= 0;
@@ -46,8 +49,8 @@ void fenetre_sim (void)
 	sim_window = glutCreateWindow("Microcosmos");
 
 	glutReshapeFunc(reshape);
-	glutDisplayFunc(affichage);	
-	
+	glutDisplayFunc(affichage);
+
 	glViewport(0, 0, width, height);
 
     glutPostRedisplay();
@@ -66,9 +69,9 @@ void draw_particule (double posx, double posy, double r, double v)
 	//Dessin du cercle
 	glLineWidth(LINE_WIDTH);
 	glColor3fv(couleur);
-	
+
 	double x1, y1, x2, y2;
-	
+
 	for (i=0; i < (2*SIDES); i++)
     {
 		x1 = posx + r*cos(i * PI/SIDES);
@@ -86,18 +89,18 @@ void draw_generateur(double posx, double posy, double vpix, double vpiy)
 	float vx = L_FLECHE_GEN*vpix/sqrt(pow(vpix, 2)+pow(vpiy, 2));
 	float vy = L_FLECHE_GEN*vpiy/sqrt(pow(vpix, 2)+pow(vpiy, 2));
 	float angleVecteur = atan2(vy,vx);
-	
+
 	glLineWidth(LINE_WIDTH);
 	glColor3fv(couleur);
 	//dessin du disque
 	glBegin (GL_POLYGON);
-	
+
 	for (i=0; i < SIDES; i++)
     {
 		float alpha = i * 2. * PI/SIDES;
 		glVertex2f(posx + RAYON*cos(alpha), posy + RAYON*sin(alpha));
     }
-	
+
 	glEnd();
 
 	//dessin du segment
@@ -173,10 +176,10 @@ void affichage(void)
 
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-    
+
     if(aspect_ratio <= 1)
 		glOrtho(gauche, droite, bas/aspect_ratio, haut/aspect_ratio, \
 				-1, 1);
@@ -190,20 +193,36 @@ void affichage(void)
 void reshape(int w, int h)
 {
 	glViewport(0, 0, w, h);
-	
+
     width   = w;
     height  = h;
 	aspect_ratio = (GLfloat) w / (GLfloat) h;
-	
+
 	glutPostRedisplay();
 }
 void set_display_model_func(void (*display_model_func)(void))
 {
 	display_model = display_model_func;
 }
+void set_idle_model_func(void (*idle_model_func)(void))
+{
+	idle_model = idle_model_func;
+}
 void idle(void)
 {
-	glutPostRedisplay();
+	static double dt = 0;
+	static clock_t lastCall;
+	clock_t now = clock();
+
+	dt = (now - lastCall)/CLOCKS_PER_SEC;
+
+	printf("dt = %lf\n", dt);
+
+	if(dt >= 1/FPS)
+	{
+		(*idle_model)();
+		glutPostRedisplay();
+	}
 }
 void set_projection_limits(float xMax, float xMin, float yMax,\
 							float yMin)

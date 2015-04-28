@@ -9,13 +9,6 @@
 #ifndef SIM_H
 #define SIM_H
 
-typedef enum type
-{
-	GENERATEUR 	= 1,
-	TROU_NOIR 	= 2,
-	PARTICULE 	= 3
-}	TYPE;
-
 /*!
  * \fn int sim_lecture(char* nomFichier)
  * \brief Lit le fichier texte passé en argument
@@ -83,6 +76,8 @@ int* get_3nb_entite(void);
  *			pouvoir définir les limites de la projection.
  */
 void set_display_limits(void);
+
+void sim_idle(void);
 
 /*!
  * \fn void start(void)

@@ -37,6 +37,7 @@ void draw_generateur(double posx, double posy, double vpix, double vpiy);
  * 		posy: position y d'un trou noir
  */
 void draw_trou_noir(double posx, double posy);
+
 /*!
  * \fn void set_display_model_func(void (*display_model_func)(void))
  * \brief 	Définit la fonction de callback qui dessine le modèle de la
@@ -45,6 +46,9 @@ void draw_trou_noir(double posx, double posy);
  * 											 de callback
  */
 void set_display_model_func(void (*display_model_func)(void));
+
+void set_idle_model_func(void (*idle_model_func)(void));
+
 /*!
  * \fn void affichage(void)
  * \brief Affiche la simulation
