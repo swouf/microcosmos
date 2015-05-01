@@ -77,7 +77,7 @@ int* get_3nb_entite(void);
  */
 void set_display_limits(void);
 
-void sim_idle(void);
+void sim_update(void);
 
 /*!
  * \fn void start(void)

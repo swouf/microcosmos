@@ -103,3 +103,11 @@ int get_nb_trous_noirs(void)
 {
 	return nbTrousNoirs;
 }
+double* force_trous_noirs(double x, double y)
+{
+	static double force[2] = {0,0};
+
+	// Calcul de la force exercée par les trous noirs en (x;y) ICI.
+
+	return force;
+}

@@ -1,7 +1,7 @@
 /*!
  * \file particule.c
  * \brief Module de gestion des entités particules
- * \date 19.04.2015
+ * \date 29.04.2015
  * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
@@ -258,38 +258,31 @@ double get_part_vy(Particule_t* part)
 {
     return cimag(part->v);
 }
-void update_particules(void)
+Particule_t* update_particule(Particule_t* part0, double force0x, double force0y)
 {
     const double dt = DELTA_T;
 
-    printf("FPS = %d\t dt = %lf\n",FPS, dt);
-
-    int i;
     double seuil_d, rayon1, minimum, m0, rayon0, x;
-    double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0,\
-                    force;
+    double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;
+    double complex force = force0x + force0y*I;
 
-    Particule_t* part0             = NULL;
-    Particule_t* part1             = NULL;
-    Particule_t* updatedParticules = NULL;
-    Particule_t* ptrTMP            = NULL;
+    Particule_t*        part1             = NULL;
+    static Particule_t* updatedParticules = NULL;
+    static Particule_t* ptrTMP            = NULL;
 
-    for(i=0;i<nbParticules;i++)
+    rayon0  = part0->rayon;
+    m0      = part0->m;
+    pos0    = part0->pos;
+    v0      = part0->v;
+    force   = 0;
+    x       = 0;
+
+    for(int j=0;j<nbParticules;j++)
     {
-        part0 = get_part_by_id(i);
-
-        rayon0  = part0->rayon;
-        m0      = part0->m;
-        pos0    = part0->pos;
-        v0      = part0->v;
-        force   = 0;
-        x       = 0;
-
-        for(int j=0;j<nbParticules;j++)
+        part1 = get_part_by_id(j);
+        if(part1 == part0 || part1 == NULL) continue;
+        else
         {
-            if(j != i) part1 = get_part_by_id(i);
-            else continue;
-
             rayon1  = part1->rayon;
             pos1    = part1->pos;
             distance = pos1 - pos0;
@@ -322,32 +315,45 @@ void update_particules(void)
             else
                 force += 0 + 0*I;
         }
-        v_k = (force/m0)*dt+v0;
+    }
+    v_k = (force/m0)*dt+v0;
 
-        if(cabs(v_k) > MAX_VITESSE)
-            v_k = (v_k/cabs(v_k))*MAX_VITESSE;
+    if(cabs(v_k) > MAX_VITESSE)
+        v_k = (v_k/cabs(v_k))*MAX_VITESSE;
 
-        pos_k = v_k*dt+pos0;
+    pos_k = v_k*dt+pos0;
 
-        updatedParticules = malloc(sizeof(Particule_t));
-        if(updatedParticules)
-        {
-            updatedParticules->rayon    = rayon0;
-            updatedParticules->pos      = pos_k;
-            updatedParticules->v        = v_k;
-            updatedParticules->m        = m0;
-            updatedParticules->next     = ptrTMP;
+    updatedParticules = malloc(sizeof(Particule_t));
+    if(updatedParticules)
+    {
+        updatedParticules->rayon    = rayon0;
+        updatedParticules->pos      = pos_k;
+        updatedParticules->v        = v_k;
+        updatedParticules->m        = m0;
+        updatedParticules->next     = ptrTMP;
 
-            ptrTMP = updatedParticules;
-        }
-        else
-        {
-            error_msg("Échec de l'allocation dynamique.");
-            exit(EXIT_FAILURE);
-        }
+        ptrTMP = updatedParticules;
+    }
+    else
+    {
+        error_msg("Échec de l'allocation dynamique.");
+        exit(EXIT_FAILURE);
     }
 
+    return updatedParticules;
+    /*
     clean_particules();
     nbParticules = i;
     ptrParticules = updatedParticules;
+    */
+}
+void set_ptrParticules(Particule_t* ptr)
+{
+    Particule_t* ptrTMP = ptr;
+    int i;
+
+    for(i=0;ptrTMP != NULL;i++, ptrTMP=ptrTMP->next);
+
+    ptrParticules   = ptr;
+    nbParticules    = i;
 }

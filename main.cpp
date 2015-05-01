@@ -1,7 +1,7 @@
 /*!
  * \file main.cpp
  * \brief Fichier main du projet
- * \date 19.04.2015
+ * \date 29.04.2015
  * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
 
 
     set_display_model_func(sim_display);
-	set_idle_model_func(sim_idle);
+	set_idle_model_func(sim_update);
 	fenetre_sim();
 	glutMainLoop();
 	sim_clean();
@@ -201,5 +201,5 @@ void glui_idle(void)
 	edittextpart->set_int_val(ptrNbEntite[0]);
 	edittextgen->set_int_val(ptrNbEntite[1]);
 	edittexttrou->set_int_val(ptrNbEntite[2]);
-	
+
 }

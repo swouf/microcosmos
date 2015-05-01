@@ -72,4 +72,6 @@ double get_trou_noir_posy(Trounoir_t*);
  */
 int get_nb_trous_noirs(void);
 
+double* force_trous_noirs(double, double);
+
 #endif

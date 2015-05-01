@@ -6,11 +6,13 @@
  * \version 2
  * \author Minh Truong & Jérémy Jayet
  */
-/*
+
+/*!
  * \fn void fenetre_sim (void)
  * \brief Créé la fenêtre de simulation
  */
 void fenetre_sim (void);
+
 /*!
  * \fn void draw_particule (double posx, double posy, double r, double v)
  * \brief Dessine une particule
@@ -20,6 +22,7 @@ void fenetre_sim (void);
  * 			v: vitesse d'une particule.
  */
 void draw_particule (double posx, double posy, double r, double v);
+
 /*!
  * \fn void draw_generateur(double posx, double posy, double vpix,
  * 							double vpiy)
@@ -30,6 +33,7 @@ void draw_particule (double posx, double posy, double r, double v);
  * 			vpiy: vitesse initiale y des particules éjectées
  */
 void draw_generateur(double posx, double posy, double vpix, double vpiy);
+
 /*!
  * \fn void draw_trou_noir(double posx, double posy)
  * \brief Dessine un trou noir
@@ -54,6 +58,7 @@ void set_idle_model_func(void (*idle_model_func)(void));
  * \brief Affiche la simulation
  */
 void affichage(void);
+
 /*!
  * \fn void reshape(int w, int h)
  * \brief 	Modifie l'aspect_ration et le viewport lorsque la taille de
@@ -62,6 +67,7 @@ void affichage(void);
  * 			h:hauteur de la fenêtre
  */
 void reshape(int, int);
+
 /*!
  * \fn void initGL(int argc, char** argv)
  * \brief 	Initialise OpenGL

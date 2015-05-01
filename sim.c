@@ -373,11 +373,35 @@ void set_display_limits(void)
 	}
 	set_projection_limits(xMax, xMin, yMax, yMin);
 }
-void sim_idle(void)
+void sim_update(void)
 {
 	if(isStarted)
 	{
-		update_particules();
+		double		 x, y;
+		Particule_t* part              = NULL;
+	    Particule_t* updatedParticules = NULL;
+		double*		 forceTN		   = NULL;
+
+		for(int i=0;i<get_nb_particules();i++)
+	    {
+			part = get_part_by_id(i);
+			x = get_part_posx(part);
+			y = get_part_posy(part);
+			forceTN = force_trous_noirs(x, y);
+			updatedParticules = update_particule(part, forceTN[0],\
+												forceTN[1]);
+
+			/***********************************************************
+			* RESTE À IMPLËMENTER : La fonction pour vérifier si une
+			* particule est sur un trou noir puis la fonction pour
+			* delete la particule si elle est dessus.
+			* Ensuite, phase générateur : boucle pour faire fabriquer
+			* des particules aux générateurs avec fonction de création
+			* de particule.
+			***********************************************************/
+		}
+		clean_particules();
+		set_ptrParticules(updatedParticules);
 	}
 	else;
 }
