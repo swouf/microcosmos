@@ -377,9 +377,11 @@ void sim_update(void)
 {
 	if(isStarted)
 	{
+		//printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n");
 		double		 x, y;
 		Particule_t* part              = NULL;
-	    Particule_t* updatedParticules = NULL;
+	    Particule_t* updatedParticule  = NULL;
+		Particule_t* prevParticule	   = NULL;
 		double*		 forceTN		   = NULL;
 
 		for(int i=0;i<get_nb_particules();i++)
@@ -388,22 +390,26 @@ void sim_update(void)
 			x = get_part_posx(part);
 			y = get_part_posy(part);
 			forceTN = force_trous_noirs(x, y);
-			updatedParticules = update_particule(part, forceTN[0],\
-												forceTN[1]);
+			updatedParticule = update_particule(part, prevParticule,\
+												forceTN[0], forceTN[1]);
+			if(is_on_trous_noirs(get_part_rayon(updatedParticule),\
+						 get_part_posx(updatedParticule),\
+						 get_part_posy(updatedParticule)))
+			{
+				delete_part(updatedParticule, NULL);
+				updatedParticule = prevParticule;
+			}
+			else prevParticule = updatedParticule;
 
-			/***********************************************************
-			* RESTE À IMPLËMENTER : La fonction pour vérifier si une
-			* particule est sur un trou noir puis la fonction pour
-			* delete la particule si elle est dessus.
-			* Ensuite, phase générateur : boucle pour faire fabriquer
-			* des particules aux générateurs avec fonction de création
-			* de particule.
-			***********************************************************/
+			//printf("## Computation de la particule : %d, d'adresse d'origine 0x%X et d'adresse actuelle 0x%X ##\n", i, part, updatedParticule); // DEBUG
 		}
 		clean_particules();
-		set_ptrParticules(updatedParticules);
+		set_ptrParticules(updatedParticule);
+
+		/***************************************************************
+		* Partie qui gère les générateurs !
+		***************************************************************/
 	}
-	else;
 }
 void start(void)
 {

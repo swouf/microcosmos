@@ -114,7 +114,9 @@ double get_part_vx(Particule_t*);
  */
 double get_part_vy(Particule_t*);
 
-Particule_t* update_particule(Particule_t*, double, double);
+Particule_t* update_particule(Particule_t*, Particule_t*, double, double);
+
+void delete_part(Particule_t*, Particule_t*);
 
 void set_ptrParticules(Particule_t*);
 

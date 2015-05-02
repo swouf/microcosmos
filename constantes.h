@@ -20,7 +20,7 @@
 #define FBLACK_MIN		1
 #define MAX_ATTR		20
 #define MAX_REP			-100
-//#define DELTA_T			0.1
+#define DELTA_T			0.1
 #define MAX_VITESSE		10
 #define NBP				0.05
 
@@ -32,7 +32,6 @@
 #define R_GENERATEUR	8
 #define LINE_WIDTH		3
 #define L_FLECHE_GEN	10
-#define DELTA_T			0.016667
 #define FPS				(1/DELTA_T)
 
 

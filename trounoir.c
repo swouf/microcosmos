@@ -93,11 +93,11 @@ Trounoir_t* get_trou_noir_by_id(int id)
 }
 double get_trou_noir_posx(Trounoir_t* trouNoir)
 {
-    return creal(trouNoir->pos);
+	if(trouNoir) return creal(trouNoir->pos);
 }
 double get_trou_noir_posy(Trounoir_t* trouNoir)
 {
-    return cimag(trouNoir->pos);
+	if(trouNoir) return cimag(trouNoir->pos);
 }
 int get_nb_trous_noirs(void)
 {
@@ -105,9 +105,49 @@ int get_nb_trous_noirs(void)
 }
 double* force_trous_noirs(double x, double y)
 {
-	static double force[2] = {0,0};
+	static double	forceRtrn[2];
+	double			distance				= 0;
+	double complex	vectUnitDistance		= 0;
+	double complex	force					= 0;
+	Trounoir_t*		trouNoir				= ptrTrousNoirs;
+
+	forceRtrn[0] = 0;
+	forceRtrn[1] = 0;
 
 	// Calcul de la force exercée par les trous noirs en (x;y) ICI.
+	for(;trouNoir != NULL;trouNoir = trouNoir->next)
+	{
+		distance = cabs(trouNoir->pos-(x+y*I));
+		vectUnitDistance = (trouNoir->pos-(x+y*I))/distance;
+		force += vectUnitDistance*FBLACK_MIN;
 
-	return force;
+		if(distance <= RBLACK)
+		{
+			force += (1-(distance/RBLACK))*vectUnitDistance*FBLACK;
+		}
+		else continue;
+	}
+
+	forceRtrn[0] = creal(force);
+	forceRtrn[1] = cimag(force);
+
+	return forceRtrn;
+}
+int is_on_trous_noirs(double rayon, double x, double y)
+{
+	int			isOn	= 0;
+	double		xTN		= 0;
+	double		yTN		= 0;
+	Trounoir_t* ptrTMP	= NULL;
+
+	for(int i=0;i<nbTrousNoirs;i++)
+	{
+		ptrTMP = get_trou_noir_by_id(i);
+		xTN = get_trou_noir_posx(ptrTMP);
+		yTN = get_trou_noir_posy(ptrTMP);
+		if(rayon>=cabs((x+y*I)-(xTN+yTN*I))) isOn = 1;
+		else continue;
+	}
+
+	return isOn;
 }

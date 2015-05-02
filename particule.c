@@ -108,8 +108,11 @@ void clean_particules(void)
 void display_particules(void)
 {
     Particule_t* particule = ptrParticules;
+    int i = 0; // DEBUG
     while(particule != NULL)
     {
+        //printf("*** Dessin de la particule #%d d'adresse 0x%X ***\n",i ,particule); // DEBUG
+        i++; // DEBUG
         draw_particule(creal(particule->pos),
                        cimag(particule->pos),
                        particule->rayon,
@@ -240,35 +243,38 @@ Particule_t* get_part_by_id(int id)
 }
 double get_part_rayon(Particule_t* part)
 {
-    return part->rayon;
+    if(part) return part->rayon;
 }
 double get_part_posx(Particule_t* part)
 {
-    return creal(part->pos);
+    if(part) return creal(part->pos);
 }
 double get_part_posy(Particule_t* part)
 {
-    return cimag(part->pos);
+    if(part) return cimag(part->pos);
 }
 double get_part_vx(Particule_t* part)
 {
-    return creal(part->v);
+    if(part) return creal(part->v);
 }
 double get_part_vy(Particule_t* part)
 {
-    return cimag(part->v);
+    if(part) return cimag(part->v);
 }
-Particule_t* update_particule(Particule_t* part0, double force0x, double force0y)
+Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double force0x, double force0y)
 {
     const double dt = DELTA_T;
 
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;
-    double complex force = force0x + force0y*I;
+    double complex force_0  = force0x + force0y*I;
+    double complex force    = 0;
 
-    Particule_t*        part1             = NULL;
-    static Particule_t* updatedParticules = NULL;
-    static Particule_t* ptrTMP            = NULL;
+    printf("Force_0 : (%lf;%lf)\n", creal(force_0), cimag(force_0)); // DEBUG
+
+    Particule_t* part1             = NULL;
+    Particule_t* updatedParticules = NULL;
+    Particule_t* ptrTMP            = parent;
 
     rayon0  = part0->rayon;
     m0      = part0->m;
@@ -316,7 +322,8 @@ Particule_t* update_particule(Particule_t* part0, double force0x, double force0y
                 force += 0 + 0*I;
         }
     }
-    v_k = (force/m0)*dt+v0;
+    v_k = ((force+force_0)/m0)*dt+v0;
+    printf("Force après calcul : (%lf;%lf)\n", creal(force), cimag(force)); // DEBUG
 
     if(cabs(v_k) > MAX_VITESSE)
         v_k = (v_k/cabs(v_k))*MAX_VITESSE;
@@ -341,11 +348,6 @@ Particule_t* update_particule(Particule_t* part0, double force0x, double force0y
     }
 
     return updatedParticules;
-    /*
-    clean_particules();
-    nbParticules = i;
-    ptrParticules = updatedParticules;
-    */
 }
 void set_ptrParticules(Particule_t* ptr)
 {
@@ -356,4 +358,9 @@ void set_ptrParticules(Particule_t* ptr)
 
     ptrParticules   = ptr;
     nbParticules    = i;
+}
+void delete_part(Particule_t* part, Particule_t* parent)
+{
+    if(parent) parent->next = part->next;
+    if(part) free(part);
 }

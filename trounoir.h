@@ -74,4 +74,6 @@ int get_nb_trous_noirs(void);
 
 double* force_trous_noirs(double, double);
 
+int is_on_trous_noirs(double, double, double);
+
 #endif
