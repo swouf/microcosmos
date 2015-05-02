@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <float.h>
 #include <time.h>
+#include <complex.h>
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
@@ -409,12 +410,53 @@ void sim_update(void)
 		/***************************************************************
 		* Partie qui gère les générateurs !
 		***************************************************************/
+		int 			canGen	= 1;
+		double			rayon	= 0;
+		double			rGen	= 0;
+		double			xGen	= 0;
+		double			yGen	= 0;
+		double			vpix	= 0;
+		double			vpiy	= 0;
+		Generateur_t*	gen		= NULL;
+
+		for(int i=0;i<get_nb_generateurs();i++)
+	    {
+			gen = get_gen_by_id(i);
+			xGen = get_gen_posx(gen);
+			yGen = get_gen_posy(gen);
+			for(int i=0;i<get_nb_particules();i++)
+		    {
+				part = get_part_by_id(i);
+				rayon = get_part_rayon(part);
+				x = get_part_posx(part);
+				y = get_part_posy(part);
+
+				if(cabs((x+y*I)-(xGen+yGen*I)) <= rayon)
+				{
+					canGen = 0;
+				}
+			}
+			printf("canGen = %d\n", canGen);
+			if(canGen)
+			{
+				if(rand()%10 <= 3)
+				{
+					rGen = get_gen_rgen(gen);
+					vpix = get_gen_vpix(gen);
+					vpiy = get_gen_vpiy(gen);
+
+					add_particule(rGen, xGen, yGen, vpix, vpiy);
+				}
+			}
+			else continue;
+		}
 	}
 }
 void start(void)
 {
 	isStarted = !isStarted;
 	printf("Simulation started : isStarted = %d\n", isStarted);
+	srand(time(NULL));
 }
 void step(void)
 {

@@ -367,3 +367,21 @@ void delete_part(Particule_t* part, Particule_t* parent)
     if(parent) parent->next = part->next;
     if(part) free(part);
 }
+void add_particule(double rayon, double x, double y, double vx, double vy)
+{
+    Particule_t* part = NULL;
+
+    part = malloc(sizeof(Particule_t));
+    if(part)
+    {
+        part->rayon = rayon;
+        part->pos   = x+y*I;
+        part->v     = vx+vy*I;
+        part->m     = KMASSE*pow(rayon, 2);
+        part->next  = ptrParticules;
+
+        ptrParticules = part;
+        nbParticules++;
+    }
+    else error_msg("Échec de l'allocation dynamique.");
+}

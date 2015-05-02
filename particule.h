@@ -120,4 +120,6 @@ void delete_part(Particule_t*, Particule_t*);
 
 void set_ptrParticules(Particule_t*);
 
+void add_particule(double, double, double, double, double);
+
 #endif
