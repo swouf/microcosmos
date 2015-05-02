@@ -94,10 +94,12 @@ Trounoir_t* get_trou_noir_by_id(int id)
 double get_trou_noir_posx(Trounoir_t* trouNoir)
 {
 	if(trouNoir) return creal(trouNoir->pos);
+	else return 0;
 }
 double get_trou_noir_posy(Trounoir_t* trouNoir)
 {
 	if(trouNoir) return cimag(trouNoir->pos);
+	else return 0;
 }
 int get_nb_trous_noirs(void)
 {

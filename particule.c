@@ -244,26 +244,34 @@ Particule_t* get_part_by_id(int id)
 double get_part_rayon(Particule_t* part)
 {
     if(part) return part->rayon;
+    else return 0;
 }
 double get_part_posx(Particule_t* part)
 {
     if(part) return creal(part->pos);
+    else return 0;
 }
 double get_part_posy(Particule_t* part)
 {
     if(part) return cimag(part->pos);
+    else return 0;
 }
 double get_part_vx(Particule_t* part)
 {
     if(part) return creal(part->v);
+    else return 0;
 }
 double get_part_vy(Particule_t* part)
 {
     if(part) return cimag(part->v);
+    else return 0;
 }
 Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double force0x, double force0y)
 {
-    const double dt = DELTA_T;
+    const double fps    = FPS;
+    const double dt     = (1/fps);
+
+    printf("dt = %lf, FPS = %d\n", dt, FPS);
 
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;
@@ -294,16 +302,13 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
             distance = pos1 - pos0;
             unitVDistance = distance/cabs(distance);
 
-            if(rayon0 > rayon1)
-                minimum = rayon1;
-            else
-                minimum = rayon0;
+            if(rayon0 > rayon1) minimum = rayon1;
+            else minimum = rayon0;
 
             seuil_d = rayon0 + rayon1 + minimum;
             x = cabs(distance)/seuil_d;
 
-            if(x < EPSILON_ZERO)
-                force += MAX_REP*I;
+            if(x < EPSILON_ZERO) force += MAX_REP*I;
             else if((x > EPSILON_ZERO) && (x<=1))
                 force += unitVDistance*(-MAX_REP*x + MAX_REP);
             else if	((x > 1) && (x <= 2))
@@ -316,10 +321,8 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
                 x = x - 2;
                 force += unitVDistance*(-MAX_ATTR*x + MAX_ATTR);
             }
-            else if (x > 3)
-                force += 0 + 0*I;
-            else
-                force += 0 + 0*I;
+            else if (x > 3) force += 0 + 0*I;
+            else force += 0 + 0*I;
         }
     }
     v_k = ((force+force_0)/m0)*dt+v0;

@@ -32,7 +32,7 @@
 #define R_GENERATEUR	8
 #define LINE_WIDTH		3
 #define L_FLECHE_GEN	10
-#define FPS				(1/DELTA_T)
+#define FPS				25
 
 
 #endif
