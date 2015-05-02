@@ -6,14 +6,14 @@
 ########################################################################
 
 PROJECT = Microcosmos
-EXE = rendu2.x
+EXE = sim.x
 
 CC = gcc
-CFLAGS = -Wall -std=c99 -c
+CFLAGS = -Wall -std=c99 -c -g
 CFILES = $(wildcard *.c)
 
 CPPC = g++
-CPPFLAGS = -Wall -c
+CPPFLAGS = -Wall -c -g
 CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)

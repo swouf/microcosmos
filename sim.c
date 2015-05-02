@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <float.h>
+#include <time.h>
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
@@ -24,6 +25,8 @@
 static int lecture_paragraphe_generateur(FILE*, int);
 static int lecture_paragraphe_trou_noir(FILE*, int);
 static int lecture_paragraphe_particule(FILE*, int);
+
+static volatile int isStarted = 0;
 
 int sim_lecture(const char* nomFichier)
 {
@@ -370,9 +373,48 @@ void set_display_limits(void)
 	}
 	set_projection_limits(xMax, xMin, yMax, yMin);
 }
+void sim_update(void)
+{
+	if(isStarted)
+	{
+		//printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n");
+		double		 x, y;
+		Particule_t* part              = NULL;
+	    Particule_t* updatedParticule  = NULL;
+		Particule_t* prevParticule	   = NULL;
+		double*		 forceTN		   = NULL;
+
+		for(int i=0;i<get_nb_particules();i++)
+	    {
+			part = get_part_by_id(i);
+			x = get_part_posx(part);
+			y = get_part_posy(part);
+			forceTN = force_trous_noirs(x, y);
+			updatedParticule = update_particule(part, prevParticule,\
+												forceTN[0], forceTN[1]);
+			if(is_on_trous_noirs(get_part_rayon(updatedParticule),\
+						 get_part_posx(updatedParticule),\
+						 get_part_posy(updatedParticule)))
+			{
+				delete_part(updatedParticule, NULL);
+				updatedParticule = prevParticule;
+			}
+			else prevParticule = updatedParticule;
+
+			//printf("## Computation de la particule : %d, d'adresse d'origine 0x%X et d'adresse actuelle 0x%X ##\n", i, part, updatedParticule); // DEBUG
+		}
+		clean_particules();
+		set_ptrParticules(updatedParticule);
+
+		/***************************************************************
+		* Partie qui gère les générateurs !
+		***************************************************************/
+	}
+}
 void start(void)
 {
-	printf("start()\n");
+	isStarted = !isStarted;
+	printf("Simulation started : isStarted = %d\n", isStarted);
 }
 void step(void)
 {
