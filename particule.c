@@ -231,6 +231,33 @@ void particule_integration_rendu2(void)
 }
 Particule_t* get_part_by_id(int id)
 {
+    #ifndef OLDCODE
+
+    static Particule_t*     prevPtrParticules   = NULL;
+    static Particule_t**    tabParticules       = NULL;
+    Particule_t*            part                = NULL;
+
+    if(prevPtrParticules != ptrParticules)
+    {
+        if(tabParticules) free(tabParticules);
+
+        tabParticules = calloc(nbParticules, sizeof(Particule_t*));
+        if(tabParticules == NULL) return NULL;
+
+        part=ptrParticules;
+
+        for(int i=0;part;i++, part=part->next)
+    	{
+            tabParticules[i] = part;
+    	}
+        prevPtrParticules = ptrParticules;
+    }
+
+    return tabParticules[id];
+
+    #endif
+
+    #ifdef OLDCODE
     Particule_t* ptrTMP = ptrParticules;
 	for(int i=0;i<id;i++)
 	{
@@ -239,7 +266,10 @@ Particule_t* get_part_by_id(int id)
         else
 		      ptrTMP = ptrTMP->next;
 	}
+
 	return ptrTMP;
+
+    #endif
 }
 double get_part_rayon(Particule_t* part)
 {
@@ -269,7 +299,7 @@ double get_part_vy(Particule_t* part)
 Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double force0x, double force0y)
 {
     const double fps    = FPS;
-    const double dt     = (1/fps);
+    const double dt     = 4/(fps);
 
     printf("dt = %lf, FPS = %d\n", dt, FPS);
 
