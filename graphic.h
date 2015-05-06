@@ -107,3 +107,5 @@ void graphic_draw_segment (float, float, float, float);
  * 			yMin: la plus petite coordonnée sur l'axe y
  */
   void set_projection_limits(float, float, float, float);
+  void processMouse(int button, int state, int x, int y); 
+  void processNormalKeys(unsigned char key, int x, int y); 
