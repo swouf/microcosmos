@@ -57,11 +57,11 @@ void fenetre_sim (void)
 	glViewport(0, 0, width, height);
 
     glutPostRedisplay();
-    
+
 	glutKeyboardFunc(processNormalKeys);
 	glutMouseFunc(processMouse);
 }
-void draw_particule (double posx, double posy, double r, double v)
+void draw_particule(double posx, double posy, double r, double v)
 {
 	int i;
 	float rouge, vert, bleu;
@@ -254,19 +254,21 @@ void set_projection_limits(float xMax, float xMin, float yMax,\
 	bas		= yMin-RMAX;
 	haut	= yMax+RMAX;
 }
-void processMouse(int button, int state, int x, int y) 
+void processMouse(int button, int state, int x, int y)
 {
 	double mouse_x = 0;
-	double mouse_y = 0; 
-	
+	double mouse_y = 0;
+
 	mouse_x = ((droite - gauche)*((double)x/(double)width)) + gauche;
 	mouse_y = ((bas - haut)*((double)y/(double)height)) + haut;
 	if (state == GLUT_DOWN)
+	{
 		(*mouse_model_press)(mouse_x, mouse_y);
+	}
 	else
 		(*mouse_model_release)();
 }
-void processNormalKeys(unsigned char key, int x, int y) 
+void processNormalKeys(unsigned char key, int x, int y)
 {
 	(*keyboard_model)(key);
 }

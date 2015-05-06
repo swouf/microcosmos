@@ -301,14 +301,14 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
     const double fps    = FPS;
     const double dt     = 4/(fps);
 
-    printf("dt = %lf, FPS = %d\n", dt, FPS);
+    //printf("dt = %lf, FPS = %d\n", dt, FPS);
 
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;
     double complex force_0  = force0x + force0y*I;
     double complex force    = 0;
 
-    printf("Force_0 : (%lf;%lf)\n", creal(force_0), cimag(force_0)); // DEBUG
+    //printf("Force_0 : (%lf;%lf)\n", creal(force_0), cimag(force_0)); // DEBUG
 
     Particule_t* part1             = NULL;
     Particule_t* updatedParticules = NULL;
@@ -356,7 +356,7 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
         }
     }
     v_k = ((force+force_0)/m0)*dt+v0;
-    printf("Force après calcul : (%lf;%lf)\n", creal(force), cimag(force)); // DEBUG
+    //printf("Force après calcul : (%lf;%lf)\n", creal(force), cimag(force)); // DEBUG
 
     if(cabs(v_k) > MAX_VITESSE)
         v_k = (v_k/cabs(v_k))*MAX_VITESSE;
@@ -414,4 +414,8 @@ void add_particule(double rayon, double x, double y, double vx, double vy)
         nbParticules++;
     }
     else error_msg("Échec de l'allocation dynamique.");
+}
+void set_part_next(Particule_t* part, Particule_t* next)
+{
+    if(next && part) part->next = next;
 }

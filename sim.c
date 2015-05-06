@@ -392,13 +392,22 @@ void sim_update(void)
 	    {
 			part = get_part_by_id(i);
 
-			if(part == selectedPart) continue;
-
-			x = get_part_posx(part);
-			y = get_part_posy(part);
-			forceTN = force_trous_noirs(x, y);
-			updatedParticule = update_particule(part, prevParticule,\
-												forceTN[0], forceTN[1]);
+			if(part != selectedPart)
+			{
+				x = get_part_posx(part);
+				y = get_part_posy(part);
+				forceTN = force_trous_noirs(x, y);
+				updatedParticule = update_particule(part, prevParticule,\
+													forceTN[0],\
+													forceTN[1]);
+			}
+			else
+			{
+				printf("Mise à jour de la particule séléctionnée.\n");
+				set_part_next(get_part_by_id(i-1), get_part_by_id(i+1));
+				set_part_next(part, prevParticule);
+				updatedParticule = part;
+			}
 			if(is_on_trous_noirs(get_part_rayon(updatedParticule),\
 						 get_part_posx(updatedParticule),\
 						 get_part_posy(updatedParticule)))
@@ -442,7 +451,7 @@ void sim_update(void)
 					canGen = 0;
 				}
 			}
-			printf("canGen = %d\n", canGen);
+			//printf("canGen = %d\n", canGen);
 			if(canGen)
 			{
 				if(1)
@@ -488,9 +497,15 @@ void sim_mouse_press(double x, double y)
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
 
+		printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
+																	rayon,\
+																	entiteX,\
+																	entiteY); // DEBUG
+
 		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 		{
 			selectedPart = part;
+			printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
 		}
 	}
 	if(selectedPart == NULL)
@@ -505,6 +520,7 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedGen = gen;
+				printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
 			}
 		}
 	}
@@ -520,6 +536,7 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedTN = trouNoir;
+				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN);
 			}
 		}
 	}

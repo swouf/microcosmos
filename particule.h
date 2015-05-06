@@ -122,4 +122,6 @@ void set_ptrParticules(Particule_t*);
 
 void add_particule(double, double, double, double, double);
 
+void set_part_next(Particule_t*, Particule_t*);
+
 #endif
