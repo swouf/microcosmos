@@ -462,3 +462,18 @@ void step(void)
 {
 	printf("step()\n");
 }
+void sim_mouse_press(double x, double y)
+{
+	printf("Click de souris en (%lf;%lf)\n", x, y);
+}
+void sim_mouse_release(void)
+{
+	printf("Bouton de la souris relaché\n");
+}
+void sim_keyboard(unsigned char key)
+{
+	if(key == 'd')
+	{
+		printf("Suppression de l'entité séléctionnée.\n");
+	}
+}

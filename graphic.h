@@ -53,6 +53,12 @@ void set_display_model_func(void (*display_model_func)(void));
 
 void set_idle_model_func(void (*idle_model_func)(void));
 
+void set_keyboard_model_func(void (*)(unsigned char));
+
+void set_mouse_model_release_func(void (*)(void));
+
+void set_mouse_model_press_func(void (*)(double, double));
+
 /*!
  * \fn void affichage(void)
  * \brief Affiche la simulation

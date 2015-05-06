@@ -214,6 +214,19 @@ void set_idle_model_func(void (*idle_model_func)(void))
 {
 	idle_model = idle_model_func;
 }
+void set_keyboard_model_func(void (*keyboard_model_func)(unsigned char))
+{
+	keyboard_model = keyboard_model_func;
+}
+void set_mouse_model_release_func(void (*mouse_model_release_func)(void))
+{
+	mouse_model_release = mouse_model_release_func;
+}
+void set_mouse_model_press_func(void (*mouse_model_press_func)\
+								(double, double))
+{
+	mouse_model_press = mouse_model_press_func;
+}
 void idle(int value)
 {
 	glutTimerFunc(1000/FPS, idle, 0);
