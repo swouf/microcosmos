@@ -128,6 +128,9 @@ int main(int argc, char **argv)
 
     set_display_model_func(sim_display);
 	set_idle_model_func(sim_update);
+	set_keyboard_model_func(sim_keyboard);
+	set_mouse_model_release_func(sim_mouse_release);
+	set_mouse_model_press_func(sim_mouse_press);
 	fenetre_sim();
 	glutMainLoop();
 	sim_clean();

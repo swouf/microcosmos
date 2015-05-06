@@ -90,4 +90,9 @@ void start(void);
  * \brief Fait avancer la simulation d'un pas de temps
  */
 void step(void);
+
+void sim_mouse_press(double, double);
+void sim_mouse_release(void);
+void sim_keyboard(unsigned char);
+
 #endif
