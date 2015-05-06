@@ -439,7 +439,7 @@ void sim_update(void)
 			printf("canGen = %d\n", canGen);
 			if(canGen)
 			{
-				if(rand()%10 <= 3)
+				if(1)
 				{
 					rGen = get_gen_rgen(gen);
 					vpix = get_gen_vpix(gen);

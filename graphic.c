@@ -24,6 +24,9 @@ static const int	SIDES	= SIDES_DEF;
 
 static void    		(*display_model)(void);
 static void			(*idle_model)(void);
+static void 		(*mouse_model_press)(double, double);
+static void 		(*mouse_model_release)(void);
+static void 		(*keyboard_model)(unsigned char);
 static int     		width			= WIDTH_DEF;
 static int     		height			= HEIGHT_DEF;
 static int     		sim_window		= 0;
