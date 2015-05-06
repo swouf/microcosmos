@@ -58,7 +58,7 @@ void fenetre_sim (void)
 
     glutPostRedisplay();
     
-	//glutKeyboardFunc(processNormalKeys);
+	glutKeyboardFunc(processNormalKeys);
 	glutMouseFunc(processMouse);
 }
 void draw_particule (double posx, double posy, double r, double v)
@@ -261,6 +261,12 @@ void processMouse(int button, int state, int x, int y)
 	
 	mouse_x = ((droite - gauche)*((double)x/(double)width)) + gauche;
 	mouse_y = ((bas - haut)*((double)y/(double)height)) + haut;
-	
-	(*mouse_model_press)(mouse_x, mouse_y);
+	if (state == GLUT_DOWN)
+		(*mouse_model_press)(mouse_x, mouse_y);
+	else
+		(*mouse_model_release)();
+}
+void processNormalKeys(unsigned char key, int x, int y) 
+{
+	(*keyboard_model)(key);
 }
