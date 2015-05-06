@@ -57,6 +57,9 @@ void fenetre_sim (void)
 	glViewport(0, 0, width, height);
 
     glutPostRedisplay();
+    
+	//glutKeyboardFunc(processNormalKeys);
+	glutMouseFunc(processMouse);
 }
 void draw_particule (double posx, double posy, double r, double v)
 {
@@ -237,4 +240,14 @@ void set_projection_limits(float xMax, float xMin, float yMax,\
 	droite	= xMax+RMAX;
 	bas		= yMin-RMAX;
 	haut	= yMax+RMAX;
+}
+void processMouse(int button, int state, int x, int y) 
+{
+	double mouse_x = 0;
+	double mouse_y = 0; 
+	
+	mouse_x = ((droite - gauche)*((double)x/(double)width)) + gauche;
+	mouse_y = ((bas - haut)*((double)y/(double)height)) + haut;
+	
+	(*mouse_model_press)(mouse_x, mouse_y);
 }
