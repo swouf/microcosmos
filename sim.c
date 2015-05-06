@@ -27,7 +27,10 @@ static int lecture_paragraphe_generateur(FILE*, int);
 static int lecture_paragraphe_trou_noir(FILE*, int);
 static int lecture_paragraphe_particule(FILE*, int);
 
-static volatile int isStarted = 0;
+static int				isStarted		= 0;
+static Particule_t*		selectedPart	= NULL;
+static Generateur_t*	selectedGen		= NULL;
+static Trounoir_t*		selectedTN		= NULL;
 
 int sim_lecture(const char* nomFichier)
 {
@@ -388,6 +391,9 @@ void sim_update(void)
 		for(int i=0;i<get_nb_particules();i++)
 	    {
 			part = get_part_by_id(i);
+
+			if(part == selectedPart) continue;
+
 			x = get_part_posx(part);
 			y = get_part_posy(part);
 			forceTN = force_trous_noirs(x, y);
@@ -465,10 +471,65 @@ void step(void)
 void sim_mouse_press(double x, double y)
 {
 	printf("Click de souris en (%lf;%lf)\n", x, y);
+
+	Particule_t*	part		= NULL;
+	Generateur_t*	gen			= NULL;
+	Trounoir_t*		trouNoir	= NULL;
+
+	double complex pos	= x+y*I;
+	double rayon		= 0;
+	double entiteX		= 0;
+	double entiteY		= 0;
+
+	for(int i=0;i<get_nb_particules();i++)
+	{
+		part = get_part_by_id(i);
+		rayon = get_part_rayon(part);
+		entiteX = get_part_posx(part);
+		entiteY = get_part_posy(part);
+
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
+		{
+			selectedPart = part;
+		}
+	}
+	if(selectedPart == NULL)
+	{
+		rayon = R_GENERATEUR;
+		for(int i=0;i<get_nb_generateurs();i++)
+		{
+			gen = get_gen_by_id(i);
+			entiteX = get_gen_posx(gen);
+			entiteY = get_gen_posy(gen);
+
+			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
+			{
+				selectedGen = gen;
+			}
+		}
+	}
+	if(selectedPart == NULL && selectedGen == NULL)
+	{
+		rayon = RBLACK;
+		for(int i=0;i<get_nb_trous_noirs();i++)
+		{
+			trouNoir = get_trou_noir_by_id(i);
+			entiteX = get_trou_noir_posx(trouNoir);
+			entiteY = get_trou_noir_posy(trouNoir);
+
+			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
+			{
+				selectedTN = trouNoir;
+			}
+		}
+	}
 }
 void sim_mouse_release(void)
 {
 	printf("Bouton de la souris relaché\n");
+	selectedPart	= NULL;
+	selectedGen		= NULL;
+	selectedTN		= NULL;
 }
 void sim_keyboard(unsigned char key)
 {
