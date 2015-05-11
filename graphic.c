@@ -262,7 +262,7 @@ void processMouse(int button, int state, int x, int y)
 	double mouse_y = 0;
 
 	mouse_x = ((droite - gauche)*((double)x/(double)width)) + gauche;
-	mouse_y = ((bas - haut)*((double)y/(double)height)) + haut;
+	mouse_y = haut - ((bas - haut)*((double)y/(double)height));
 	if (state == GLUT_DOWN)
 	{
 		(*mouse_model_press)(mouse_x, mouse_y);
