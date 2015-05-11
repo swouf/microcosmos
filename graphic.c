@@ -194,6 +194,8 @@ void affichage(void)
 				-1, 1);
 
 	(*display_model)();
+	graphic_draw_segment(gauche, 0, droite, 0); // DEBUG
+	graphic_draw_segment(0, haut, 0, bas); // DEBUG
 	glutSwapBuffers();
 }
 void reshape(int w, int h)

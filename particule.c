@@ -417,5 +417,10 @@ void add_particule(double rayon, double x, double y, double vx, double vy)
 }
 void set_part_next(Particule_t* part, Particule_t* next)
 {
-    if(next && part) part->next = next;
+    if(next && part)
+    {
+        printf("Part : 0x%X\tNext : 0x%X\n", part, next);
+        part->next = next;
+    }
+    else return;
 }

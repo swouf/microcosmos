@@ -536,7 +536,7 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedTN = trouNoir;
-				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN);
+				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 			}
 		}
 	}
