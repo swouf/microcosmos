@@ -26,6 +26,7 @@ namespace
 	GLUI_EditText	*edittextpart;
 	GLUI_EditText	*edittextgen;
 	GLUI_EditText	*edittexttrou;
+	GLUI_Button		*startButton;
 }
 
 typedef enum GLUI_ID
@@ -46,6 +47,7 @@ void glui_idle(void);
 
 void control_cb(int control)
 {
+	static int isStarted = 0;
 	switch(control)
 	{
 		case (LOADBUTTON_ID):
@@ -58,6 +60,16 @@ void control_cb(int control)
 		    sim_ecriture(edittextsave->get_text());
 			break;
 		case (STARTBUTTON_ID):
+			if(isStarted)
+			{
+				isStarted = 0;
+				startButton->set_name("Start");
+			}
+			else
+			{
+				isStarted = 1;
+				startButton->set_name("Stop");
+			}
 			start();
 			break;
 		case (STEPBUTTON_ID):
@@ -165,7 +177,7 @@ void load_gui(char* nomFichier)
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
 
-	glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID,\
+	startButton = glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID,\
 								control_cb);
 
 	glui->add_button_to_panel(simulation_panel,"Step", STEPBUTTON_ID,\

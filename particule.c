@@ -236,8 +236,13 @@ Particule_t* get_part_by_id(int id)
     static Particule_t*     prevPtrParticules   = NULL;
     static Particule_t**    tabParticules       = NULL;
     Particule_t*            part                = NULL;
+    int                     update              = 0;
 
-    if(prevPtrParticules != ptrParticules)
+    if(prevPtrParticules != ptrParticules) update =1;
+    else if(id > 1 && id < nbParticules)
+        if(tabParticules[id-1]->next != tabParticules[id]) update = 1;
+
+    if(update)
     {
         if(tabParticules) free(tabParticules);
 
@@ -252,7 +257,6 @@ Particule_t* get_part_by_id(int id)
     	}
         prevPtrParticules = ptrParticules;
     }
-
     return tabParticules[id];
 
     #endif

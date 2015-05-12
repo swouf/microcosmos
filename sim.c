@@ -475,7 +475,12 @@ void start(void)
 }
 void step(void)
 {
-	printf("step()\n");
+	if(!isStarted)
+	{
+		isStarted = 1;
+		sim_update();
+		isStarted = 0;
+	}
 }
 void sim_mouse_press(double x, double y)
 {
@@ -552,6 +557,29 @@ void sim_keyboard(unsigned char key)
 {
 	if(key == 'd')
 	{
-		printf("Suppression de l'entité séléctionnée.\n");
+		int i;
+
+		if(selectedPart)
+		{
+			for(i=0;get_part_by_id(i) != selectedPart;i++);
+			delete_part(selectedPart, get_part_by_id(i-1));
+			printf("Deleting selected particle...\n");
+		}
+		else if(selectedGen)
+		{
+			for(i=0;get_gen_by_id(i) != selectedGen;i++);
+			//delete_gen(selectedGen, get_gen_by_id(i-1));
+			printf("Deleting selected generator...\n");
+		}
+		else if(selectedTN)
+		{
+			for(i=0;get_trou_noir_by_id(i) != selectedTN;i++);
+			//delete_gen(selectedTN, get_trou_noir_by_id(i-1));
+			printf("Deleting selected black hole...\n");
+		}
+		else
+		{
+			printf("Nothing to delete.\n");
+		}
 	}
 }
