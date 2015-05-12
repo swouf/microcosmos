@@ -20,9 +20,9 @@ static int           nbGenerateurs   = 0;
 
 struct Generateur
 {
-	double         rgen; 
-	double complex pos;  
-	double complex vpi;	 
+	double         rgen;
+	double complex pos;
+	double complex vpi;
     Generateur_t*  next;
 };
 
@@ -134,4 +134,29 @@ double get_gen_vpiy(Generateur_t* gen)
 int get_nb_generateurs(void)
 {
 	return nbGenerateurs;
+}
+void delete_gen(Generateur_t* gen, Generateur_t* parent)
+{
+    if(parent && gen) parent->next = gen->next;
+    if(gen)
+	{
+		free(gen);
+		nbGenerateurs--;
+	}
+}
+void delete_gen_by_id(int id)
+{
+	Generateur_t* gen		= get_gen_by_id(id);
+	Generateur_t* parent	= get_gen_by_id(id);
+
+	if(id == 0 && gen)
+	{
+		ptrGenerateurs = gen->next;
+	}
+    if(parent && gen) parent->next = gen->next;
+    if(gen)
+	{
+		free(gen);
+		nbGenerateurs--;
+	}
 }

@@ -1,8 +1,8 @@
 /*!
  * \file sim.c
  * \brief Module de gestion de la simulation
- * \date 19.04.2015
- * \version 2
+ * \date 12.05.2015
+ * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -515,7 +515,7 @@ void sim_mouse_press(double x, double y)
 	}
 	if(selectedPart == NULL)
 	{
-		rayon = R_GENERATEUR;
+		rayon = DBL_MAX;
 		for(int i=0;i<get_nb_generateurs();i++)
 		{
 			gen = get_gen_by_id(i);
@@ -525,13 +525,10 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedGen = gen;
+				rayon = cabs(pos-(entiteX+entiteY*I));
 				printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
 			}
 		}
-	}
-	if(selectedPart == NULL && selectedGen == NULL)
-	{
-		rayon = RBLACK;
 		for(int i=0;i<get_nb_trous_noirs();i++)
 		{
 			trouNoir = get_trou_noir_by_id(i);
@@ -541,6 +538,7 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedTN = trouNoir;
+				rayon = cabs(pos-(entiteX+entiteY*I));
 				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 			}
 		}
@@ -568,13 +566,13 @@ void sim_keyboard(unsigned char key)
 		else if(selectedGen)
 		{
 			for(i=0;get_gen_by_id(i) != selectedGen;i++);
-			//delete_gen(selectedGen, get_gen_by_id(i-1));
+			delete_gen_by_id(i);
 			printf("Deleting selected generator...\n");
 		}
 		else if(selectedTN)
 		{
 			for(i=0;get_trou_noir_by_id(i) != selectedTN;i++);
-			//delete_gen(selectedTN, get_trou_noir_by_id(i-1));
+			delete_trou_noir_by_id(i);
 			printf("Deleting selected black hole...\n");
 		}
 		else

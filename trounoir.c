@@ -81,6 +81,7 @@ void display_trous_noirs(void)
 }
 Trounoir_t* get_trou_noir_by_id(int id)
 {
+	if(!ptrTrousNoirs) return NULL;
     Trounoir_t* ptrTMP = ptrTrousNoirs;
 	for(int i=0;i<id;i++)
 	{
@@ -152,4 +153,29 @@ int is_on_trous_noirs(double rayon, double x, double y)
 	}
 
 	return isOn;
+}
+void delete_trou_noir(Trounoir_t* tn, Trounoir_t* parent)
+{
+    if(parent && tn) parent->next = tn->next;
+    if(tn)
+	{
+		free(tn);
+		nbTrousNoirs--;
+	}
+}
+void delete_trou_noir_by_id(int id)
+{
+	Trounoir_t* tn		= get_trou_noir_by_id(id);
+	Trounoir_t* parent	= get_trou_noir_by_id(id-1);
+
+	if(id == 0 && tn)
+	{
+		ptrTrousNoirs = tn->next;
+	}
+	if(parent && tn) parent->next = tn->next;
+    if(tn)
+	{
+		free(tn);
+		nbTrousNoirs--;
+	}
 }
