@@ -1,8 +1,8 @@
 /*!
  * \file constantes.h
  * \brief (HEADER) Contient des constantes utilisées par le programme
- * \date 19.04.2015
- * \version 2
+ * \date 14.05.2015
+ * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
 

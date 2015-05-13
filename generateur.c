@@ -113,23 +113,23 @@ Generateur_t* get_gen_by_id(int id)
 }
 double get_gen_rgen(Generateur_t* gen)
 {
-	return gen->rgen;
+	if(gen) return gen->rgen;
 }
 double get_gen_posx(Generateur_t* gen)
 {
-	return creal(gen->pos);
+	if(gen) return creal(gen->pos);
 }
 double get_gen_posy(Generateur_t* gen)
 {
-	return cimag(gen->pos);
+	if(gen) return cimag(gen->pos);
 }
 double get_gen_vpix(Generateur_t* gen)
 {
-	return creal(gen->vpi);
+	if(gen) return creal(gen->vpi);
 }
 double get_gen_vpiy(Generateur_t* gen)
 {
-	return cimag(gen->vpi);
+	if(gen) return cimag(gen->vpi);
 }
 int get_nb_generateurs(void)
 {

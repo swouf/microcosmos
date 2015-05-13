@@ -561,19 +561,22 @@ void sim_keyboard(unsigned char key)
 		{
 			for(i=0;get_part_by_id(i) != selectedPart;i++);
 			delete_part(selectedPart, get_part_by_id(i-1));
-			printf("Deleting selected particle...\n");
+			printf("Deleting selected particle : 0x%X\n", (unsigned int)selectedPart); // DEBUG
+			selectedPart = NULL;
 		}
 		else if(selectedGen)
 		{
 			for(i=0;get_gen_by_id(i) != selectedGen;i++);
 			delete_gen_by_id(i);
-			printf("Deleting selected generator...\n");
+			printf("Deleting selected generator : 0x%X\n", (unsigned int)selectedGen); // DEBUG
+			selectedGen = NULL;
 		}
 		else if(selectedTN)
 		{
 			for(i=0;get_trou_noir_by_id(i) != selectedTN;i++);
 			delete_trou_noir_by_id(i);
-			printf("Deleting selected black hole...\n");
+			printf("Deleting selected black hole : 0x%X\n", (unsigned int)selectedTN); // DEBUG
+			selectedTN = NULL;
 		}
 		else
 		{
