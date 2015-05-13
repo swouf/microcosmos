@@ -260,12 +260,30 @@ void processMouse(int button, int state, int x, int y)
 {
 	double mouse_x = 0;
 	double mouse_y = 0;
-
-	mouse_x = ((droite - gauche)*((double)x/(double)width)) + gauche;
-	mouse_y = haut - ((bas - haut)*((double)y/(double)height));
+	double xmax = droite;
+	double xmin = gauche;
+	double ymax = haut;
+	double ymin = bas;
+	
+	if(aspect_ratio <= 1)
+	{
+		ymin = bas/aspect_ratio;
+		ymax = haut/aspect_ratio;
+	}
+	else
+	{
+		xmin = gauche*aspect_ratio;
+		xmax = droite*aspect_ratio;
+	}
+	
+	mouse_x = ((xmax - xmin)*((double)x/(double)width)) + xmin;
+	mouse_y = ymax + ((ymin - ymax)*((double)y/(double)height));
+	
 	if (state == GLUT_DOWN)
 	{
 		(*mouse_model_press)(mouse_x, mouse_y);
+		printf("(x, y): (%d, %d)\n", x, y);
+		printf("(mouse_x, mouse_y): (%lf, %lf)\n", mouse_x, mouse_y);
 	}
 	else
 		(*mouse_model_release)();
