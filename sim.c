@@ -1,8 +1,8 @@
 /*!
  * \file sim.c
  * \brief Module de gestion de la simulation
- * \date 19.04.2015
- * \version 2
+ * \date 14.05.2015
+ * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -502,20 +502,17 @@ void sim_mouse_press(double x, double y)
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
 
-		printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
+		/*printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
 																	rayon,\
 																	entiteX,\
-																	entiteY); // DEBUG
+																	entiteY); // DEBUG*/
 
-		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
-		{
-			selectedPart = part;
-			printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
-		}
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
 	}
+	if(selectedPart) printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
 	if(selectedPart == NULL)
 	{
-		rayon = R_GENERATEUR;
+		rayon = DBL_MAX;
 		for(int i=0;i<get_nb_generateurs();i++)
 		{
 			gen = get_gen_by_id(i);
@@ -525,13 +522,10 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedGen = gen;
-				printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
+				rayon = cabs(pos-(entiteX+entiteY*I));
 			}
 		}
-	}
-	if(selectedPart == NULL && selectedGen == NULL)
-	{
-		rayon = RBLACK;
+		if(selectedGen) printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
 		for(int i=0;i<get_nb_trous_noirs();i++)
 		{
 			trouNoir = get_trou_noir_by_id(i);
@@ -541,9 +535,11 @@ void sim_mouse_press(double x, double y)
 			if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
 			{
 				selectedTN = trouNoir;
-				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
+				rayon = cabs(pos-(entiteX+entiteY*I));
 			}
 		}
+		if(selectedTN) selectedGen = NULL;
+		if(selectedTN) printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 	}
 }
 void sim_mouse_release(void)
@@ -563,19 +559,22 @@ void sim_keyboard(unsigned char key)
 		{
 			for(i=0;get_part_by_id(i) != selectedPart;i++);
 			delete_part(selectedPart, get_part_by_id(i-1));
-			printf("Deleting selected particle...\n");
+			printf("Deleting selected particle : 0x%X\n", (unsigned int)selectedPart); // DEBUG
+			selectedPart = NULL;
 		}
 		else if(selectedGen)
 		{
 			for(i=0;get_gen_by_id(i) != selectedGen;i++);
-			//delete_gen(selectedGen, get_gen_by_id(i-1));
-			printf("Deleting selected generator...\n");
+			delete_gen_by_id(i);
+			printf("Deleting selected generator : 0x%X\n", (unsigned int)selectedGen); // DEBUG
+			selectedGen = NULL;
 		}
 		else if(selectedTN)
 		{
 			for(i=0;get_trou_noir_by_id(i) != selectedTN;i++);
-			//delete_gen(selectedTN, get_trou_noir_by_id(i-1));
-			printf("Deleting selected black hole...\n");
+			delete_trou_noir_by_id(i);
+			printf("Deleting selected black hole : 0x%X\n", (unsigned int)selectedTN); // DEBUG
+			selectedTN = NULL;
 		}
 		else
 		{

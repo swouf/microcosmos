@@ -1,8 +1,8 @@
 /*!
  * \file generateur.c
  * \brief Module de gestion des entités générateurs
- * \date 19.04.2015
- * \version 2
+ * \date 14.05.2015
+ * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -20,9 +20,9 @@ static int           nbGenerateurs   = 0;
 
 struct Generateur
 {
-	double         rgen; 
-	double complex pos;  
-	double complex vpi;	 
+	double         rgen;
+	double complex pos;
+	double complex vpi;
     Generateur_t*  next;
 };
 
@@ -113,25 +113,55 @@ Generateur_t* get_gen_by_id(int id)
 }
 double get_gen_rgen(Generateur_t* gen)
 {
-	return gen->rgen;
+	if(gen) return gen->rgen;
+	else return 0;
 }
 double get_gen_posx(Generateur_t* gen)
 {
-	return creal(gen->pos);
+	if(gen) return creal(gen->pos);
+	else return 0;
 }
 double get_gen_posy(Generateur_t* gen)
 {
-	return cimag(gen->pos);
+	if(gen) return cimag(gen->pos);
+	else return 0;
 }
 double get_gen_vpix(Generateur_t* gen)
 {
-	return creal(gen->vpi);
+	if(gen) return creal(gen->vpi);
+	else return 0;
 }
 double get_gen_vpiy(Generateur_t* gen)
 {
-	return cimag(gen->vpi);
+	if(gen) return cimag(gen->vpi);
+	else return 0;
 }
 int get_nb_generateurs(void)
 {
 	return nbGenerateurs;
+}
+void delete_gen(Generateur_t* gen, Generateur_t* parent)
+{
+    if(parent && gen) parent->next = gen->next;
+    if(gen)
+	{
+		free(gen);
+		nbGenerateurs--;
+	}
+}
+void delete_gen_by_id(int id)
+{
+	Generateur_t* gen		= get_gen_by_id(id);
+	Generateur_t* parent	= get_gen_by_id(id-1);
+
+	if(id == 0 && gen)
+	{
+		ptrGenerateurs = gen->next;
+	}
+    else if(parent && gen) parent->next = gen->next;
+    if(gen)
+	{
+		free(gen);
+		nbGenerateurs--;
+	}
 }

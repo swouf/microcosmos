@@ -39,7 +39,7 @@ void clean_generateurs(void);
  * \fn Generateur_t* get_gen_by_id(int id)
  * \brief Récupère un pointeur sur un générateur en donnant son id (sa
  *          place dans la liste contenant les générateurs).
- * \param id : place du générateur dans la liste contenant les 
+ * \param id : place du générateur dans la liste contenant les
  * 				générateurs.
  * \return Pointeur sur le générateur, ou NULL en cas d'erreur (id trop
  *          grand ou autre)
@@ -98,38 +98,8 @@ double get_gen_vpiy(Generateur_t*);
  */
 int get_nb_generateurs(void);
 
+void delete_gen(Generateur_t*, Generateur_t*);
+
+void delete_gen_by_id(int);
+
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

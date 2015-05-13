@@ -398,7 +398,7 @@ void set_ptrParticules(Particule_t* ptr)
 }
 void delete_part(Particule_t* part, Particule_t* parent)
 {
-    if(parent) parent->next = part->next;
+    if(parent && part) parent->next = part->next;
     if(part) free(part);
 }
 void add_particule(double rayon, double x, double y, double vx, double vy)
