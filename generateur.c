@@ -147,13 +147,13 @@ void delete_gen(Generateur_t* gen, Generateur_t* parent)
 void delete_gen_by_id(int id)
 {
 	Generateur_t* gen		= get_gen_by_id(id);
-	Generateur_t* parent	= get_gen_by_id(id);
+	Generateur_t* parent	= get_gen_by_id(id-1);
 
 	if(id == 0 && gen)
 	{
 		ptrGenerateurs = gen->next;
 	}
-    if(parent && gen) parent->next = gen->next;
+    else if(parent && gen) parent->next = gen->next;
     if(gen)
 	{
 		free(gen);

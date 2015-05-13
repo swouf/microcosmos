@@ -172,7 +172,7 @@ void delete_trou_noir_by_id(int id)
 	{
 		ptrTrousNoirs = tn->next;
 	}
-	if(parent && tn) parent->next = tn->next;
+	else if(parent && tn) parent->next = tn->next;
     if(tn)
 	{
 		free(tn);
