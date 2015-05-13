@@ -1,7 +1,7 @@
 /*!
  * \file sim.c
  * \brief Module de gestion de la simulation
- * \date 12.05.2015
+ * \date 14.05.2015
  * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
@@ -502,17 +502,14 @@ void sim_mouse_press(double x, double y)
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
 
-		printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
+		/*printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
 																	rayon,\
 																	entiteX,\
-																	entiteY); // DEBUG
+																	entiteY); // DEBUG*/
 
-		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
-		{
-			selectedPart = part;
-			printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
-		}
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
 	}
+	if(selectedPart) printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
 	if(selectedPart == NULL)
 	{
 		rayon = DBL_MAX;
@@ -526,9 +523,9 @@ void sim_mouse_press(double x, double y)
 			{
 				selectedGen = gen;
 				rayon = cabs(pos-(entiteX+entiteY*I));
-				printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
 			}
 		}
+		if(selectedGen) printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
 		for(int i=0;i<get_nb_trous_noirs();i++)
 		{
 			trouNoir = get_trou_noir_by_id(i);
@@ -539,9 +536,10 @@ void sim_mouse_press(double x, double y)
 			{
 				selectedTN = trouNoir;
 				rayon = cabs(pos-(entiteX+entiteY*I));
-				printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 			}
 		}
+		if(selectedTN) selectedGen = NULL;
+		if(selectedTN) printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 	}
 }
 void sim_mouse_release(void)

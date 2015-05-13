@@ -1,8 +1,8 @@
 /*!
  * \file trounoir.c
  * \brief Module de gestion des entités trous noirs
- * \date 19.04.2015
- * \version 2
+ * \date 14.05.2015
+ * \version alpha3
  * \author Minh Truong & Jérémy Jayet
  */
 
