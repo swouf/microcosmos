@@ -491,18 +491,24 @@ void sim_mouse_press(double x, double y)
 	double			entiteX		= 0;
 	double			entiteY		= 0;
 
+	int id = 0; // DEBUG
+
 	for(i=0;i<get_nb_particules();i++)
 	{
 		part = get_part_by_id(i);
 		rayon = get_part_rayon(part);
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
-		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
+		{
+			selectedPart = part;
+			id = i; // DEBUG
+		}
 	}
 	if(selectedPart) // DEBUG
 	{
 		printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
-		printf("## ID = %d ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", i,\
+		printf("## ID = %d ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", id,\
 																	rayon,\
 																	entiteX,\
 																	entiteY); // DEBUG*/
