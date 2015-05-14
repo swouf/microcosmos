@@ -484,8 +484,6 @@ void step(void)
 }
 void sim_mouse_press(double x, double y)
 {
-	printf("Click de souris en (%lf;%lf)\n", x, y);
-
 	Particule_t*	part		= NULL;
 	Generateur_t*	gen			= NULL;
 	Trounoir_t*		trouNoir	= NULL;
