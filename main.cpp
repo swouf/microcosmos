@@ -115,7 +115,8 @@ int main(int argc, char **argv)
                 return 0;
             }
         }
-		else if(std::string(argv[1]) == "Graphic")
+		else if(std::string(argv[1]) == "Graphic" ||\
+				std::string(argv[1]) == "Simulation")
         {
             if(sim_lecture(argv[2]))
                 return 1;

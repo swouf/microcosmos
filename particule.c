@@ -36,6 +36,14 @@ int get_nb_particules(void)
 {
     return nbParticules;
 }
+void update_nb_particules(void)
+{
+    Particule_t* ptrTMP = ptrParticules;
+    int i;
+
+    for(i=0;ptrTMP != NULL;i++, ptrTMP=ptrTMP->next);
+    nbParticules    = i;
+}
 
 Particule_t* string_parsing_particule(char* ligne)
 {
@@ -238,7 +246,7 @@ Particule_t* get_part_by_id(int id)
     Particule_t*            part                = NULL;
     int                     update              = 0;
 
-    if(prevPtrParticules != ptrParticules) update =1;
+    if(prevPtrParticules != ptrParticules) update = 1;
     else if(id > 1 && id < nbParticules)
         if(tabParticules[id-1]->next != tabParticules[id]) update = 1;
 
@@ -257,7 +265,8 @@ Particule_t* get_part_by_id(int id)
     	}
         prevPtrParticules = ptrParticules;
     }
-    return tabParticules[id];
+    if(id < 0 || id >= get_nb_particules()) return NULL;
+    else return tabParticules[id];
 
     #endif
 
@@ -391,13 +400,8 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
 }
 void set_ptrParticules(Particule_t* ptr)
 {
-    Particule_t* ptrTMP = ptr;
-    int i;
-
-    for(i=0;ptrTMP != NULL;i++, ptrTMP=ptrTMP->next);
-
     ptrParticules   = ptr;
-    nbParticules    = i;
+    update_nb_particules();
 }
 void delete_part(Particule_t* part, Particule_t* parent)
 {
@@ -446,4 +450,8 @@ void set_part_next(Particule_t* part, Particule_t* next)
         part->next = next;
     }
     else return;
+}
+void set_part_pos(Particule_t* part, double x, double y)
+{
+    if(part) part->pos = (x+y*I);
 }

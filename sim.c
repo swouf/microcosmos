@@ -381,7 +381,7 @@ void sim_update(void)
 {
 	if(isStarted)
 	{
-		printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n");
+		printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n"); // DEBUG
 		double		 x, y;
 		Particule_t* part              = NULL;
 	    Particule_t* updatedParticule  = NULL;
@@ -392,22 +392,23 @@ void sim_update(void)
 	    {
 			part = get_part_by_id(i);
 
-			if(part != selectedPart)
+			if(part == selectedPart)
+			{
+				x = get_part_posx(part);
+				y = get_part_posy(part);
+				updatedParticule = update_particule(part, prevParticule,\
+													0, 0);
+				set_part_pos(updatedParticule, x, y);
+				selectedPart = updatedParticule;
+			}
+			else
 			{
 				x = get_part_posx(part);
 				y = get_part_posy(part);
 				forceTN = force_trous_noirs(x, y);
-				printf("Particule selectionnée : 0x%X\n", selectedPart);
 				updatedParticule = update_particule(part, prevParticule,\
 													forceTN[0],\
 													forceTN[1]);
-			}
-			else
-			{
-				printf("Mise à jour de la particule séléctionnée.\n");
-				set_part_next(get_part_by_id(i-1), get_part_by_id(i+1));
-				set_part_next(part, prevParticule);
-				updatedParticule = part;
 			}
 			if(is_on_trous_noirs(get_part_rayon(updatedParticule),\
 						 get_part_posx(updatedParticule),\
