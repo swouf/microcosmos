@@ -154,15 +154,6 @@ int is_on_trous_noirs(double rayon, double x, double y)
 
 	return isOn;
 }
-void delete_trou_noir(Trounoir_t* tn, Trounoir_t* parent)
-{
-    if(parent && tn) parent->next = tn->next;
-    if(tn)
-	{
-		free(tn);
-		nbTrousNoirs--;
-	}
-}
 void delete_trou_noir_by_id(int id)
 {
 	Trounoir_t* tn		= get_trou_noir_by_id(id);

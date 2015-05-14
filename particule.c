@@ -401,6 +401,22 @@ void delete_part(Particule_t* part, Particule_t* parent)
     if(parent && part) parent->next = part->next;
     if(part) free(part);
 }
+void delete_part_by_id(int id)
+{
+    Particule_t* part       = get_part_by_id(id);
+    Particule_t* parent     = get_part_by_id(id-1);
+
+    if(id == 0 && part)
+	{
+		ptrParticules = part->next;
+	}
+	else if(parent && part) parent->next = part->next;
+    if(part)
+	{
+		free(part);
+		nbParticules--;
+	}
+}
 void add_particule(double rayon, double x, double y, double vx, double vy)
 {
     Particule_t* part = NULL;

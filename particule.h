@@ -118,6 +118,8 @@ Particule_t* update_particule(Particule_t*, Particule_t*, double, double);
 
 void delete_part(Particule_t*, Particule_t*);
 
+void delete_part_by_id(int);
+
 void set_ptrParticules(Particule_t*);
 
 void add_particule(double, double, double, double, double);
