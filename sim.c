@@ -381,7 +381,7 @@ void sim_update(void)
 {
 	if(isStarted)
 	{
-		//printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n");
+		printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n");
 		double		 x, y;
 		Particule_t* part              = NULL;
 	    Particule_t* updatedParticule  = NULL;
@@ -397,6 +397,7 @@ void sim_update(void)
 				x = get_part_posx(part);
 				y = get_part_posy(part);
 				forceTN = force_trous_noirs(x, y);
+				printf("Particule selectionnée : 0x%X\n", selectedPart);
 				updatedParticule = update_particule(part, prevParticule,\
 													forceTN[0],\
 													forceTN[1]);

@@ -302,10 +302,13 @@ double get_part_vy(Particule_t* part)
 }
 Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double force0x, double force0y)
 {
+    //if(!part0) return NULL;
+    printf("Particule en cours de mise à jours : 0x%X\n", part0); // DEBUG
+
     const double fps    = FPS;
     const double dt     = 4/(fps);
 
-    //printf("dt = %lf, FPS = %d\n", dt, FPS);
+    //printf("dt = %lf, FPS = %d\n", dt, FPS); // DEBUG
 
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;
