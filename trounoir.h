@@ -76,8 +76,6 @@ double* force_trous_noirs(double, double);
 
 int is_on_trous_noirs(double, double, double);
 
-void delete_trou_noir(Trounoir_t*, Trounoir_t*);
-
 void delete_trou_noir_by_id(int);
 
 #endif
