@@ -426,6 +426,9 @@ void sim_update(void)
 		* Partie qui gère les générateurs !
 		***************************************************************/
 		int 			canGen	= 1;
+		double			rd		= 0;
+		unsigned int	random	= 0;
+		const double	probGen = (NBP*DELTA_T);
 		double			rayon	= 0;
 		double			rGen	= 0;
 		double			xGen	= 0;
@@ -433,6 +436,7 @@ void sim_update(void)
 		double			vpix	= 0;
 		double			vpiy	= 0;
 		Generateur_t*	gen		= NULL;
+		srand(time(NULL));
 
 		for(int i=0;i<get_nb_generateurs();i++)
 	    {
@@ -446,15 +450,17 @@ void sim_update(void)
 				x = get_part_posx(part);
 				y = get_part_posy(part);
 
-				if(cabs((x+y*I)-(xGen+yGen*I)) <= rayon)
-				{
-					canGen = 0;
-				}
+				if(cabs((x+y*I)-(xGen+yGen*I)) <= rayon) canGen = 0;
 			}
 			//printf("canGen = %d\n", canGen);
 			if(canGen)
 			{
-				if(1)
+				random = rand();
+				printf("random = %d\tRAND_MAX = %d\n", random, RAND_MAX); // DEBUG
+				rd = ((double)random/RAND_MAX);
+				printf("rd : %lf\tprobGen : %lf\n", rd, probGen); // DEBUG
+
+				if(rd < probGen)
 				{
 					rGen = get_gen_rgen(gen);
 					vpix = get_gen_vpix(gen);
