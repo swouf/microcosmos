@@ -381,12 +381,22 @@ void sim_update(void)
 {
 	if(isStarted)
 	{
-		printf("###---### APPELLE DE SIM_UPDATE (started mode) ###---###\n"); // DEBUG
-		double		 x, y;
-		Particule_t* part              = NULL;
-	    Particule_t* updatedParticule  = NULL;
-		Particule_t* prevParticule	   = NULL;
-		double*		 forceTN		   = NULL;
+		double		 	x, y;
+		Particule_t* 	part				= NULL;
+	    Particule_t* 	updatedParticule	= NULL;
+		Particule_t* 	prevParticule		= NULL;
+		double*		 	forceTN				= NULL;
+		int 			canGen				= 1;
+		double			rd					= 0;
+		unsigned int	random				= 0;
+		const double	probGen 			= (NBP*DELTA_T);
+		double			rayon				= 0;
+		double			rGen				= 0;
+		double			xGen				= 0;
+		double			yGen				= 0;
+		double			vpix				= 0;
+		double			vpiy				= 0;
+		Generateur_t*	gen					= NULL;
 
 		for(int i=0;i<get_nb_particules();i++)
 	    {
@@ -418,27 +428,9 @@ void sim_update(void)
 				updatedParticule = prevParticule;
 			}
 			else prevParticule = updatedParticule;
-
-			//printf("## Computation de la particule : %d, d'adresse d'origine 0x%X et d'adresse actuelle 0x%X ##\n", i, part, updatedParticule); // DEBUG
 		}
 		clean_particules();
 		set_ptrParticules(updatedParticule);
-
-		/***************************************************************
-		* Partie qui gère les générateurs !
-		***************************************************************/
-		int 			canGen	= 1;
-		double			rd		= 0;
-		unsigned int	random	= 0;
-		const double	probGen = (NBP*DELTA_T);
-		double			rayon	= 0;
-		double			rGen	= 0;
-		double			xGen	= 0;
-		double			yGen	= 0;
-		double			vpix	= 0;
-		double			vpiy	= 0;
-		Generateur_t*	gen		= NULL;
-		srand(time(NULL));
 
 		for(int i=0;i<get_nb_generateurs();i++)
 	    {
@@ -458,9 +450,7 @@ void sim_update(void)
 			if(canGen)
 			{
 				random = rand();
-				printf("random = %d\tRAND_MAX = %d\n", random, RAND_MAX); // DEBUG
 				rd = ((double)random/RAND_MAX);
-				printf("rd : %lf\tprobGen : %lf\n", rd, probGen); // DEBUG
 
 				if(rd < probGen)
 				{
@@ -478,7 +468,6 @@ void sim_update(void)
 void start(void)
 {
 	isStarted = !isStarted;
-	printf("Simulation started : isStarted = %d\n", isStarted);
 	srand(time(NULL));
 }
 void step(void)
@@ -496,30 +485,32 @@ void sim_mouse_press(double x, double y)
 	Generateur_t*	gen			= NULL;
 	Trounoir_t*		trouNoir	= NULL;
 
-	double complex pos	= x+y*I;
-	double rayon		= 0;
-	double entiteX		= 0;
-	double entiteY		= 0;
+	register int	i			= 0;
+	double complex	pos			= x+y*I;
+	double			rayon		= 0;
+	double			entiteX		= 0;
+	double			entiteY		= 0;
 
-	for(int i=0;i<get_nb_particules();i++)
+	for(i=0;i<get_nb_particules();i++)
 	{
 		part = get_part_by_id(i);
 		rayon = get_part_rayon(part);
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
-
-		/*printf("## 0x%X ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", part,\
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
+	}
+	if(selectedPart) // DEBUG
+	{
+		printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
+		printf("## ID = %d ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", i,\
 																	rayon,\
 																	entiteX,\
 																	entiteY); // DEBUG*/
-
-		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
 	}
-	if(selectedPart) printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
 	if(selectedPart == NULL)
 	{
 		rayon = DBL_MAX;
-		for(int i=0;i<get_nb_generateurs();i++)
+		for(i=0;i<get_nb_generateurs();i++)
 		{
 			gen = get_gen_by_id(i);
 			entiteX = get_gen_posx(gen);
@@ -531,8 +522,7 @@ void sim_mouse_press(double x, double y)
 				rayon = cabs(pos-(entiteX+entiteY*I));
 			}
 		}
-		if(selectedGen) printf("Générateur d'adresse : 0x%X séléctionnée\n", selectedGen); //DEBUG
-		for(int i=0;i<get_nb_trous_noirs();i++)
+		for(i=0;i<get_nb_trous_noirs();i++)
 		{
 			trouNoir = get_trou_noir_by_id(i);
 			entiteX = get_trou_noir_posx(trouNoir);
@@ -545,7 +535,6 @@ void sim_mouse_press(double x, double y)
 			}
 		}
 		if(selectedTN) selectedGen = NULL;
-		if(selectedTN) printf("Trou noir d'adresse : 0x%X séléctionnée\n", selectedTN); // DEBUG
 	}
 }
 void sim_mouse_release(void)
@@ -571,19 +560,13 @@ void sim_keyboard(unsigned char key)
 		{
 			for(i=0;get_gen_by_id(i) != selectedGen;i++);
 			delete_gen_by_id(i);
-			printf("Deleting selected generator : 0x%X\n", (unsigned int)selectedGen); // DEBUG
 			selectedGen = NULL;
 		}
 		else if(selectedTN)
 		{
 			for(i=0;get_trou_noir_by_id(i) != selectedTN;i++);
 			delete_trou_noir_by_id(i);
-			printf("Deleting selected black hole : 0x%X\n", (unsigned int)selectedTN); // DEBUG
 			selectedTN = NULL;
-		}
-		else
-		{
-			printf("Nothing to delete.\n");
 		}
 	}
 }
