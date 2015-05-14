@@ -9,7 +9,7 @@ PROJECT = Microcosmos
 EXE = sim.x
 
 CC = gcc
-CFLAGS = -Wall -std=c99 -c -g
+CFLAGS = -Wall -std=c99 -c -g -DOLDCODE
 CFILES = $(wildcard *.c)
 
 CPPC = g++

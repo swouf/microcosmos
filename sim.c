@@ -559,7 +559,7 @@ void sim_keyboard(unsigned char key)
 		{
 			for(i=0;get_part_by_id(i) != selectedPart;i++);
 			delete_part_by_id(i);
-			printf("Deleting selected particle : 0x%X\n", (unsigned int)selectedPart); // DEBUG
+			printf("Deleting selected particle : 0x%X of ID : %d\n", selectedPart, i); // DEBUG
 			selectedPart = NULL;
 		}
 		else if(selectedGen)
