@@ -9,11 +9,11 @@ PROJECT = Microcosmos
 EXE = sim.x
 
 CC = gcc
-CFLAGS = -Wall -std=c99 -c -g -DOLDCODE
+CFLAGS = -Wall -std=c99 -c -g -DOLDCODE -DSYNC_WITH_REALTIME
 CFILES = $(wildcard *.c)
 
 CPPC = g++
-CPPFLAGS = -Wall -c -g
+CPPFLAGS = -Wall -c -g -DOLDCODE -DSYNC_WITH_REALTIME
 CPPFILES = $(wildcard *.cpp)
 
 OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)

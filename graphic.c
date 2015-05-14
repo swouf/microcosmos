@@ -52,7 +52,10 @@ void fenetre_sim (void)
 
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(affichage);
+
+	#ifdef SYNC_WITH_REALTIME
 	glutTimerFunc(1000/FPS, idle, 0);
+	#endif
 
 	glViewport(0, 0, width, height);
 
@@ -229,7 +232,9 @@ void set_mouse_model_press_func(void (*mouse_model_press_func)\
 }
 void idle(int value)
 {
+	#ifdef SYNC_WITH_REALTIME
 	glutTimerFunc(1000/FPS, idle, 0);
+	#endif
 	(*idle_model)();
 	glutPostWindowRedisplay(sim_window);
 }
@@ -262,7 +267,7 @@ void processMouse(int button, int state, int x, int y)
 	double xMin = gauche;
 	double yMax = haut;
 	double yMin = bas;
-	
+
 	if(aspect_ratio <= 1) //Si height est plus grand que width
 	{
 		yMin = bas/aspect_ratio;
@@ -273,10 +278,10 @@ void processMouse(int button, int state, int x, int y)
 		xMin = gauche*aspect_ratio;
 		xMax = droite*aspect_ratio;
 	}
-	
+
 	mouse_x = ((xMax - xMin)*((double)x/(double)width)) + xMin;
 	mouse_y = yMax + ((yMin - yMax)*((double)y/(double)height));
-	
+
 	if (state == GLUT_DOWN)	(*mouse_model_press)(mouse_x, mouse_y);
 	else (*mouse_model_release)();
 }

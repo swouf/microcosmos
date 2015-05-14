@@ -311,7 +311,13 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
     if(!part0) return NULL;
 
     const double fps    = FPS;
+
+    #ifdef SYNC_WITH_REALTIME
     const double dt     = 4/(fps);
+    #endif
+    #ifndef SYNC_WITH_REALTIME
+    const double dt     = DELTA_T;
+    #endif
 
     double seuil_d, rayon1, minimum, m0, rayon0, x;
     double complex pos1, v_k, pos_k, distance, unitVDistance, pos0, v0;

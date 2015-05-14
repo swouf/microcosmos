@@ -218,4 +218,7 @@ void glui_idle(void)
 	edittextgen->set_int_val(ptrNbEntite[1]);
 	edittexttrou->set_int_val(ptrNbEntite[2]);
 
+	#ifndef SYNC_WITH_REALTIME
+	idle(0);
+	#endif
 }
