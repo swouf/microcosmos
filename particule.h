@@ -36,6 +36,8 @@ void clean_particules(void);
  */
 int get_nb_particules(void);
 
+void update_nb_particules(void);
+
 /*!
  * \fn void display_particules(void)
  * \brief Affiche les particules
@@ -125,5 +127,7 @@ void set_ptrParticules(Particule_t*);
 void add_particule(double, double, double, double, double);
 
 void set_part_next(Particule_t*, Particule_t*);
+
+void set_part_pos(Particule_t*, double, double);
 
 #endif
