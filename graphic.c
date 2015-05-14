@@ -194,8 +194,6 @@ void affichage(void)
 				-1, 1);
 
 	(*display_model)();
-	graphic_draw_segment(gauche, 0, droite, 0); // DEBUG
-	graphic_draw_segment(0, haut, 0, bas); // DEBUG
 	glutSwapBuffers();
 }
 void reshape(int w, int h)
@@ -260,33 +258,27 @@ void processMouse(int button, int state, int x, int y)
 {
 	double mouse_x = 0;
 	double mouse_y = 0;
-	double xmax = droite;
-	double xmin = gauche;
-	double ymax = haut;
-	double ymin = bas;
+	double xMax = droite;
+	double xMin = gauche;
+	double yMax = haut;
+	double yMin = bas;
 	
-	if(aspect_ratio <= 1)
+	if(aspect_ratio <= 1) //Si height est plus grand que width
 	{
-		ymin = bas/aspect_ratio;
-		ymax = haut/aspect_ratio;
+		yMin = bas/aspect_ratio;
+		yMax = haut/aspect_ratio;
 	}
-	else
+	else //Si width est plus grand que height
 	{
-		xmin = gauche*aspect_ratio;
-		xmax = droite*aspect_ratio;
+		xMin = gauche*aspect_ratio;
+		xMax = droite*aspect_ratio;
 	}
 	
-	mouse_x = ((xmax - xmin)*((double)x/(double)width)) + xmin;
-	mouse_y = ymax + ((ymin - ymax)*((double)y/(double)height));
+	mouse_x = ((xMax - xMin)*((double)x/(double)width)) + xMin;
+	mouse_y = yMax + ((yMin - yMax)*((double)y/(double)height));
 	
-	if (state == GLUT_DOWN)
-	{
-		(*mouse_model_press)(mouse_x, mouse_y);
-		printf("(x, y): (%d, %d)\n", x, y);
-		printf("(mouse_x, mouse_y): (%lf, %lf)\n", mouse_x, mouse_y);
-	}
-	else
-		(*mouse_model_release)();
+	if (state == GLUT_DOWN)	(*mouse_model_press)(mouse_x, mouse_y);
+	else (*mouse_model_release)();
 }
 void processNormalKeys(unsigned char key, int x, int y)
 {
