@@ -542,7 +542,6 @@ void sim_mouse_press(double x, double y)
 }
 void sim_mouse_release(void)
 {
-	printf("Bouton de la souris relaché\n");
 	selectedPart	= NULL;
 	selectedGen		= NULL;
 	selectedTN		= NULL;
