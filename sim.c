@@ -446,7 +446,6 @@ void sim_update(void)
 
 				if(cabs((x+y*I)-(xGen+yGen*I)) <= rayon) canGen = 0;
 			}
-			//printf("canGen = %d\n", canGen);
 			if(canGen)
 			{
 				random = rand();
@@ -491,27 +490,13 @@ void sim_mouse_press(double x, double y)
 	double			entiteX		= 0;
 	double			entiteY		= 0;
 
-	int id = 0; // DEBUG
-
 	for(i=0;i<get_nb_particules();i++)
 	{
 		part = get_part_by_id(i);
 		rayon = get_part_rayon(part);
 		entiteX = get_part_posx(part);
 		entiteY = get_part_posy(part);
-		if(cabs(pos-(entiteX+entiteY*I)) <= rayon)
-		{
-			selectedPart = part;
-			id = i; // DEBUG
-		}
-	}
-	if(selectedPart) // DEBUG
-	{
-		printf("Particule d'adresse : 0x%X séléctionnée\n", selectedPart); // DEBUG
-		printf("## ID = %d ##\nrayon = %lf\nposx = %lf\nposy = %lf\n", id,\
-																	rayon,\
-																	entiteX,\
-																	entiteY); // DEBUG*/
+		if(cabs(pos-(entiteX+entiteY*I)) <= rayon) selectedPart = part;
 	}
 	if(selectedPart == NULL)
 	{
@@ -559,7 +544,6 @@ void sim_keyboard(unsigned char key)
 		{
 			for(i=0;get_part_by_id(i) != selectedPart;i++);
 			delete_part_by_id(i);
-			printf("Deleting selected particle : 0x%X of ID : %d\n", selectedPart, i); // DEBUG
 			selectedPart = NULL;
 		}
 		else if(selectedGen)

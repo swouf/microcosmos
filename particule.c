@@ -1,8 +1,8 @@
 /*!
  * \file particule.c
  * \brief Module de gestion des entités particules
- * \date 29.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -49,7 +49,7 @@ void update_nb_particules(void)
     nbParticules    = i;
 }
 
-Particule_t* string_parsing_particule(char* ligne) // UPDATE CACHE ! OK
+Particule_t* string_parsing_particule(char* ligne)
 {
 	double rayon, posx, posy, vx, vy;
 	double v = 0;
@@ -100,7 +100,7 @@ Particule_t* string_parsing_particule(char* ligne) // UPDATE CACHE ! OK
 
 	return ptrParticules;
 }
-void clean_particules(void) // UPDATE CACHE ! OK
+void clean_particules(void)
 {
     Particule_t* actuelParticule = ptrParticules;
     Particule_t* suivParticule   = NULL;
@@ -382,7 +382,7 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
 
     return updatedParticules;
 }
-void set_ptrParticules(Particule_t* ptr) // UPDATE CACHE ! OK
+void set_ptrParticules(Particule_t* ptr)
 {
     ptrParticules   = ptr;
     update_nb_particules();
@@ -390,7 +390,7 @@ void set_ptrParticules(Particule_t* ptr) // UPDATE CACHE ! OK
     update_cache_part();
     #endif
 }
-void delete_part(Particule_t* part, Particule_t* parent) // UPDATE CACHE ! OK
+void delete_part(Particule_t* part, Particule_t* parent)
 {
     if(parent && part)
     {
@@ -401,7 +401,7 @@ void delete_part(Particule_t* part, Particule_t* parent) // UPDATE CACHE ! OK
         #endif
     }
 }
-void delete_part_by_id(int id) // UPDATE CACHE ! OK
+void delete_part_by_id(int id)
 {
     Particule_t* part       = get_part_by_id(id);
     Particule_t* parent     = get_part_by_id(id-1);
@@ -420,7 +420,7 @@ void delete_part_by_id(int id) // UPDATE CACHE ! OK
     update_cache_part();
     #endif
 }
-void add_particule(double rayon, double x, double y, double vx, double vy) // UPDATE CACHE ! OK
+void add_particule(double rayon, double x, double y, double vx, double vy)
 {
     Particule_t* part = NULL;
 
@@ -442,7 +442,7 @@ void add_particule(double rayon, double x, double y, double vx, double vy) // UP
     }
     else error_msg("Échec de l'allocation dynamique.");
 }
-void set_part_next(Particule_t* part, Particule_t* next) // UPDATE CACHE ! OK
+void set_part_next(Particule_t* part, Particule_t* next)
 {
     if(next && part)
     {
