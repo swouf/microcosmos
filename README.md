@@ -18,4 +18,10 @@ Just another cosmos simulation program
 
 ### Screens
 
+Simulation window with a test file opened.
+
 ![some entities](./DOC/look_at_my_entities.png "Look at this !")
+
+GUI (with the same test opened).
+
+![the gui](./DOC/look_at_my_gui.png "Look at this gui too !")
