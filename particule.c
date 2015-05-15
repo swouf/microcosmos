@@ -17,7 +17,11 @@
 
 /**\var Variable GLOBALE contenant un pointeur sur le tableau des
  * entités Particule_t */
-static Particule_t* ptrParticules = NULL;
+static Particule_t* ptrParticules       = NULL;
+
+#ifndef OLDCODE
+static Particule_t** cacheParticules     = NULL;
+#endif
 
 /**\var Variable GLOBALE contenant le nombre de structures
  *      Particule_t */
@@ -45,7 +49,7 @@ void update_nb_particules(void)
     nbParticules    = i;
 }
 
-Particule_t* string_parsing_particule(char* ligne)
+Particule_t* string_parsing_particule(char* ligne) // UPDATE CACHE ! OK
 {
 	double rayon, posx, posy, vx, vy;
 	double v = 0;
@@ -90,9 +94,13 @@ Particule_t* string_parsing_particule(char* ligne)
 	}
     nbParticules++;
 
+    #ifndef OLDCODE
+    update_cache_part();
+    #endif
+
 	return ptrParticules;
 }
-void clean_particules(void)
+void clean_particules(void) // UPDATE CACHE ! OK
 {
     Particule_t* actuelParticule = ptrParticules;
     Particule_t* suivParticule   = NULL;
@@ -112,6 +120,9 @@ void clean_particules(void)
         ptrParticules   = actuelParticule;
     }
     nbParticules = 0;
+    #ifndef OLDCODE
+    update_cache_part();
+    #endif
 }
 void display_particules(void)
 {
@@ -178,7 +189,7 @@ void particule_integration_rendu2(void)
 {
     Particule_t* part0 = ptrParticules;
 
-    for(;part0->next != NULL;part0 = part0->next){}
+    for(;part0->next != NULL;part0 = part0->next);
 
     double seuil_d, rayon1, minimum;
     double complex pos1, v_k, pos_k, distance, unitVDistance;
@@ -238,32 +249,8 @@ Particule_t* get_part_by_id(int id)
 {
     #ifndef OLDCODE
 
-    static Particule_t*     prevPtrParticules   = NULL;
-    static Particule_t**    tabParticules       = NULL;
-    Particule_t*            part                = NULL;
-    int                     update              = 0;
-
-    if(prevPtrParticules != ptrParticules) update = 1;
-    else if(id > 1 && id < nbParticules)
-        if(tabParticules[id-1]->next != tabParticules[id]) update = 1;
-
-    if(update)
-    {
-        if(tabParticules) free(tabParticules);
-
-        tabParticules = calloc(nbParticules, sizeof(Particule_t*));
-        if(tabParticules == NULL) return NULL;
-
-        part=ptrParticules;
-
-        for(int i=0;part;i++, part=part->next)
-    	{
-            tabParticules[i] = part;
-    	}
-        prevPtrParticules = ptrParticules;
-    }
     if(id < 0 || id >= get_nb_particules()) return NULL;
-    else return tabParticules[id];
+    else return cacheParticules[id];
 
     #endif
 
@@ -395,17 +382,26 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
 
     return updatedParticules;
 }
-void set_ptrParticules(Particule_t* ptr)
+void set_ptrParticules(Particule_t* ptr) // UPDATE CACHE ! OK
 {
     ptrParticules   = ptr;
     update_nb_particules();
+    #ifndef OLDCODE
+    update_cache_part();
+    #endif
 }
-void delete_part(Particule_t* part, Particule_t* parent)
+void delete_part(Particule_t* part, Particule_t* parent) // UPDATE CACHE ! OK
 {
-    if(parent && part) parent->next = part->next;
-    if(part) free(part);
+    if(parent && part)
+    {
+        parent->next = part->next;
+        free(part);
+        #ifndef OLDCODE
+        update_cache_part();
+        #endif
+    }
 }
-void delete_part_by_id(int id)
+void delete_part_by_id(int id) // UPDATE CACHE ! OK
 {
     Particule_t* part       = get_part_by_id(id);
     Particule_t* parent     = get_part_by_id(id-1);
@@ -420,8 +416,11 @@ void delete_part_by_id(int id)
 		free(part);
 		nbParticules--;
 	}
+    #ifndef OLDCODE
+    update_cache_part();
+    #endif
 }
-void add_particule(double rayon, double x, double y, double vx, double vy)
+void add_particule(double rayon, double x, double y, double vx, double vy) // UPDATE CACHE ! OK
 {
     Particule_t* part = NULL;
 
@@ -436,14 +435,52 @@ void add_particule(double rayon, double x, double y, double vx, double vy)
 
         ptrParticules = part;
         nbParticules++;
+
+        #ifndef OLDCODE
+        update_cache_part();
+        #endif
     }
     else error_msg("Échec de l'allocation dynamique.");
 }
-void set_part_next(Particule_t* part, Particule_t* next)
+void set_part_next(Particule_t* part, Particule_t* next) // UPDATE CACHE ! OK
 {
-    if(next && part) part->next = next;
+    if(next && part)
+    {
+        part->next = next;
+        #ifndef OLDCODE
+        update_cache_part();
+        #endif
+    }
 }
 void set_part_pos(Particule_t* part, double x, double y)
 {
     if(part) part->pos = (x+y*I);
 }
+
+#ifndef OLDCODE
+void update_cache_part(void)
+{
+    Particule_t*    part    = NULL;
+
+    if(cacheParticules)
+    {
+        free(cacheParticules);
+        cacheParticules = NULL;
+    }
+
+    if(get_nb_particules())
+    {
+        cacheParticules = calloc(get_nb_particules(),\
+                                 sizeof(Particule_t*));
+
+        if(cacheParticules == NULL) return;
+
+        part = ptrParticules;
+
+        for(int i=0;part;i++, part=part->next)
+        {
+            cacheParticules[i] = part;
+        }
+    }
+}
+#endif

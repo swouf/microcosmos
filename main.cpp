@@ -39,7 +39,8 @@ typedef enum GLUI_ID
 	LOADBUTTON_ID,
 	SAVEBUTTON_ID,
 	STARTBUTTON_ID,
-	STEPBUTTON_ID
+	STEPBUTTON_ID,
+	EXITBUTTON_ID
 } GLUI_ID;
 
 void load_gui(char*);
@@ -75,6 +76,8 @@ void control_cb(int control)
 		case (STEPBUTTON_ID):
 			step();
 			break;
+		case (EXITBUTTON_ID):
+			exit(0);
 	}
 }
 //rapport largeur/hauteur de la fenêtre utilisée pour le dessin
@@ -138,6 +141,9 @@ int main(int argc, char **argv)
 	else
 		load_gui((char*)"");
 
+	if(atexit(sim_clean))
+		error_msg((char*)"Erreur d'enregistrement de la callback de \
+						  termination.\n");
 
     set_display_model_func(sim_display);
 	set_idle_model_func(sim_update);
@@ -206,7 +212,7 @@ void load_gui(char* nomFichier)
 												control_cb);
 
 	//button
-	glui->add_button((char*) "Exit", 0, (GLUI_Update_CB)exit);
+	glui->add_button((char*) "Exit", EXITBUTTON_ID, control_cb);
 
 	GLUI_Master.set_glutIdleFunc(glui_idle);
 }

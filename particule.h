@@ -130,4 +130,8 @@ void set_part_next(Particule_t*, Particule_t*);
 
 void set_part_pos(Particule_t*, double, double);
 
+#ifndef OLDCODE
+void update_cache_part(void);
+#endif
+
 #endif
