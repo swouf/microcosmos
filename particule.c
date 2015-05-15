@@ -297,9 +297,8 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double fo
 {
     if(!part0) return NULL;
 
-    const double fps    = FPS;
-
     #ifdef SYNC_WITH_REALTIME
+    const double fps    = FPS;
     const double dt     = 4/(fps);
     #endif
     #ifndef SYNC_WITH_REALTIME
