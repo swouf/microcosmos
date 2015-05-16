@@ -1,8 +1,8 @@
     /*!
  * \file trounoir.h
  * \brief (HEADER) Module de gestion des entités trous noirs
- * \date 19.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -72,10 +72,33 @@ double get_trou_noir_posy(Trounoir_t*);
  */
 int get_nb_trous_noirs(void);
 
+/*!
+ * \fn double* force_trous_noirs(double x, double y)
+ * \brief Calcul la résultante des forces appliquées par les trous noirs
+ *          au point (x;y).
+ * \param x : coordonnée x
+ *        y : coordonnée y
+ * \return Un tableau avec la composante x de la force en première case
+ *          et sa composante y dans la deuxième.
+ */
 double* force_trous_noirs(double, double);
 
+/*!
+ * \fn int is_on_trous_noirs(double rayon, double x, double y)
+ * \brief Vérifie si un corps circulaire est sur un trou noir.
+ * \param   rayon : rayon du corps
+ *          x : coordonnée x du corps
+ *          y : coordonnée y du corps
+ * \return Un booléen, 1 si sur un trous noir, 0 sinon.
+ */
 int is_on_trous_noirs(double, double, double);
 
+/*!
+ * \fn void delete_trou_noir_by_id(int id)
+ * \brief   Efface le trou noir sélectionné par son identifiant.
+ * \param   id : identifiant du trou noir (compris entre 0 et
+ *          nbTrousNoirs - 1).
+ */
 void delete_trou_noir_by_id(int);
 
 #endif

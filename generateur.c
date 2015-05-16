@@ -1,8 +1,8 @@
 /*!
  * \file generateur.c
  * \brief Module de gestion des entités générateurs
- * \date 14.05.2015
- * \version alpha3
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -10,13 +10,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
+#include <limits.h>
+
 #include "graphic.h"
 #include "error.h"
 #include "constantes.h"
 #include "generateur.h"
-
-static Generateur_t* ptrGenerateurs = NULL;
-static int           nbGenerateurs   = 0;
 
 struct Generateur
 {
@@ -25,6 +24,9 @@ struct Generateur
 	double complex vpi;
     Generateur_t*  next;
 };
+
+static Generateur_t* ptrGenerateurs = NULL;
+static int           nbGenerateurs   = 0;
 
 Generateur_t* string_parsing_generateur(char* ligne)
 {
@@ -100,6 +102,29 @@ void display_generateurs(void)
     }
 }
 Generateur_t* get_gen_by_id(int id)
+#ifndef OLDCODE
+{
+	static Generateur_t*	prevIdGen	= NULL;
+	static int				prevId		= INT_MAX;
+
+	if(!ptrGenerateurs || id < 0 || id > (get_nb_generateurs() - 1))
+		return NULL;
+
+	if(id == ++prevId)
+	{
+		prevIdGen = prevIdGen->next;
+		return prevIdGen;
+	}
+
+	Generateur_t* ptrTMP = ptrGenerateurs;
+	for(int i=0;i<id;i++) ptrTMP = ptrTMP->next;
+
+	prevId		=	id;
+	prevIdGen	=	ptrTMP;
+	return ptrTMP;
+}
+#endif
+#ifdef OLDCODE
 {
 	Generateur_t* ptrTMP = ptrGenerateurs;
 	for(int i=0;i<id;i++)
@@ -111,6 +136,7 @@ Generateur_t* get_gen_by_id(int id)
 	}
 	return ptrTMP;
 }
+#endif
 double get_gen_rgen(Generateur_t* gen)
 {
 	if(gen) return gen->rgen;
@@ -139,15 +165,6 @@ double get_gen_vpiy(Generateur_t* gen)
 int get_nb_generateurs(void)
 {
 	return nbGenerateurs;
-}
-void delete_gen(Generateur_t* gen, Generateur_t* parent)
-{
-    if(parent && gen) parent->next = gen->next;
-    if(gen)
-	{
-		free(gen);
-		nbGenerateurs--;
-	}
 }
 void delete_gen_by_id(int id)
 {

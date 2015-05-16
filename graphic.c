@@ -1,14 +1,15 @@
 /*!
  * \file graphic.c
  * \brief Module de dessin et de gestion de la fenêtre de la simulation
- * \date 29.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
 #include <GL/glut.h>
+
 #include "graphic.h"
 #include "constantes.h"
 
@@ -18,6 +19,13 @@
 #define G_COMP_VMAX		0.2f
 #define B_COMP_VMAX		0.2f
 #define SIDES_DEF		30
+#define COTE_DEF 		5
+#define R_GENERATEUR	8
+#define LINE_WIDTH		3
+#define L_FLECHE_GEN	10
+
+static void processMouse(int button, int state, int x, int y);
+static void processNormalKeys(unsigned char key, int x, int y);
 
 static const double PI		= 3.14159265358979323846;
 static const int	SIDES	= SIDES_DEF;

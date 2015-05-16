@@ -1,8 +1,8 @@
 /*!
  * \file constantes.h
  * \brief (HEADER) Contient des constantes utilisées par le programme
- * \date 14.05.2015
- * \version alpha3
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -28,11 +28,6 @@
  * Constantes personnelles
  **********************************************************************/
 #define CHAR_MAX_LIGNE 	100
-#define COTE_DEF 		5
-#define R_GENERATEUR	8
-#define LINE_WIDTH		3
-#define L_FLECHE_GEN	10
 #define FPS				25
-
 
 #endif

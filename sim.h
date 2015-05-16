@@ -1,8 +1,8 @@
 /*!
  * \file sim.h
  * \brief (HEADER) Module de gestion de la simulation
- * \date 19.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -13,12 +13,10 @@
  * \fn int sim_lecture(char* nomFichier)
  * \brief Lit le fichier texte passé en argument
  * \details Lit le fichier texte passé en argument afin d'enregistrer
- * les données qui sont contenues (selon le format de fichier décrit
- * dans le cahier des charges). À la fin, elle execute une fonction
- * dépendant du paramètre KEYWORD.
+ *          les données qui sont contenues (selon le format de fichier
+ *          décrit dans le cahier des charges).
  * \param nomFichier : nom du fichier à lire. La chaîne de caractères)
  * n'est pas modifié par la fonction.
- * modeLancement : mode dans lequel le programme a été lancé
  * \return Retourne 0 si tout s'est bien passé, 1 en cas d'erreur.
  */
 int sim_lecture(const char*);
@@ -77,6 +75,11 @@ int* get_3nb_entite(void);
  */
 void set_display_limits(void);
 
+/*!
+ * \fn void sim_update(void)
+ * \brief Met à jour la simulation d'un pas de temps DELTA_T
+ *          (ou dt si REALTIME)
+ */
 void sim_update(void);
 
 /*!
@@ -91,8 +94,25 @@ void start(void);
  */
 void step(void);
 
+/*!
+ * \fn void sim_mouse_press(double x, double y)
+ * \brief Click de souris dans la simulation.
+ * \param x : position x de la souris lors du click
+ *        y : position y de la souris lors du click
+ */
 void sim_mouse_press(double, double);
+
+/*!
+ * \fn void sim_mouse_release(void)
+ * \brief Bouton de la souris relâché
+ */
 void sim_mouse_release(void);
+
+/*!
+ * \fn void sim_keyboard(unsigned char key)
+ * \brief Touche du clavier enfoncée
+ * \param key : touche du clavier pressée (format ASCII)
+ */
 void sim_keyboard(unsigned char);
 
 #endif

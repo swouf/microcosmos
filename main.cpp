@@ -1,8 +1,8 @@
 /*!
  * \file main.cpp
  * \brief Fichier main du projet
- * \date 29.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -18,6 +18,7 @@ extern "C"
 	#include "error.h"
 	#include "graphic.h"
 }
+
 namespace
 {
 	GLUI			*glui;
@@ -43,45 +44,9 @@ typedef enum GLUI_ID
 	EXITBUTTON_ID
 } GLUI_ID;
 
-void load_gui(char*);
-void glui_idle(void);
-
-void control_cb(int control)
-{
-	static int isStarted = 0;
-	switch(control)
-	{
-		case (LOADBUTTON_ID):
-			sim_clean();
-            if(sim_lecture(edittextload->get_text()))
-                break;
-            affichage();
-			break;
-		case (SAVEBUTTON_ID):
-		    sim_ecriture(edittextsave->get_text());
-			break;
-		case (STARTBUTTON_ID):
-			if(isStarted)
-			{
-				isStarted = 0;
-				startButton->set_name("Start");
-			}
-			else
-			{
-				isStarted = 1;
-				startButton->set_name("Stop");
-			}
-			start();
-			break;
-		case (STEPBUTTON_ID):
-			step();
-			break;
-		case (EXITBUTTON_ID):
-			exit(0);
-	}
-}
-//rapport largeur/hauteur de la fenêtre utilisée pour le dessin
-//static GLfloat aspect_ratio; //avec namespace non nommé en C++
+static void load_gui(char*);
+static void glui_idle(void);
+static void control_cb(int);
 
 int main(int argc, char **argv)
 {
@@ -184,8 +149,8 @@ void load_gui(char* nomFichier)
 	//Panel Simulation
 	GLUI_Panel *simulation_panel = glui->add_panel("Simulation");
 
-	startButton = glui->add_button_to_panel(simulation_panel,"Start", STARTBUTTON_ID,\
-								control_cb);
+	startButton = glui->add_button_to_panel(simulation_panel, "Start",\
+											STARTBUTTON_ID, control_cb);
 
 	glui->add_button_to_panel(simulation_panel,"Step", STEPBUTTON_ID,\
 								control_cb);
@@ -215,6 +180,40 @@ void load_gui(char* nomFichier)
 	glui->add_button((char*) "Exit", EXITBUTTON_ID, control_cb);
 
 	GLUI_Master.set_glutIdleFunc(glui_idle);
+}
+void control_cb(int control)
+{
+	static int isStarted = 0;
+	switch(control)
+	{
+		case (LOADBUTTON_ID):
+			sim_clean();
+            if(sim_lecture(edittextload->get_text()))
+                break;
+            affichage();
+			break;
+		case (SAVEBUTTON_ID):
+		    sim_ecriture(edittextsave->get_text());
+			break;
+		case (STARTBUTTON_ID):
+			if(isStarted)
+			{
+				isStarted = 0;
+				startButton->set_name("Start");
+			}
+			else
+			{
+				isStarted = 1;
+				startButton->set_name("Stop");
+			}
+			start();
+			break;
+		case (STEPBUTTON_ID):
+			step();
+			break;
+		case (EXITBUTTON_ID):
+			exit(0);
+	}
 }
 void glui_idle(void)
 {

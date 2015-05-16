@@ -10,22 +10,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
+
 #include "graphic.h"
 #include "constantes.h"
 #include "error.h"
 #include "particule.h"
-
-/**\var Variable GLOBALE contenant un pointeur sur le tableau des
- * entités Particule_t */
-static Particule_t* ptrParticules       = NULL;
-
-#ifndef OLDCODE
-static Particule_t** cacheParticules     = NULL;
-#endif
-
-/**\var Variable GLOBALE contenant le nombre de structures
- *      Particule_t */
-static int nbParticules = 0;
 
 struct Particule
 {
@@ -35,6 +24,24 @@ struct Particule
     double         m;
     Particule_t*   next;
 };
+
+#ifndef OLDCODE
+static void update_cache_part(void);
+#endif
+
+static void update_nb_particules(void);
+
+/**\var Variable GLOBALE contenant un pointeur sur le tableau des
+ * entités Particule_t */
+static Particule_t* ptrParticules       = NULL;
+
+/**\var Variable GLOBALE contenant le nombre de structures
+ *      Particule_t */
+static int nbParticules = 0;
+
+#ifndef OLDCODE
+static Particule_t** cacheParticules     = NULL;
+#endif
 
 int get_nb_particules(void)
 {
@@ -293,7 +300,8 @@ double get_part_vy(Particule_t* part)
     if(part) return cimag(part->v);
     else return 0;
 }
-Particule_t* update_particule(Particule_t* part0, Particule_t* parent, double force0x, double force0y)
+Particule_t* update_particule(Particule_t* part0, Particule_t* parent,\
+                                double force0x, double force0y)
 {
     if(!part0) return NULL;
 
@@ -419,7 +427,8 @@ void delete_part_by_id(int id)
     update_cache_part();
     #endif
 }
-void add_particule(double rayon, double x, double y, double vx, double vy)
+void add_particule(double rayon, double x, double y,\
+                    double vx, double vy)
 {
     Particule_t* part = NULL;
 

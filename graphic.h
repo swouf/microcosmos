@@ -2,8 +2,8 @@
  * \file graphic.h
  * \brief (HEADER) Module de dessin et de gestion de la fenêtre de la
  * 				   simulation
- * \date 19.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -46,17 +46,48 @@ void draw_trou_noir(double posx, double posy);
  * \fn void set_display_model_func(void (*display_model_func)(void))
  * \brief 	Définit la fonction de callback qui dessine le modèle de la
  * 			simulation
- * \param void (*display_model_func)(void): pointeur sur la fonction
+ * \param (*display_model_func)(void): pointeur sur la fonction
  * 											 de callback
  */
 void set_display_model_func(void (*display_model_func)(void));
 
-void set_idle_model_func(void (*idle_model_func)(void));
+/*!
+ * \fn void set_idle_model_func(void (*idle_model_func)(void))
+ * \brief 	Définit la fonction de callback qui met à jour le modèle de
+ * 			la simulation
+ * \param (*idle_model_func)(void): pointeur sur la fonction
+ * 											 de callback
+ */
+void set_idle_model_func(void (*)(void));
 
+/*!
+ * \fn void set_keyboard_model_func
+ *          (void (*keyboard_model_func)(unsigned char))
+ * \brief 	Définit la fonction de callback à appeler lors d'une
+ *              frappe au clavier
+ * \param (*keyboard_model_func)(unsigned char): pointeur sur la
+ *                                              fonction de callback
+ */
 void set_keyboard_model_func(void (*)(unsigned char));
 
+/*!
+ * \fn void set_mouse_model_release_func
+ *          (void (*mouse_model_release_func)(void))
+ * \brief 	Définit la fonction de callback à appeler lorsque le bouton
+ *          de la souris est relâché.
+ * \param (*mouse_model_release_func)(void): pointeur sur la fonction
+ *                                              de callback
+ */
 void set_mouse_model_release_func(void (*)(void));
 
+/*!
+ * \fn void set_mouse_model_press_func
+ *      (void (*mouse_model_press_func)(double, double))
+ * \brief 	Définit la fonction de callback à appeler lors d'un
+ *          click de souris dans la simulation
+ * \param (*mouse_model_press_func)(double, double): pointeur sur la
+ *                                                  fonction de callback
+ */
 void set_mouse_model_press_func(void (*)(double, double));
 
 /*!
@@ -81,6 +112,7 @@ void reshape(int, int);
  * 			argv: tableau contenant les arguments
  */
 void initGL(int, char**);
+
 /*!
  * \fn void idle(void)
  * \brief 	Rafraîchit l'affichage
@@ -103,9 +135,7 @@ void graphic_draw_segment (float, float, float, float);
  * \brief 	Définit les limites de la projection
  * \param 	xMax: la plus grande coordonnée sur l'axe x
  * 			xMin: la plus petite coordonnée sur l'axe x
-			yMax: la plus grande coordonnée sur l'axe y
+ *			yMax: la plus grande coordonnée sur l'axe y
  * 			yMin: la plus petite coordonnée sur l'axe y
  */
   void set_projection_limits(float, float, float, float);
-  void processMouse(int button, int state, int x, int y); 
-  void processNormalKeys(unsigned char key, int x, int y); 

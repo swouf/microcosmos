@@ -1,8 +1,9 @@
 ########################################################################
-# Makefile pour le rendu 1 du projet Microcosmos
-# date : 19.04.2015
-# version : 2
-# Auteur : Minh Truong & Jérémy Jayet
+# \file Makefile
+# \brief Makefile pour le rendu 3 du projet Microcosmos
+# \date 17.05.2015
+# \version : 3
+# \author : Minh Truong & Jérémy Jayet
 ########################################################################
 
 PROJECT = Microcosmos

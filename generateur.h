@@ -1,8 +1,8 @@
 /*!
  * \file generateur.h
  * \brief (HEADER) Module de gestion des entités générateurs
- * \date 19.04.2015
- * \version 2
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -98,8 +98,12 @@ double get_gen_vpiy(Generateur_t*);
  */
 int get_nb_generateurs(void);
 
-void delete_gen(Generateur_t*, Generateur_t*);
-
+/*!
+ * \fn void delete_gen_by_id(int id)
+ * \brief   Efface le générateur sélectionné par son identifiant.
+ * \param   id : identifiant du générateur (compris entre 0 et
+ *          nbGenerateurs - 1).
+ */
 void delete_gen_by_id(int);
 
 #endif

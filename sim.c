@@ -1,8 +1,8 @@
 /*!
  * \file sim.c
  * \brief Module de gestion de la simulation
- * \date 14.05.2015
- * \version alpha3
+ * \date 17.05.2015
+ * \version 3
  * \author Minh Truong & Jérémy Jayet
  */
 
@@ -13,6 +13,7 @@
 #include <float.h>
 #include <time.h>
 #include <complex.h>
+
 #include "particule.h"
 #include "trounoir.h"
 #include "generateur.h"
