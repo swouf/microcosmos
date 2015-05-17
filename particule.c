@@ -366,7 +366,7 @@ Particule_t* update_particule(Particule_t* part0, Particule_t* parent,\
     v_k = ((force+force_0)/m0)*dt+v0;
 
     if(cabs(v_k) > MAX_VITESSE)
-        v_k = (v_k/cabs(v_k))*MAX_VITESSE;
+        v_k = (v_k/cabs(v_k))*((MAX_VITESSE)-(EPSILON_ZERO));
 
     pos_k = v_k*dt+pos0;
 

@@ -17,6 +17,7 @@ extern "C"
 	#include "sim.h"
 	#include "error.h"
 	#include "graphic.h"
+	#include "constantes.h"
 }
 
 namespace
@@ -188,8 +189,7 @@ void control_cb(int control)
 	{
 		case (LOADBUTTON_ID):
 			sim_clean();
-            if(sim_lecture(edittextload->get_text()))
-                break;
+            if(sim_lecture(edittextload->get_text())) sim_clean();
             affichage();
 			break;
 		case (SAVEBUTTON_ID):

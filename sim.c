@@ -261,7 +261,7 @@ int sim_ecriture(const char* nomFichier)
 		genTMP = get_gen_by_id(i);
 		if(genTMP == NULL)
 			break;
-		fprintf(fichier, "%f %f %f %f %f\n",
+		fprintf(fichier, "%f %f %f %2.9f %2.9f\n",
 				get_gen_rgen(genTMP),
 				get_gen_posx(genTMP),
 				get_gen_posy(genTMP),
@@ -288,7 +288,7 @@ int sim_ecriture(const char* nomFichier)
 		partTMP = get_part_by_id(i);
 		if(partTMP == NULL)
 			break;
-		fprintf(fichier, "%f %f %f %f %f\n",
+		fprintf(fichier, "%f %f %f %2.9f %2.9f\n",
 				get_part_rayon(partTMP),
 				get_part_posx(partTMP),
 				get_part_posy(partTMP),
